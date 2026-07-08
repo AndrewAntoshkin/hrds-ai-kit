@@ -1375,10 +1375,10 @@ export const REPO_DATA = {
         "  <head>",
         "    <meta charset=\"utf-8\" />",
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />",
-        "    <title>HRDS AI Kit — контекст дизайн-системы, решённый один раз</title>",
+        "    <title>HRDS AI Kit — контекст HRDS для AI-агентов</title>",
         "    <meta",
         "      name=\"description\"",
-        "      content=\"HRDS AI Kit — agent-native context layer для дизайн-системы HR Tech. Решения приняты один раз: Figma → Storybook → Code. Агент не выдумывает props.\"",
+        "      content=\"HRDS AI Kit — контекст HRDS для AI-агентов: источники, индексы, правила и готовые команды. Агент сверяется с Figma, Storybook и кодом, а не выдумывает API.\"",
         "    />",
         "    <script>document.documentElement.classList.add(\"js\");</script>",
         "    <noscript>",
@@ -1414,12 +1414,12 @@ export const REPO_DATA = {
         "safeInit(\"scroll-cue\", initScrollCue);",
         "safeInit(\"problems\", initProblemsPanel);",
         "safeInit(\"repo\", initRepo);",
+        "safeInit(\"scenario-tabs\", initScenarioTabs);",
         "safeInit(\"carousels\", initCarousels);",
         "safeInit(\"floating-cta\", initFloatingCta);",
         "safeInit(\"faq\", initFaq);",
         "",
-        "function safeInit(name, fn) {",
-        "  try {"
+        "function safeInit(name, fn) {"
       ]
     },
     "site-styles_css": {

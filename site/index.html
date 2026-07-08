@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HRDS AI Kit — контекст дизайн-системы, решённый один раз</title>
+    <title>HRDS AI Kit — контекст HRDS для AI-агентов</title>
     <meta
       name="description"
-      content="HRDS AI Kit — agent-native context layer для дизайн-системы HR Tech. Решения приняты один раз: Figma → Storybook → Code. Агент не выдумывает props."
+      content="HRDS AI Kit — контекст HRDS для AI-агентов: источники, индексы, правила и готовые команды. Агент сверяется с Figma, Storybook и кодом, а не выдумывает API."
     />
     <script>document.documentElement.classList.add("js");</script>
     <noscript>
@@ -68,16 +68,15 @@
       <!-- HERO -->
       <section id="top" class="hero-split" data-section>
         <div class="hero-left">
-          <p class="eyebrow reveal in-view">Решено один раз. Зафиксировано.</p>
-          <h1 class="headline reveal in-view">HRDS-контекст, который не приходится собирать заново.</h1>
+          <p class="eyebrow reveal in-view">Источники. Правила. Проверка.</p>
+          <h1 class="headline reveal in-view">Контекст HRDS для AI-агентов, который не нужно собирать заново.</h1>
           <p class="body-lg reveal in-view">
-            Источники, индексы, правила и skills. Каждый сложный выбор — Figma node, Storybook story,
-            mapping props — принят один раз и зафиксирован. Без kit агент каждый раз выдаёт другой API.
-            Здесь маршрут уже решён.
+            Ссылки на Figma и Storybook, индексы компонентов, правила и готовые skills собраны в одном месте.
+            Агент видит, где источник правды, и не выдаёт догадки за API.
           </p>
           <p class="audience reveal in-view">
             Для команд, работающих с Figma, Storybook и <code>@yandex-int/hr-components</code>.
-            Не замена Storybook.
+            Это не замена Storybook.
           </p>
           <div class="hero-cta reveal in-view">
             <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
@@ -115,29 +114,29 @@
       <section id="problems" class="section-pad bg-off-white problems-split" data-section aria-label="Типичные проблемы">
         <div class="container problems-split-grid">
           <aside class="problems-panel reveal" data-problems-panel>
-            <p class="problems-panel-label">Common problems</p>
+            <p class="problems-panel-label">Типичные проблемы</p>
             <ol class="problems-list" data-problems-list>
               <li class="problems-line"><span class="problems-num">001</span><span class="problems-text">Агент придумывает props без Storybook</span><span class="problems-time">~каждый запрос</span></li>
-              <li class="problems-line"><span class="problems-num">002</span><span class="problems-text">Content Header вместо Page Header</span><span class="problems-time">~review</span></li>
-              <li class="problems-line"><span class="problems-num">003</span><span class="problems-text">Detached / deprecated инстансы в Figma</span><span class="problems-time">~drift</span></li>
-              <li class="problems-line"><span class="problems-num">004</span><span class="problems-text">Figma ↔ Storybook ↔ Code расходятся</span><span class="problems-time">~конфликт</span></li>
-              <li class="problems-line"><span class="problems-num">005</span><span class="problems-text">Raw hex вместо semantic tokens</span><span class="problems-time">~2 hrs</span></li>
-              <li class="problems-line"><span class="problems-num">006</span><span class="problems-text">Design-to-code без node-specific URL</span><span class="problems-time">~gaps</span></li>
-              <li class="problems-line"><span class="problems-num">007</span><span class="problems-text">Button вместо Link в тексте</span><span class="problems-time">~wrong</span></li>
-              <li class="problems-line"><span class="problems-num">008</span><span class="problems-text">Handoff без states и open questions</span><span class="problems-time">~1 hr</span></li>
-              <li class="problems-line problems-total"><span class="problems-num">∑</span><span class="problems-text">Estimated time lost</span><span class="problems-time">~2–4 hrs / frame<span class="problems-cursor" aria-hidden="true"></span></span></li>
+              <li class="problems-line"><span class="problems-num">002</span><span class="problems-text">Content Header вместо Page Header</span><span class="problems-time">~ревью</span></li>
+              <li class="problems-line"><span class="problems-num">003</span><span class="problems-text">Отвязанные или устаревшие инстансы в Figma</span><span class="problems-time">~дрейф</span></li>
+              <li class="problems-line"><span class="problems-num">004</span><span class="problems-text">Figma, Storybook и код говорят разное</span><span class="problems-time">~конфликт</span></li>
+              <li class="problems-line"><span class="problems-num">005</span><span class="problems-text">HEX-цвета вместо токенов</span><span class="problems-time">~2 часа</span></li>
+              <li class="problems-line"><span class="problems-num">006</span><span class="problems-text">Описание экрана без ссылки на конкретный node</span><span class="problems-time">~пробелы</span></li>
+              <li class="problems-line"><span class="problems-num">007</span><span class="problems-text">Button там, где нужна Link</span><span class="problems-time">~ошибка</span></li>
+              <li class="problems-line"><span class="problems-num">008</span><span class="problems-text">Спецификация без состояний и вопросов</span><span class="problems-time">~1 час</span></li>
+              <li class="problems-line problems-total"><span class="problems-num">∑</span><span class="problems-text">Потеря времени</span><span class="problems-time">~2–4 часа / экран<span class="problems-cursor" aria-hidden="true"></span></span></li>
             </ol>
           </aside>
           <div class="problems-copy reveal">
-            <h2 class="headline-sm">Каждый frame без контекста стоит часов. Каждый раз.</h2>
+            <h2 class="headline-sm">Каждый экран без контекста снова забирает время.</h2>
             <p class="body-lg">
-              Лёгкое вроде бы: «опиши экран по HRDS». А дальше — агент выдумывает variants, путает паттерны,
-              не видит detached-инстансы и не сверяет props со Storybook. Разработчик получает spec с догадками.
-              Дизайнер — review с теми же замечаниями снова.
+              Задача звучит просто: «опиши экран по HRDS». На практике агент выдумывает variants, путает паттерны,
+              не видит отвязанные инстансы и не сверяет props со Storybook. Разработчик получает спецификацию с догадками.
+              Дизайнер снова видит те же замечания на ревью.
             </p>
             <p class="body-lg">
-              Это та работа, на которую никто не закладывает время — и которую все делают заново на каждом экране.
-              Часы уходят до того, как начинается реальная задача.
+              Kit нужен, чтобы не объяснять агенту одни и те же правила заново. Он даёт маршрут проверки и честно помечает
+              места, где источника пока нет.
             </p>
           </div>
         </div>
@@ -148,31 +147,31 @@
         <div class="container">
           <h2 class="headline-sm text-white reveal">Что это и зачем</h2>
           <p class="body-lg text-ghost reveal">
-            HRDS AI Kit — не Figma, не Storybook и не npm-пакет. Это <strong class="text-white">контекстный слой</strong>
-            для AI: ссылки, индексы, правила и skills, которые направляют агента к проверяемым источникам.
-            Storybook отвечает «какой API у Button». Kit — «как агенту дойти до API и что пометить, если данных нет».
+            HRDS AI Kit — не Figma, не Storybook и не npm-пакет. Это <strong class="text-white">контекст для AI-агента</strong>:
+            ссылки, индексы, правила и skills, которые ведут к проверяемым источникам. Storybook отвечает «какой API у Button».
+            Kit отвечает «где это проверить и как пометить неизвестное».
           </p>
         </div>
         <div class="container about-grid stagger-parent">
           <article class="about-card reveal">
             <p class="about-num">01</p>
             <h3>Что внутри</h3>
-            <p><code>knowledge/</code> — sources, indexes, decision-log. <code>rules/</code> — запреты для агента. <code>skills/</code> — готовые маршруты. <code>examples/</code> — формат описаний.</p>
+            <p><code>knowledge/</code> — источники, индексы и журнал решений. <code>rules/</code> — ограничения для агента. <code>skills/</code> — готовые маршруты. <code>examples/</code> — примеры формата.</p>
           </article>
           <article class="about-card reveal">
             <p class="about-num">02</p>
             <h3>Зачем командам</h3>
-            <p>Без kit агент каждый раз выдумывает props, путает паттерны, не видит detached-инстансы. Kit снижает догадки — human review остаётся.</p>
+            <p>Без kit агент выдумывает props, путает паттерны и пропускает устаревшие инстансы. Kit снижает число догадок, но не отменяет человеческое ревью.</p>
           </article>
           <article class="about-card reveal">
             <p class="about-num">03</p>
             <h3>Кому</h3>
-            <p>Дизайнеры — review и drift. Разработчики — handoff spec. DS — пополнение индексов Starter → Confirmed.</p>
+            <p>Дизайнеры проверяют макеты и версии инстансов. Разработчики получают спецификацию. Команда дизайн-системы пополняет индексы.</p>
           </article>
           <article class="about-card reveal">
             <p class="about-num">04</p>
             <h3>Как за 30 секунд</h3>
-            <p>Kit в workspace → <code>/skill-name</code> → Figma URL с <code>?node-id=</code> → проверить <code>Needs review</code> в ответе.</p>
+            <p>Добавь kit в workspace → вызови <code>/skill-name</code> → вставь Figma URL с <code>?node-id=</code> → проверь строки <code>Needs review</code>.</p>
           </article>
         </div>
       </section>
@@ -190,69 +189,69 @@
           <div class="features-col">
             <header class="features-intro">
               <h2 class="features-title reveal">
-                Каждое решение уже принято.<br />Можно переходить к работе.
+                Маршрут проверки уже задан.<br />Можно не начинать с нуля.
               </h2>
               <p class="features-lead reveal">
-                HRDS AI Kit — семантический слой над дизайн-системой HR Tech. Сотни выборов — источники,
-                mapping, статусы, skills — зафиксированы в v0.2 pilot. Не каталог на замену Storybook.
-                Положи рядом с репо, добавь в workspace — маршрут готов.
+                HRDS AI Kit собирает рядом с проектом то, что обычно приходится объяснять агенту вручную:
+                какие источники важнее, где искать компоненты, какие данные уже проверены, а какие требуют ревью.
+                Это пилот v0.2, не каталог на замену Storybook.
               </p>
             </header>
             <ol class="features-list stagger-parent">
               <li class="feature-item reveal">
-                <p class="feature-heading">001 / Source-first routing</p>
+                <p class="feature-heading">001 / Сначала источники</p>
                 <p class="feature-copy">
-                  Canonical links в <code>knowledge/sources.md</code>. Figma node URL обязателен для design-to-code.
-                  Storybook 13.3.0 и <code>@yandex-int/hr-components</code> — для API.
+                  Главные ссылки лежат в <code>knowledge/sources.md</code>. Для описания макета нужен Figma URL с конкретным
+                  <code>node-id</code>. Props и поведение проверяются в Storybook 13.3.0 или коде.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">002 / Component mapping</p>
+                <p class="feature-heading">002 / Связка компонента</p>
                 <p class="feature-copy">
-                  Явная цепочка: Figma property → Storybook control → code import → example. Без источника —
-                  <code>Needs review</code>, не догадка.
+                  Цепочка фиксируется явно: свойство в Figma → control в Storybook → import в коде → пример использования.
+                  Если источника нет, агент пишет <code>Needs review</code>.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">003 / Agent-native</p>
+                <p class="feature-heading">003 / Для работы с агентом</p>
                 <p class="feature-copy">
-                  Попроси агента описать HRDS с нуля — получишь другой API каждый раз. Здесь решения приняты:
-                  <code>rules/</code> + <code>skills/</code> + <code>.cursor/skills/</code>. Без drift.
+                  Агент не должен заново угадывать правила HRDS. В kit есть <code>rules/</code>, <code>skills/</code>
+                  и обёртки <code>.cursor/skills/</code> для вызова через <code>/</code> в Cursor.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">004 / Version drift detection</p>
+                <p class="feature-heading">004 / Проверка версий</p>
                 <p class="feature-copy">
-                  <code>component-checker</code> ловит detached, deprecated и foreign instances. Сверка с библиотекой
-                  13.3.0 и decision-log.
+                  <code>component-checker</code> помогает найти отвязанные, устаревшие и чужие инстансы.
+                  Проверка идёт относительно библиотеки 13.3.0 и журнала решений.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">005 / Pattern fit</p>
+                <p class="feature-heading">005 / Проверка паттерна</p>
                 <p class="feature-copy">
-                  <code>pattern-checker</code> отделяет Page Header от Content Header, Empty State от Error — и подсказывает
-                  замену.
+                  <code>pattern-checker</code> помогает понять, подходит ли выбранный паттерн: Page Header или Content Header,
+                  Empty State или Error, список или форма.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">006 / Frame spec для разработки</p>
+                <p class="feature-heading">006 / Спецификация для разработки</p>
                 <p class="feature-copy">
-                  <code>technical-analyst</code> выдаёт handoff: components, props, states, tokens, behavior, gaps — без
-                  выдуманной логики.
+                  <code>technical-analyst</code> готовит спецификацию: компоненты, props, состояния, токены, поведение и открытые
+                  вопросы. Непроверенное помечается отдельно.
                 </p>
               </li>
               <li class="feature-item reveal">
-                <p class="feature-heading">007 / Gaps, not guesses</p>
+                <p class="feature-heading">007 / Пробелы вместо догадок</p>
                 <p class="feature-copy">
-                  Starter и Proposed явно помечены. Confirmed — только имя из Figma metadata. Props не выдаются за факт
-                  без Storybook/code.
+                  Starter и Proposed явно помечены. Confirmed ставится только для проверенных фактов. Props не выдаются
+                  за правду без Storybook или кода.
                 </p>
               </li>
               <li class="feature-item reveal">
                 <p class="feature-heading">008 / Подключение за три шага</p>
                 <p class="feature-copy">
-                  Скачать → Add Folder to Workspace → вызвать <code>/component-checker</code> или <code>/design-review</code>
-                  с node-specific URL.
+                  Скачать → добавить папку в workspace → вызвать <code>/component-checker</code> или <code>/design-review</code>
+                  с Figma URL, где есть <code>node-id</code>.
                 </p>
               </li>
             </ol>
@@ -265,103 +264,188 @@
         <div class="container">
           <h2 class="headline-sm reveal">Сценарии применения</h2>
           <p class="body-lg reveal">
-            Пять типовых задач — copy-paste промпт, ожидаемый вывод, следующий шаг.
-            Замени <code>…</code> на реальный Figma node URL. Подробнее в <code>examples/scenarios.md</code>.
+            Пять типовых задач: готовый промпт, ожидаемый результат и следующий шаг.
+            Замени <code>…</code> на реальную ссылку из Figma с <code>node-id</code>. Подробнее — в <code>examples/scenarios.md</code>.
           </p>
         </div>
 
-        <div class="container fr-section reveal">
-          <article class="scenario-card">
-            <div class="scenario-head">
-              <p class="scenario-label">Сценарий 01</p>
-              <h3>Review макета</h3>
-              <p class="scenario-who">Дизайнер · перед handoff · <code>/design-review</code></p>
-            </div>
-            <pre class="fr-code"><code>/design-review
+        <div class="container scenario-shell reveal" data-scenario-tabs>
+          <div class="scenario-tablist" role="tablist" aria-label="Сценарии применения">
+            <button class="scenario-tab is-active" type="button" id="scenario-tab-review" role="tab" aria-selected="true" aria-controls="scenario-panel-review" data-scenario-tab>
+              <span>01</span>
+              Ревью макета
+            </button>
+            <button class="scenario-tab" type="button" id="scenario-tab-handoff" role="tab" aria-selected="false" aria-controls="scenario-panel-handoff" data-scenario-tab>
+              <span>02</span>
+              Передача разработчику
+            </button>
+            <button class="scenario-tab" type="button" id="scenario-tab-drift" role="tab" aria-selected="false" aria-controls="scenario-panel-drift" data-scenario-tab>
+              <span>03</span>
+              Устаревшие инстансы
+            </button>
+            <button class="scenario-tab" type="button" id="scenario-tab-pattern" role="tab" aria-selected="false" aria-controls="scenario-panel-pattern" data-scenario-tab>
+              <span>04</span>
+              Неправильный паттерн
+            </button>
+            <button class="scenario-tab" type="button" id="scenario-tab-prototype" role="tab" aria-selected="false" aria-controls="scenario-panel-prototype" data-scenario-tab>
+              <span>05</span>
+              Сборка нового экрана
+            </button>
+          </div>
 
-Аудит frame:
+          <div class="scenario-panels">
+            <article class="scenario-panel is-active" id="scenario-panel-review" role="tabpanel" aria-labelledby="scenario-tab-review" data-scenario-panel>
+              <div class="scenario-panel-grid">
+                <div class="scenario-card">
+                  <div class="scenario-head">
+                    <p class="scenario-label">Сценарий 01</p>
+                    <h3>Ревью макета</h3>
+                    <p class="scenario-who">Дизайнер · перед передачей в разработку · <code>/design-review</code></p>
+                  </div>
+                  <pre class="fr-code"><code>/design-review
+
+Аудит макета:
 https://figma.com/design/…?node-id=12-345
 
-Components + patterns + tokens + a11y.
-Findings: Critical / Major / Minor.</code></pre>
-            <p class="fr-note">→ findings + Questions → правки в Figma → technical-analyst</p>
-          </article>
+Компоненты, паттерны, токены, доступность.
+Раздели замечания на Critical / Major / Minor.</code></pre>
+                  <p class="fr-note">→ список замечаний → правки в Figma → <code>/technical-analyst</code></p>
+                </div>
+                <aside class="scenario-chain" aria-labelledby="scenario-chain-review">
+                  <h3 class="fr-title" id="scenario-chain-review">Цепочка · ревью макета</h3>
+                  <ol class="scenario-pipeline">
+                    <li><code>/design-review</code> — замечания</li>
+                    <li>правки в Figma</li>
+                    <li><code>/component-checker</code> — инстансы актуальны</li>
+                    <li><code>/pattern-checker</code> — паттерн верный</li>
+                    <li><code>/technical-analyst</code> — спецификация</li>
+                    <li>человек проверяет props в Storybook</li>
+                    <li>код в продуктовом репо</li>
+                  </ol>
+                  <p class="fr-lead">Kit покрывает шаги 1–5. Шаги 6–7 — ответственность команды.</p>
+                </aside>
+              </div>
+            </article>
 
-          <article class="scenario-card">
-            <div class="scenario-head">
-              <p class="scenario-label">Сценарий 02</p>
-              <h3>Handoff разработчику</h3>
-              <p class="scenario-who">Дизайнер / аналитик · <code>/technical-analyst</code></p>
-            </div>
-            <pre class="fr-code"><code>/technical-analyst
+            <article class="scenario-panel" id="scenario-panel-handoff" role="tabpanel" aria-labelledby="scenario-tab-handoff" data-scenario-panel hidden>
+              <div class="scenario-panel-grid">
+                <div class="scenario-card">
+                  <div class="scenario-head">
+                    <p class="scenario-label">Сценарий 02</p>
+                    <h3>Передача разработчику</h3>
+                    <p class="scenario-who">Дизайнер / аналитик · <code>/technical-analyst</code></p>
+                  </div>
+                  <pre class="fr-code"><code>/technical-analyst
 
-Frame для разработки:
+Макет для разработки:
 https://figma.com/design/…?node-id=12-345
 
-Layout, components, props, states, tokens, gaps.</code></pre>
-            <p class="fr-note">→ spec с open questions → сверка props в Storybook 13.3.0</p>
-          </article>
+Структура, компоненты, props, состояния, токены, пробелы.</code></pre>
+                  <p class="fr-note">→ спецификация с вопросами → сверка props в Storybook 13.3.0</p>
+                </div>
+                <aside class="scenario-chain" aria-labelledby="scenario-chain-handoff">
+                  <h3 class="fr-title" id="scenario-chain-handoff">Цепочка · handoff</h3>
+                  <ol class="scenario-pipeline">
+                    <li>макет согласован</li>
+                    <li><code>/technical-analyst</code> — спецификация</li>
+                    <li>сверка props в Storybook 13.3.0</li>
+                    <li>закрыть <code>Needs review</code></li>
+                    <li>код в продуктовом репо</li>
+                  </ol>
+                  <p class="fr-lead">Kit закрывает шаг 2. Шаги 3–5 — команда разработки.</p>
+                </aside>
+              </div>
+            </article>
 
-          <article class="scenario-card">
-            <div class="scenario-head">
-              <p class="scenario-label">Сценарий 03</p>
-              <h3>Detached и drift</h3>
-              <p class="scenario-who">Дизайнер / DS · <code>/component-checker</code></p>
-            </div>
-            <pre class="fr-code"><code>/component-checker
+            <article class="scenario-panel" id="scenario-panel-drift" role="tabpanel" aria-labelledby="scenario-tab-drift" data-scenario-panel hidden>
+              <div class="scenario-panel-grid">
+                <div class="scenario-card">
+                  <div class="scenario-head">
+                    <p class="scenario-label">Сценарий 03</p>
+                    <h3>Устаревшие инстансы</h3>
+                    <p class="scenario-who">Дизайнер / DS · <code>/component-checker</code></p>
+                  </div>
+                  <pre class="fr-code"><code>/component-checker
 
 Проверь инстансы:
 https://figma.com/design/…?node-id=12-345
 
-Detached, deprecated, wrong variant, 13.3.0 drift.</code></pre>
-            <p class="fr-note">→ inventory + что заменить → swap в Figma</p>
-          </article>
+Отвязанные инстансы, deprecated, wrong variant, расхождения с 13.3.0.</code></pre>
+                  <p class="fr-note">→ список проблем + что заменить → замена инстансов в Figma</p>
+                </div>
+                <aside class="scenario-chain" aria-labelledby="scenario-chain-drift">
+                  <h3 class="fr-title" id="scenario-chain-drift">Цепочка · drift</h3>
+                  <ol class="scenario-pipeline">
+                    <li><code>/component-checker</code> — inventory + drift</li>
+                    <li>замена инстансов в Figma</li>
+                    <li>повторная проверка</li>
+                    <li><code>/design-review</code> или handoff</li>
+                  </ol>
+                  <p class="fr-lead">Kit помогает на шагах 1 и 3. Шаг 2 — правки в Figma.</p>
+                </aside>
+              </div>
+            </article>
 
-          <article class="scenario-card">
-            <div class="scenario-head">
-              <p class="scenario-label">Сценарий 04</p>
-              <h3>Неправильный паттерн</h3>
-              <p class="scenario-who">Дизайнер / продукт · <code>/pattern-checker</code></p>
-            </div>
-            <pre class="fr-code"><code>/pattern-checker
+            <article class="scenario-panel" id="scenario-panel-pattern" role="tabpanel" aria-labelledby="scenario-tab-pattern" data-scenario-panel hidden>
+              <div class="scenario-panel-grid">
+                <div class="scenario-card">
+                  <div class="scenario-head">
+                    <p class="scenario-label">Сценарий 04</p>
+                    <h3>Неправильный паттерн</h3>
+                    <p class="scenario-who">Дизайнер / продукт · <code>/pattern-checker</code></p>
+                  </div>
+                  <pre class="fr-code"><code>/pattern-checker
 
 Экран «Список сотрудников»:
 https://figma.com/design/…?node-id=12-345
 
 Какой паттерн? Page Header vs Content Header?
-Если misfit — что из patterns-index.</code></pre>
-            <p class="fr-note">→ fit / misfit + рекомендация → prototype-builder</p>
-          </article>
+Если не подходит — что взять из patterns-index.</code></pre>
+                  <p class="fr-note">→ подходит / не подходит + рекомендация → <code>/prototype-builder</code></p>
+                </div>
+                <aside class="scenario-chain" aria-labelledby="scenario-chain-pattern">
+                  <h3 class="fr-title" id="scenario-chain-pattern">Цепочка · паттерн</h3>
+                  <ol class="scenario-pipeline">
+                    <li><code>/pattern-checker</code> — fit / misfit</li>
+                    <li>переделать композицию в Figma</li>
+                    <li><code>/prototype-builder</code> — план</li>
+                    <li><code>/technical-analyst</code> — handoff</li>
+                  </ol>
+                  <p class="fr-lead">Kit покрывает шаги 1, 3 и 4. Шаг 2 — правки в макете.</p>
+                </aside>
+              </div>
+            </article>
 
-          <article class="scenario-card">
-            <div class="scenario-head">
-              <p class="scenario-label">Сценарий 05</p>
-              <h3>Сборка нового экрана</h3>
-              <p class="scenario-who">Дизайнер / dev · <code>/prototype-builder</code></p>
-            </div>
-            <pre class="fr-code"><code>/prototype-builder
+            <article class="scenario-panel" id="scenario-panel-prototype" role="tabpanel" aria-labelledby="scenario-tab-prototype" data-scenario-panel hidden>
+              <div class="scenario-panel-grid">
+                <div class="scenario-card">
+                  <div class="scenario-head">
+                    <p class="scenario-label">Сценарий 05</p>
+                    <h3>Сборка нового экрана</h3>
+                    <p class="scenario-who">Дизайнер / разработчик · <code>/prototype-builder</code></p>
+                  </div>
+                  <pre class="fr-code"><code>/prototype-builder
 
 Экран «Создание заявки на отпуск».
 Поля: тип, даты, комментарий.
-Primary «Отправить», secondary «Отмена».
+Главное действие «Отправить», вторичное «Отмена».
 
-План из HRDS components + patterns. Без prod-кода.</code></pre>
-            <p class="fr-note">→ Prototype Plan + gaps → макет → technical-analyst</p>
-          </article>
-        </div>
-
-        <div class="container fr-section reveal">
-          <h3 class="fr-title">Цепочка · от review до кода</h3>
-          <ol class="scenario-pipeline">
-            <li><code>/design-review</code> — замечания</li>
-            <li>правки в Figma</li>
-            <li><code>/component-checker</code> — инстансы актуальны</li>
-            <li><code>/pattern-checker</code> — паттерн верный</li>
-            <li><code>/technical-analyst</code> — handoff spec</li>
-            <li>human review props в Storybook</li>
-            <li>код в продуктовом репо</li>
-          </ol>
-          <p class="fr-lead">Kit покрывает шаги 1–5. Шаги 6–7 — ответственность команды.</p>
+План из компонентов и паттернов HRDS. Без кода для продакшена.</code></pre>
+                  <p class="fr-note">→ план прототипа + пробелы → макет → <code>/technical-analyst</code></p>
+                </div>
+                <aside class="scenario-chain" aria-labelledby="scenario-chain-prototype">
+                  <h3 class="fr-title" id="scenario-chain-prototype">Цепочка · новый экран</h3>
+                  <ol class="scenario-pipeline">
+                    <li><code>/prototype-builder</code> — план</li>
+                    <li>макет в Figma</li>
+                    <li><code>/component-checker</code> — инстансы</li>
+                    <li><code>/technical-analyst</code> — handoff</li>
+                  </ol>
+                  <p class="fr-lead">Kit покрывает шаги 1, 3 и 4. Шаг 2 — сборка макета.</p>
+                </aside>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -408,12 +492,12 @@ Primary «Отправить», secondary «Отмена».
                       <span class="repo-terminal-line">
                         <span class="repo-terminal-prompt">~/hrds-ai-kit &gt;&nbsp;</span>
                         <span class="repo-terminal-cmd">pilot</span>
-                        <span class="repo-terminal-meta">&nbsp;&nbsp;# v0.2 · compact pilot</span>
+                        <span class="repo-terminal-meta">&nbsp;&nbsp;# v0.2 · пилотная версия</span>
                       </span>
                     </a>
                     <form class="repo-terminal-form" data-terminal-form>
                       <span class="repo-terminal-prompt">~/hrds-ai-kit &gt;&nbsp;</span>
-                      <input type="text" data-terminal-input spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" placeholder="try: ls, tree, cat README.md" />
+                      <input type="text" data-terminal-input spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" placeholder="команды: ls, tree, cat README.md" />
                     </form>
                     <div class="repo-terminal-output" data-terminal-output hidden></div>
                   </div>
@@ -427,7 +511,7 @@ Primary «Отправить», secondary «Отмена».
               <div class="repo-status-left">
                 <span><span aria-hidden="true">⎇</span> main</span>
                 <span class="repo-status-sep"></span>
-                <span class="repo-status-live"><span class="repo-status-dot"></span> pilot v0.2</span>
+                <span class="repo-status-live"><span class="repo-status-dot"></span> пилот v0.2</span>
               </div>
               <button type="button" class="repo-status-commits" data-repo-commits>47 files</button>
             </div>
@@ -438,23 +522,23 @@ Primary «Отправить», secondary «Отмена».
       <!-- GUIDE -->
       <section id="guide" class="section-pad bg-black guide-section" data-section>
         <div class="container">
-          <h2 class="headline-sm text-white reveal">Примеры skills</h2>
+          <h2 class="headline-sm text-white reveal">Какой skill запускать</h2>
           <p class="body-lg text-ghost reveal">
-            Сейчас пять — список растёт по задачам HRDS. Вызов через <code>/skill-name</code> в Cursor.
-            Агент читает <code>rules/</code>, индексы и <code>sources.md</code>.
+            Сейчас в kit пять готовых маршрутов. Их можно вызвать в Cursor через <code>/skill-name</code>.
+            Каждый skill подсказывает агенту, какие индексы, правила и источники открыть.
           </p>
         </div>
         <div class="container guide-grid stagger-parent">
           <article class="guide-card reveal">
             <p class="guide-example">Пример 01</p>
             <h3><code>/component-checker</code></h3>
-            <p class="guide-when">Инстансы и версии · перед review</p>
+            <p class="guide-when">Инстансы и версии · перед ревью</p>
             <ol class="guide-steps">
-              <li>Node-specific Figma URL (<code>?node-id=</code>)</li>
+              <li>Figma URL с конкретным <code>?node-id=</code></li>
               <li>Сверка с <code>components-index.md</code></li>
-              <li>Detached, deprecated, wrong variant, drift</li>
+              <li>Отвязанные, устаревшие и чужие инстансы</li>
             </ol>
-            <p class="guide-out">→ inventory + что заменить на 13.3.0</p>
+            <p class="guide-out">→ список компонентов + что заменить</p>
           </article>
           <article class="guide-card reveal">
             <p class="guide-example">Пример 02</p>
@@ -463,42 +547,42 @@ Primary «Отправить», secondary «Отмена».
             <ol class="guide-steps">
               <li>Скрин, описание или Figma URL</li>
               <li><code>patterns-index.md</code> + decision-log</li>
-              <li>Misfit → какой паттерн подходит</li>
+              <li>Если не подходит — какой паттерн выбрать</li>
             </ol>
-            <p class="guide-out">→ fit / misfit + рекомендация</p>
+            <p class="guide-out">→ оценка паттерна + рекомендация</p>
           </article>
           <article class="guide-card reveal">
             <p class="guide-example">Пример 03</p>
             <h3><code>/technical-analyst</code></h3>
-            <p class="guide-when">Spec для разработки · handoff</p>
+            <p class="guide-when">Спецификация для разработки</p>
             <ol class="guide-steps">
               <li>Figma node URL обязателен</li>
-              <li>Components, props, states, tokens, behavior</li>
+              <li>Компоненты, props, состояния, токены, поведение</li>
               <li>Без источника — <code>Needs review</code></li>
             </ol>
-            <p class="guide-out">→ handoff + open questions</p>
+            <p class="guide-out">→ спецификация + открытые вопросы</p>
           </article>
           <article class="guide-card reveal">
             <p class="guide-example">Пример 04</p>
             <h3><code>/design-review</code></h3>
             <p class="guide-when">Полный аудит · перед релизом макета</p>
             <ol class="guide-steps">
-              <li>Components + patterns + tokens + a11y</li>
-              <li>Findings: Critical / Major / Minor</li>
-              <li>Ссылки на rules и canonical sources</li>
+              <li>Компоненты, паттерны, токены, доступность</li>
+              <li>Замечания: Critical / Major / Minor</li>
+              <li>Ссылки на правила и источники</li>
             </ol>
-            <p class="guide-out">→ структурированный review-лист</p>
+            <p class="guide-out">→ структурированный список замечаний</p>
           </article>
           <article class="guide-card reveal">
             <p class="guide-example">Пример 05</p>
             <h3><code>/prototype-builder</code></h3>
             <p class="guide-when">План композиции · сборка экрана</p>
             <ol class="guide-steps">
-              <li>Требования или Figma frame</li>
-              <li>Дерево components + patterns</li>
-              <li>Gaps, если нет в индексе</li>
+              <li>Требования или макет в Figma</li>
+              <li>Дерево компонентов и паттернов</li>
+              <li>Пробелы, если данных нет в индексе</li>
             </ol>
-            <p class="guide-out">→ implementation plan, не prod-код</p>
+            <p class="guide-out">→ план сборки, не код для продакшена</p>
           </article>
         </div>
       </section>
@@ -508,24 +592,24 @@ Primary «Отправить», secondary «Отмена».
         <div class="container">
           <h2 class="headline-sm reveal">Первый запуск</h2>
           <p class="body-lg reveal">
-            Что вставить в чат, как читать метки, чем отличается вывод с kit.
-            Copy-paste → проверка → human review.
+            Что вставить в чат, как читать метки и чем отличается ответ с kit.
+            Скопировать → проверить → отдать на ревью.
           </p>
         </div>
 
         <div class="container fr-section reveal">
           <h3 class="fr-title">001 / Что вставить в чат</h3>
-          <p class="fr-lead">Все пять skills. В каждом промпте — node-specific Figma URL или описание экрана.</p>
+          <p class="fr-lead">Все пять skills. В каждом промпте — Figma URL с <code>node-id</code> или описание экрана.</p>
           <div class="fr-grid fr-prompts fr-prompts--5">
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/component-checker</code></h4>
               <pre class="fr-code"><code>/component-checker
 
-Проверь frame:
+Проверь макет:
 https://figma.com/design/…?node-id=12-345
 
 Сверь инстансы с components-index и 13.3.0.</code></pre>
-              <p class="fr-note">→ inventory, detached, deprecated, drift</p>
+              <p class="fr-note">→ список компонентов, устаревшие и отвязанные инстансы</p>
             </article>
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/pattern-checker</code></h4>
@@ -535,26 +619,26 @@ https://figma.com/design/…?node-id=12-345
 https://figma.com/design/…?node-id=12-345
 
 Верный ли паттерн? Что из patterns-index?</code></pre>
-              <p class="fr-note">→ fit / misfit + рекомендация</p>
+              <p class="fr-note">→ подходит / не подходит + рекомендация</p>
             </article>
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/technical-analyst</code></h4>
               <pre class="fr-code"><code>/technical-analyst
 
-Frame для handoff:
+Макет для разработки:
 https://figma.com/design/…?node-id=12-345
 
-Components, props, states, tokens, gaps.</code></pre>
-              <p class="fr-note">→ spec с метками, open questions</p>
+Компоненты, props, состояния, токены, пробелы.</code></pre>
+              <p class="fr-note">→ спецификация с метками и открытыми вопросами</p>
             </article>
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/design-review</code></h4>
               <pre class="fr-code"><code>/design-review
 
-Аудит frame:
+Аудит макета:
 https://figma.com/design/…?node-id=12-345
 
-Components + patterns + tokens + a11y.</code></pre>
+Компоненты, паттерны, токены, доступность.</code></pre>
               <p class="fr-note">→ Critical / Major / Minor</p>
             </article>
             <article class="fr-card">
@@ -562,10 +646,10 @@ Components + patterns + tokens + a11y.</code></pre>
               <pre class="fr-code"><code>/prototype-builder
 
 Экран «Создание заявки».
-Поля + primary/secondary actions.
+Поля и основные действия.
 
-План из HRDS. Без prod-кода.</code></pre>
-              <p class="fr-note">→ Prototype Plan + gaps</p>
+План из HRDS. Без кода для продакшена.</code></pre>
+              <p class="fr-note">→ план прототипа + пробелы</p>
             </article>
           </div>
         </div>
@@ -575,38 +659,38 @@ Components + patterns + tokens + a11y.</code></pre>
           <div class="fr-grid fr-statuses">
             <article class="fr-card">
               <p class="fr-label">Confirmed</p>
-              <p class="fr-copy">Есть источник: Figma metadata, Storybook story или code. Опирайся, но сверь перед prod.</p>
+              <p class="fr-copy">Есть источник: метаданные в Figma, story в Storybook или код. Можно опираться, но перед запуском в продукт всё равно сверить.</p>
             </article>
             <article class="fr-card">
               <p class="fr-label">Starter</p>
-              <p class="fr-copy">Данные из kit, не проверены. Агент не выдаёт за факт — помечает и просит верификацию.</p>
+              <p class="fr-copy">Данные есть в kit, но ещё не проверены по источникам. Агент не должен выдавать их за факт.</p>
             </article>
             <article class="fr-card">
               <p class="fr-label">Needs review</p>
-              <p class="fr-copy">Prop без подтверждённого источника. Найди story или код — не додумывай.</p>
+              <p class="fr-copy">Prop или variant без подтверждённого источника. Нужно найти story или код, а не додумывать.</p>
             </article>
             <article class="fr-card">
               <p class="fr-label">Proposed</p>
-              <p class="fr-copy">Гипотеза по формату examples. Явно не факт. Рядом — «сверить в Storybook».</p>
+              <p class="fr-copy">Гипотеза по примеру формата. Это не факт. Рядом всегда должно быть «сверить в Storybook».</p>
             </article>
           </div>
         </div>
 
         <div class="container fr-section reveal">
           <h3 class="fr-title">003 / Приоритет источников</h3>
-          <p class="fr-lead">При расхождении — в таком порядке. Агент фиксирует конфликт, не разрешает молча.</p>
+          <p class="fr-lead">Если источники расходятся, порядок такой. Агент фиксирует конфликт, а не решает его молча.</p>
           <ol class="fr-priority">
-            <li><span>01</span><span><strong>Code / Storybook</strong> — props, controls, behavior</span></li>
-            <li><span>02</span><span><strong>Figma component</strong> — структура, variants, properties</span></li>
-            <li><span>03</span><span><strong>Rules</strong> — accessibility, naming, review</span></li>
-            <li><span>04</span><span><strong>Examples</strong> — формат вывода, не source of truth</span></li>
+            <li><span>01</span><span><strong>Код / Storybook</strong> — props, controls, поведение</span></li>
+            <li><span>02</span><span><strong>Компонент в Figma</strong> — структура, variants, properties</span></li>
+            <li><span>03</span><span><strong>Rules</strong> — доступность, naming, ревью</span></li>
+            <li><span>04</span><span><strong>Examples</strong> — формат вывода, не источник правды</span></li>
             <li><span>05</span><span><strong>Decision log</strong> — принятые исключения</span></li>
           </ol>
         </div>
 
         <div class="container fr-section reveal">
-          <h3 class="fr-title">005 / Что куда писать</h3>
-          <p class="fr-lead">Куда добавлять новые знания. <code>examples/</code> — формат, не source of truth.</p>
+          <h3 class="fr-title">004 / Что куда писать</h3>
+          <p class="fr-lead">Куда добавлять новые знания. <code>examples/</code> — это формат, а не источник правды.</p>
           <div class="map-table-wrap">
             <table class="map-table">
               <thead>
@@ -618,19 +702,19 @@ Components + patterns + tokens + a11y.</code></pre>
               </thead>
               <tbody>
                 <tr>
-                  <td>Canonical URL</td>
+                  <td>Ссылка на источник</td>
                   <td><code>knowledge/sources.md</code></td>
                   <td>Новый источник Figma / Storybook / npm</td>
                 </tr>
                 <tr>
                   <td>Имя компонента</td>
                   <td><code>knowledge/components-index.md</code></td>
-                  <td>Компонент в scope kit</td>
+                  <td>Компонент добавляют в пилотный набор</td>
                 </tr>
                 <tr>
                   <td>Имя паттерна</td>
                   <td><code>knowledge/patterns-index.md</code></td>
-                  <td>Паттерн в scope kit</td>
+                  <td>Паттерн добавляют в пилотный набор</td>
                 </tr>
                 <tr>
                   <td>Архитектурное решение</td>
@@ -643,7 +727,7 @@ Components + patterns + tokens + a11y.</code></pre>
                   <td>Новое ограничение поведения</td>
                 </tr>
                 <tr>
-                  <td>Новый workflow</td>
+                  <td>Новый сценарий работы</td>
                   <td><code>skills/&lt;name&gt;/SKILL.md</code></td>
                   <td>Типовая задача с маршрутом</td>
                 </tr>
@@ -655,12 +739,12 @@ Components + patterns + tokens + a11y.</code></pre>
               </tbody>
             </table>
           </div>
-          <p class="fr-note">Starter → Confirmed: Figma node + Storybook/code → обновить индекс → заполнить example → явные gaps.</p>
+          <p class="fr-note">Starter → Confirmed: Figma node + Storybook/code → обновить индекс → заполнить example → явно перечислить пробелы.</p>
         </div>
 
         <div class="container fr-section reveal">
-          <h3 class="fr-title">004 / До и после · Button</h3>
-          <p class="fr-lead">Один компонент. Слева — типичный ответ без kit. Справа — с метками и gaps.</p>
+          <h3 class="fr-title">005 / До и после · Button</h3>
+          <p class="fr-lead">Один компонент. Слева — типичный ответ без kit. Справа — ответ с метками и открытыми вопросами.</p>
           <div class="fr-diff">
             <article class="fr-card">
               <p class="fr-label">без kit</p>
@@ -681,8 +765,8 @@ variant: primary | secondary | ghost | danger
 size: md  [Proposed]
 states: default, hover, focus, disabled, loading
 
-Gaps: API loading — Needs review
-Open: story в Storybook 13.3.0</code></pre>
+Пробелы: API loading — Needs review
+Открытый вопрос: story в Storybook 13.3.0</code></pre>
             </article>
           </div>
         </div>
@@ -693,7 +777,8 @@ Open: story в Storybook 13.3.0</code></pre>
         <div class="container">
           <h2 class="headline-sm reveal">Подключение за три шага</h2>
           <p class="body-lg reveal">
-            Pilot v0.2 для HR Tech. Положи в workspace, вызови skill. Часть данных — starter: перед production сверяй со Storybook.
+            Пилот v0.2 для HR Tech. Добавь kit в workspace и вызови нужный skill. Часть данных пока в статусе Starter:
+            перед запуском в продукт сверяй их со Storybook или кодом.
           </p>
         </div>
         <div class="container start-layout">
@@ -711,33 +796,33 @@ Open: story в Storybook 13.3.0</code></pre>
             <article class="start-step">
               <span class="start-num">02</span>
               <div>
-                <h3>Add to Workspace</h3>
-                <p><kbd>File → Add Folder to Workspace</kbd> — kit и продуктовый репо в одном workspace.</p>
+                <h3>Добавь в workspace</h3>
+                <p><kbd>File → Add Folder to Workspace</kbd> — kit и продуктовый репозиторий должны быть в одном workspace.</p>
               </div>
             </article>
             <article class="start-step">
               <span class="start-num">03</span>
               <div>
-                <h3>Вызови skill</h3>
-                <p><code>/component-checker</code> + Figma node URL. Проверь строки <code>Needs review</code> в выводе.</p>
+                <h3>Запусти skill</h3>
+                <p><code>/component-checker</code> + Figma URL с <code>node-id</code>. Проверь строки <code>Needs review</code> в ответе.</p>
               </div>
             </article>
           </div>
           <aside class="start-aside reveal">
             <p class="start-aside-label">Что внутри v0.2</p>
             <ul class="start-checklist">
-              <li><span>001</span> <code>knowledge/</code> — sources, indexes, decision-log</li>
+              <li><span>001</span> <code>knowledge/</code> — источники, индексы, журнал решений</li>
               <li><span>002</span> <code>rules/</code> — ограничения для агента</li>
               <li><span>003</span> <code>skills/</code> — component-checker, pattern-checker, technical-analyst, design-review, prototype-builder</li>
-              <li><span>004</span> <code>examples/</code> — сценарии и эталоны формата</li>
+              <li><span>004</span> <code>examples/</code> — сценарии и примеры формата</li>
               <li><span>005</span> <code>templates/</code> — шаблоны для новых examples</li>
               <li><span>006</span> <code>getting-started.md</code> — гайд для людей</li>
-              <li><span>007</span> Storybook 13.3.0 — canonical API</li>
+              <li><span>007</span> Storybook 13.3.0 — источник API</li>
               <li><span>008</span> Figma library HRDS — инстансы</li>
               <li><span>009</span> Starter помечен — требует проверки</li>
               <li><span>010</span> Не замена Figma / Storybook / кода</li>
             </ul>
-            <p class="start-note">MCP Figma и Storybook — плюс, не обязательны для rules и индексов.</p>
+            <p class="start-note">MCP Figma и доступ к Storybook полезны, но базовые правила и индексы работают и без них.</p>
           </aside>
         </div>
       </section>
@@ -749,43 +834,43 @@ Open: story в Storybook 13.3.0</code></pre>
           <div class="faq-list reveal" data-faq-list>
             <details class="faq-item">
               <summary><span class="faq-q">Q.001 /</span> Это замена Figma или Storybook?</summary>
-              <p>Нет. Kit — context layer для AI. Он указывает агенту на источники и правила. Дизайн и API остаются в Figma и Storybook.</p>
+              <p>Нет. Kit — контекст для AI-агента. Он указывает на источники и правила. Дизайн остаётся в Figma, API — в Storybook и коде.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.002 /</span> Чем отличается от «просто скинуть ссылку на Storybook»?</summary>
-              <p>Storybook — source of truth для API, но не маршрут для агента. Kit фиксирует приоритеты, статусы Starter/Confirmed, skills для review и handoff, и запрещает выдавать гипотезы за факты.</p>
+              <p>Storybook показывает API, но не объясняет агенту, что и в каком порядке проверять. Kit фиксирует приоритет источников, статусы Starter/Confirmed и готовые маршруты для ревью и спецификации.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.003 /</span> Работает ли с Cursor?</summary>
               <p>Да. Skills подключены через <code>.cursor/skills/</code>. Вызов: <code>/component-checker</code>, <code>/pattern-checker</code>, <code>/technical-analyst</code>, <code>/design-review</code>, <code>/prototype-builder</code>.</p>
             </details>
             <details class="faq-item">
-              <summary><span class="faq-q">Q.004 /</span> Можно ли генерировать production-код?</summary>
-              <p>Только с human review. Design-to-code требует подтверждения props по Storybook или коду. Kit снижает догадки, не снимает ответственность.</p>
+              <summary><span class="faq-q">Q.004 /</span> Можно ли генерировать код для продакшена?</summary>
+              <p>Только после человеческого ревью. Для кода нужно подтвердить props в Storybook или исходниках. Kit снижает число догадок, но не снимает ответственность с команды.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.005 /</span> Что значит Starter?</summary>
-              <p>Неподтверждённые данные. Агент не выдаёт их за source of truth. После проверки по Figma/Storybook/code статус обновляется на Confirmed.</p>
+              <p>Это данные, которые уже есть в kit, но ещё не подтверждены по Figma, Storybook или коду. Агент должен помечать их как непроверенные.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.006 /</span> Какая версия библиотеки?</summary>
-              <p>Актуальный Storybook: <strong>13.3.0</strong>. Пакет: <code>@yandex-int/hr-components</code>. Version drift проверяет <code>component-checker</code>.</p>
+              <p>Актуальный Storybook: <strong>13.3.0</strong>. Пакет: <code>@yandex-int/hr-components</code>. Проверку устаревших инстансов запускай через <code>/component-checker</code>.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.007 /</span> Что kit не делает?</summary>
-              <p>Не полный каталог HRDS. Не автопилот. Не замена human DS review. Не доказательство существования prop без источника.</p>
+              <p>Это не полный каталог HRDS, не автопилот и не замена ревью дизайн-системы. Если prop не подтверждён в Storybook или коде, kit не делает его настоящим.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.008 /</span> Куда писать новые данные?</summary>
-              <p>URL → <code>sources.md</code>. Имя компонента/паттерна → индекс. Решение → <code>decision-log.md</code>. Запрет → <code>rules/</code>. Развёрнутое описание → <code>examples/</code> по шаблону. Не копировать examples в код — это формат.</p>
+              <p>Ссылку на источник — в <code>sources.md</code>. Имя компонента или паттерна — в индекс. Решение — в <code>decision-log.md</code>. Правило для агента — в <code>rules/</code>. Развёрнутое описание — в <code>examples/</code> по шаблону.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.009 /</span> С чего начать на реальном экране?</summary>
-              <p>Открой frame в Figma → скопируй URL с <code>node-id</code> → <code>/design-review</code> или <code>/component-checker</code> → исправь findings → <code>/technical-analyst</code> для handoff. Сценарии в <code>examples/scenarios.md</code>.</p>
+              <p>Открой макет в Figma → скопируй URL с <code>node-id</code> → запусти <code>/design-review</code> или <code>/component-checker</code> → исправь замечания → запусти <code>/technical-analyst</code> для спецификации. Сценарии лежат в <code>examples/scenarios.md</code>.</p>
             </details>
             <details class="faq-item">
               <summary><span class="faq-q">Q.010 /</span> Кто поддерживает kit?</summary>
-              <p>DS / платформа — индексы и Starter → Confirmed. Продуктовые команды — используют skills и закрывают Needs review по Storybook. Kit v0.2 — pilot: 5 Confirmed components, 5 Starter patterns.</p>
+              <p>Команда дизайн-системы и платформы поддерживает индексы и переводит записи из Starter в Confirmed. Продуктовые команды используют skills и закрывают Needs review по Storybook или коду. v0.2 — пилот: 5 Confirmed components и 5 Starter patterns.</p>
             </details>
           </div>
           <div class="faq-cta reveal">
@@ -815,7 +900,7 @@ Open: story в Storybook 13.3.0</code></pre>
   $$          $$  $$          $$  $$$$$$$$$$$$      $$$$$$$$$$          $$          $$  $$$$$$        $$        $$  $$$$$$        $$        
   $$          $$  $$          $$  $$$$$$$$$$$$      $$$$$$$$$$          $$          $$  $$$$$$        $$        $$  $$$$$$        $$        </pre>
         </div>
-        <p class="footer-tagline">Контекст дизайн-системы для AI-агентов · pilot v0.2</p>
+        <p class="footer-tagline">Контекст HRDS для AI-агентов · пилот v0.2</p>
         <nav class="footer-nav" aria-label="Footer">
           <a href="https://hrds.yandex-team.ru" target="_blank" rel="noopener noreferrer">Storybook</a>
           <a href="https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto" target="_blank" rel="noopener noreferrer">Figma</a>

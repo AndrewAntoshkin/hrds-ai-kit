@@ -12,6 +12,7 @@ safeInit("mobile-menu", initMobileMenu);
 safeInit("scroll-cue", initScrollCue);
 safeInit("problems", initProblemsPanel);
 safeInit("repo", initRepo);
+safeInit("scenario-tabs", initScenarioTabs);
 safeInit("carousels", initCarousels);
 safeInit("floating-cta", initFloatingCta);
 safeInit("faq", initFaq);
@@ -518,6 +519,50 @@ function lockNestedScroll(el) {
     },
     { passive: true }
   );
+}
+
+function initScenarioTabs() {
+  document.querySelectorAll("[data-scenario-tabs]").forEach((root) => {
+    const tabs = [...root.querySelectorAll("[data-scenario-tab]")];
+    const panels = [...root.querySelectorAll("[data-scenario-panel]")];
+    if (!tabs.length || !panels.length) return;
+
+    function activate(tab, shouldFocus = false) {
+      const panelId = tab.getAttribute("aria-controls");
+
+      tabs.forEach((item) => {
+        const isActive = item === tab;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-selected", String(isActive));
+        item.tabIndex = isActive ? 0 : -1;
+      });
+
+      panels.forEach((panel) => {
+        const isActive = panel.id === panelId;
+        panel.hidden = !isActive;
+        panel.classList.toggle("is-active", isActive);
+      });
+
+      if (shouldFocus) tab.focus();
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.tabIndex = tab.classList.contains("is-active") ? 0 : -1;
+      tab.addEventListener("click", () => activate(tab));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+
+        const lastIndex = tabs.length - 1;
+        let nextIndex = index;
+        if (event.key === "ArrowLeft") nextIndex = index === 0 ? lastIndex : index - 1;
+        if (event.key === "ArrowRight") nextIndex = index === lastIndex ? 0 : index + 1;
+        if (event.key === "Home") nextIndex = 0;
+        if (event.key === "End") nextIndex = lastIndex;
+        activate(tabs[nextIndex], true);
+      });
+    });
+  });
 }
 
 function initCarousels() {

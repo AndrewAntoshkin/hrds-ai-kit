@@ -1627,26 +1627,93 @@ html.js .feature-item.in-view {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.scenarios-section .fr-section:first-of-type {
+.scenario-shell {
   margin-top: 2.5rem;
-  padding-top: 0;
-  border-top: none;
-}
-
-.scenarios-section .fr-section {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
-@media (min-width: 900px) {
-  .scenarios-section .fr-section:first-of-type {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.scenario-tablist {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(10rem, 1fr));
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
 }
 
-@media (min-width: 1200px) {
-  .scenarios-section .fr-section:first-of-type {
-    grid-template-columns: repeat(3, 1fr);
+.scenario-tab {
+  display: flex;
+  min-height: 3.5rem;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.58);
+  text-align: left;
+  font-size: var(--text-body-10);
+  line-height: 1.2;
+  color: var(--color-black);
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.scenario-tab span {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption-10);
+  color: var(--color-dark-grey);
+}
+
+.scenario-tab:hover,
+.scenario-tab:focus-visible,
+.scenario-tab.is-active {
+  border-color: rgba(255, 145, 0, 0.48);
+  background: var(--color-white);
+  color: var(--color-black-deep);
+}
+
+.scenario-tab.is-active span {
+  color: var(--color-accent);
+}
+
+.scenario-panels {
+  min-width: 0;
+}
+
+.scenario-panel-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+.scenario-panel-grid .scenario-card,
+.scenario-panel-grid .scenario-chain {
+  min-width: 0;
+}
+
+.scenario-chain {
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.scenario-chain .fr-title {
+  margin-bottom: 1rem;
+}
+
+.scenario-chain .fr-lead {
+  margin: 1rem 0 0;
+}
+
+@media (min-width: 1024px) {
+  .scenario-panel-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+  }
+
+  .scenario-chain {
+    position: sticky;
+    top: 6rem;
   }
 }
 
