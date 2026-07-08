@@ -309,6 +309,11 @@ export const REPO_DATA = {
         },
         {
           "type": "file",
+          "name": "scenario-markdown.js",
+          "key": "site-scenario-markdown_js"
+        },
+        {
+          "type": "file",
           "name": "site.js",
           "key": "site-site_js"
         },
@@ -1401,6 +1406,7 @@ export const REPO_DATA = {
       "path": "site/site.js",
       "lines": [
         "import { REPO_DATA } from \"./repo-data.js\";",
+        "import { renderScenarioMarkdown } from \"./scenario-markdown.js\";",
         "",
         "const reduceMotion = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;",
         "",
@@ -1414,12 +1420,11 @@ export const REPO_DATA = {
         "safeInit(\"scroll-cue\", initScrollCue);",
         "safeInit(\"problems\", initProblemsPanel);",
         "safeInit(\"repo\", initRepo);",
+        "safeInit(\"scenario-markdown\", initScenarioMarkdown);",
         "safeInit(\"scenario-tabs\", initScenarioTabs);",
         "safeInit(\"carousels\", initCarousels);",
         "safeInit(\"floating-cta\", initFloatingCta);",
-        "safeInit(\"faq\", initFaq);",
-        "",
-        "function safeInit(name, fn) {"
+        "safeInit(\"faq\", initFaq);"
       ]
     },
     "site-styles_css": {

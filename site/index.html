@@ -302,13 +302,32 @@
                     <h3>Ревью макета</h3>
                     <p class="scenario-who">Дизайнер · перед передачей в разработку · <code>/design-review</code></p>
                   </div>
-                  <pre class="fr-code"><code>/design-review
+                  <p class="scenario-output-label">Пример ответа</p>
+                  <pre class="fr-code" data-scenario-md data-lenis-prevent><code>## Findings
 
-Аудит макета:
-https://figma.com/design/…?node-id=12-345
+### Critical
+- Кнопка «Добавить сотрудника» — detached Button / Primary.
+  Заменить на library instance из HRDS 13.3.0.
+- В колонке «Действия» Button вместо Link для перехода в карточку
+  (rules/components.md).
 
-Компоненты, паттерны, токены, доступность.
-Раздели замечания на Critical / Major / Minor.</code></pre>
+### Major
+- Content Header вместо Page Header — для списка сущностей
+  нужен паттерн List (patterns-index).
+- Цвет статуса «Уволен» — raw #E53935, нужен семантический токен
+  (Needs review в tokens-index).
+
+### Minor
+- Empty state без текста и действия по паттерну Empty State.
+- Подзаголовок — межстрочный интервал не из шкалы типографики.
+
+## Questions
+- Подтвердить prop loading у Data Table в Storybook 13.3.0?
+- Есть ли story для bulk actions в таблице?
+
+## Summary
+12 компонентов HRDS на frame, 4 version issues, 1 misfit паттерна.
+Critical — до handoff. Props таблицы — Needs review без Storybook.</code></pre>
                   <p class="fr-note">→ список замечаний → правки в Figma → <code>/technical-analyst</code></p>
                 </div>
                 <aside class="scenario-chain" aria-labelledby="scenario-chain-review">
@@ -335,12 +354,41 @@ https://figma.com/design/…?node-id=12-345
                     <h3>Передача разработчику</h3>
                     <p class="scenario-who">Дизайнер / аналитик · <code>/technical-analyst</code></p>
                   </div>
-                  <pre class="fr-code"><code>/technical-analyst
+                  <p class="scenario-output-label">Пример ответа</p>
+                  <pre class="fr-code" data-scenario-md data-lenis-prevent><code>## Frame Spec для разработки
 
-Макет для разработки:
-https://figma.com/design/…?node-id=12-345
+### Мета
+| Поле | Значение |
+|------|----------|
+| Экран | Список сотрудников |
+| Figma | …?node-id=12-345 |
+| Паттерн(ы) | List / Data Table (Starter) |
+| Confidence | Medium — props таблицы Needs review |
 
-Структура, компоненты, props, состояния, токены, пробелы.</code></pre>
+### Кратко
+Таблица сотрудников с поиском, фильтрами и действием «Добавить».
+Собрать из Page Header + Toolbar + Data Table + Pagination.
+
+### Структура layout
+Page Header → Toolbar (Search + Filter) → Data Table → Pagination
+
+### Компоненты
+| # | Компонент | Variant | Props | States | Заметки |
+|---|-----------|---------|-------|--------|---------|
+| 1 | Page Header | default | title, breadcrumbs | default | Confirmed |
+| 2 | Button | primary | children | default, disabled | Confirmed |
+| 3 | Search Input | — | placeholder | default | Needs review |
+| 4 | Data Table | — | columns, rows | default, empty, loading | Needs review |
+| 5 | Pagination | default | page, total | default | Confirmed |
+
+### Поведение
+- Поиск — фильтрация по ФИО (debounce — Needs review)
+- Клик по строке — переход в карточку сотрудника
+- «Добавить» — переход на форму создания
+
+### Открытые вопросы
+- Сверить columns Data Table со Storybook 13.3.0
+- Сортировка по колонке «Отдел» не показана в макете</code></pre>
                   <p class="fr-note">→ спецификация с вопросами → сверка props в Storybook 13.3.0</p>
                 </div>
                 <aside class="scenario-chain" aria-labelledby="scenario-chain-handoff">
@@ -365,12 +413,37 @@ https://figma.com/design/…?node-id=12-345
                     <h3>Устаревшие инстансы</h3>
                     <p class="scenario-who">Дизайнер / DS · <code>/component-checker</code></p>
                   </div>
-                  <pre class="fr-code"><code>/component-checker
+                  <p class="scenario-output-label">Пример ответа</p>
+                  <pre class="fr-code" data-scenario-md data-lenis-prevent><code>## Component Check
 
-Проверь инстансы:
-https://figma.com/design/…?node-id=12-345
+Frame / scope: Список сотрудников
+Figma: …?node-id=12-345
+Confidence: High по identity, Medium по version metadata
 
-Отвязанные инстансы, deprecated, wrong variant, расхождения с 13.3.0.</code></pre>
+### Инвентарь
+| Элемент | Компонент HRDS | Инстанс Figma | Variant | State | Решение |
+|---------|----------------|---------------|---------|-------|---------|
+| Заголовок | Page Header | Content Header / Large | — | default | wrong component |
+| «Добавить» | Button | Button / Primary | primary | default | version issue: detached |
+| Таблица | Data Table | Table / Custom | — | default | not from DS |
+| Пагинация | Pagination | Pagination / Default | default | default | correct |
+| Ссылка в строке | Link | Button / Ghost | ghost | default | wrong component |
+| Поиск | Search Input | Input / Local | — | default | version issue: foreign |
+
+### Проблемы версий
+- Button / Primary — detached, update available (библиотека 13.3.0)
+- Table / Custom — не library instance, заменить на Data Table
+- Input / Local — чужая библиотека, не из published HRDS
+
+### Неверный компонент / вариант
+- Content Header вместо Page Header
+- Button / Ghost в роли навигации → Link
+
+### Корректное использование
+- Pagination / Default — актуальный инстанс 13.3.0
+
+### Пробелы / нужна проверка
+- Filter Dropdown — Starter в components-index, версию не проверить</code></pre>
                   <p class="fr-note">→ список проблем + что заменить → замена инстансов в Figma</p>
                 </div>
                 <aside class="scenario-chain" aria-labelledby="scenario-chain-drift">
@@ -394,13 +467,39 @@ https://figma.com/design/…?node-id=12-345
                     <h3>Неправильный паттерн</h3>
                     <p class="scenario-who">Дизайнер / продукт · <code>/pattern-checker</code></p>
                   </div>
-                  <pre class="fr-code"><code>/pattern-checker
+                  <p class="scenario-output-label">Пример ответа</p>
+                  <pre class="fr-code" data-scenario-md data-lenis-prevent><code>## Pattern Check
 
-Экран «Список сотрудников»:
-https://figma.com/design/…?node-id=12-345
+Экран / frame: Список сотрудников
+Figma: …?node-id=12-345
+Задача пользователя: просмотр и поиск списка, переход в карточку
+Confidence: High
 
-Какой паттерн? Page Header vs Content Header?
-Если не подходит — что взять из patterns-index.</code></pre>
+### Используемый паттерн
+- Имя: Content Header + кастомная таблица
+- На основании чего: заголовок внутри контентной области,
+  нет page-level actions и breadcrumbs
+
+### Рекомендуемый паттерн
+- Имя: List / Data Table (Starter)
+- Почему: экран — обзор коллекции с sort, filter и row actions
+
+### Решение
+wrong pattern
+
+### Что изменить
+- Заменить Content Header на Page Header с breadcrumbs
+- Обернуть таблицу в Data Table из библиотеки
+- Добавить Empty State при нулевых результатах поиска
+- Toolbar: Search + Filter по паттерну List
+
+### Когда рекомендуемый паттерн не подходит
+- Если нужен только дашборд без таблицы — рассмотреть Card Grid
+  (needs review, не в confirmed patterns)
+
+### Источники
+- patterns-index: List, Data Table, Empty State
+- examples/page-header.md</code></pre>
                   <p class="fr-note">→ подходит / не подходит + рекомендация → <code>/prototype-builder</code></p>
                 </div>
                 <aside class="scenario-chain" aria-labelledby="scenario-chain-pattern">
@@ -424,13 +523,38 @@ https://figma.com/design/…?node-id=12-345
                     <h3>Сборка нового экрана</h3>
                     <p class="scenario-who">Дизайнер / разработчик · <code>/prototype-builder</code></p>
                   </div>
-                  <pre class="fr-code"><code>/prototype-builder
+                  <p class="scenario-output-label">Пример ответа</p>
+                  <pre class="fr-code" data-scenario-md data-lenis-prevent><code>## Prototype Plan
 
-Экран «Создание заявки на отпуск».
-Поля: тип, даты, комментарий.
-Главное действие «Отправить», вторичное «Отмена».
+### Цель
+Экран «Создание заявки на отпуск»: пользователь заполняет форму
+и отправляет заявку на согласование.
 
-План из компонентов и паттернов HRDS. Без кода для продакшена.</code></pre>
+### Композиция
+Page Header (title: «Заявка на отпуск»)
+└─ Form Flow (Starter)
+   ├─ Select — тип отпуска (ежегодный, без сохранения ЗП, …)
+   ├─ Date Range — дата начала и окончания
+   ├─ Textarea — комментарий (optional)
+   └─ Actions
+      ├─ Button primary «Отправить»
+      └─ Button secondary «Отмена»
+
+### States
+- default — форма пустая, «Отправить» disabled
+- validation error — подсветка полей (Needs review в Storybook)
+- loading — spinner на submit
+- success — redirect или toast (не в индексе — needs review)
+
+### Заметки по реализации
+- Паттерн Form Flow — Starter, сверить с patterns-index
+- Date Range — Confirmed имя, props Needs review
+- Без production-кода на этом шаге
+
+### Нужна проверка
+- Story для Date Range validation в Storybook 13.3.0?
+- «Отмена» — confirm dialog или сразу назад?
+- Куда редирект после success?</code></pre>
                   <p class="fr-note">→ план прототипа + пробелы → макет → <code>/technical-analyst</code></p>
                 </div>
                 <aside class="scenario-chain" aria-labelledby="scenario-chain-prototype">

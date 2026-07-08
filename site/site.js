@@ -1,4 +1,5 @@
 import { REPO_DATA } from "./repo-data.js";
+import { renderScenarioMarkdown } from "./scenario-markdown.js";
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -12,6 +13,7 @@ safeInit("mobile-menu", initMobileMenu);
 safeInit("scroll-cue", initScrollCue);
 safeInit("problems", initProblemsPanel);
 safeInit("repo", initRepo);
+safeInit("scenario-markdown", initScenarioMarkdown);
 safeInit("scenario-tabs", initScenarioTabs);
 safeInit("carousels", initCarousels);
 safeInit("floating-cta", initFloatingCta);
@@ -519,6 +521,21 @@ function lockNestedScroll(el) {
     },
     { passive: true }
   );
+}
+
+function initScenarioMarkdown() {
+  document.querySelectorAll("[data-scenario-md]").forEach((source) => {
+    const markdown = source.querySelector("code")?.textContent?.trim();
+    if (!markdown) return;
+
+    const output = document.createElement("div");
+    output.className = "scenario-md fr-code is-rendered";
+    if (source.hasAttribute("data-lenis-prevent")) {
+      output.setAttribute("data-lenis-prevent", "");
+    }
+    output.innerHTML = renderScenarioMarkdown(markdown);
+    source.replaceWith(output);
+  });
 }
 
 function initScenarioTabs() {
