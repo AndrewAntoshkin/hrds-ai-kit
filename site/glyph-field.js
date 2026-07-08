@@ -1,4 +1,4 @@
-import { Renderer, Program, Mesh, Geometry, Texture } from "https://unpkg.com/ogl@1.0.11/src/index.js";
+import { Renderer, Program, Mesh, Geometry, Texture } from "./ogl.esm.js";
 
 const BG_COLOR = "#000000";
 const BASE_QUAD_POSITION = new Float32Array([-0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5]);
@@ -433,4 +433,8 @@ export async function initGlyphField(container) {
 }
 
 const root = document.querySelector("[data-glyphs-field]");
-if (root) initGlyphField(root);
+if (root) {
+  initGlyphField(root).catch((error) => {
+    console.warn("Glyph field unavailable:", error);
+  });
+}

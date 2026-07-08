@@ -1,4 +1,4 @@
-import { Renderer, Program, Mesh, Geometry, Texture } from "https://unpkg.com/ogl@1.0.11/src/index.js";
+import { Renderer, Program, Mesh, Geometry, Texture } from "./ogl.esm.js";
 
 const PHRASE = "BUTTON CARD HEADER TOKENS FIGMA STORYBOOK SKILLS RULES HRDS.";
 const DOT_IDX = PHRASE.indexOf(".");
@@ -751,4 +751,10 @@ export function initSpiralScene(container) {
 }
 
 const root = document.querySelector("[data-spiral-scene]");
-if (root) initSpiralScene(root);
+if (root) {
+  try {
+    initSpiralScene(root);
+  } catch (error) {
+    console.warn("Spiral scene unavailable:", error);
+  }
+}

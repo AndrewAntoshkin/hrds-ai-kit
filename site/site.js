@@ -6,15 +6,24 @@ const FOLDER_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden
 const FILE_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden="true"><path d="M4.3 2.6h4.8L12 5.5V13a.6.6 0 0 1-.6.6H4.3a.6.6 0 0 1-.6-.6V3.2a.6.6 0 0 1 .6-.6Z" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M9 2.8v2.8h2.8" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M5.7 8.6h4.1M5.7 10.6h4.1" fill="none" stroke="currentColor" stroke-width="0.95"/></svg>`;
 const CHEVRON = `<svg viewBox="0 0 16 16" class="repo-tree-chevron" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-initLenis();
-initReveals();
-initNav();
-initMobileMenu();
-initScrollCue();
-initProblemsPanel();
-initRepo();
-initCarousels();
-initFloatingCta();
+safeInit("lenis", initLenis);
+safeInit("reveals", initReveals);
+safeInit("nav", initNav);
+safeInit("mobile-menu", initMobileMenu);
+safeInit("scroll-cue", initScrollCue);
+safeInit("problems", initProblemsPanel);
+safeInit("repo", initRepo);
+safeInit("carousels", initCarousels);
+safeInit("floating-cta", initFloatingCta);
+safeInit("faq", initFaq);
+
+function safeInit(name, fn) {
+  try {
+    fn();
+  } catch (error) {
+    console.warn(`${name} init failed:`, error);
+  }
+}
 
 function initLenis() {
   if (reduceMotion || typeof Lenis === "undefined") return;
@@ -70,6 +79,12 @@ function initReveals() {
   );
 
   targets.forEach((el) => observer.observe(el));
+
+  window.setTimeout(() => {
+    targets.forEach((el) => {
+      if (!el.classList.contains("in-view")) el.classList.add("in-view");
+    });
+  }, 2500);
 }
 
 function initNav() {
