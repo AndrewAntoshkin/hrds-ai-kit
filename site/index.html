@@ -9,6 +9,16 @@
       content="HRDS AI Kit — agent-native context layer для дизайн-системы HR Tech. Решения приняты один раз: Figma → Storybook → Code. Агент не выдумывает props."
     />
     <script>document.documentElement.classList.add("js");</script>
+    <noscript>
+      <style>
+        .reveal,
+        .feature-item,
+        .problems-line {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
     <link rel="stylesheet" href="./fonts.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -56,18 +66,18 @@
       <!-- HERO -->
       <section id="top" class="hero-split" data-section>
         <div class="hero-left">
-          <p class="eyebrow reveal">Решено один раз. Зафиксировано.</p>
-          <h1 class="headline reveal">HRDS-контекст, который не приходится собирать заново.</h1>
-          <p class="body-lg reveal">
+          <p class="eyebrow reveal in-view">Решено один раз. Зафиксировано.</p>
+          <h1 class="headline reveal in-view">HRDS-контекст, который не приходится собирать заново.</h1>
+          <p class="body-lg reveal in-view">
             Источники, индексы, правила и skills. Каждый сложный выбор — Figma node, Storybook story,
             mapping props — принят один раз и зафиксирован. Без kit агент каждый раз выдаёт другой API.
             Здесь маршрут уже решён.
           </p>
-          <p class="audience reveal">
+          <p class="audience reveal in-view">
             Для команд, работающих с Figma, Storybook и <code>@yandex-int/hr-components</code>.
             Не замена Storybook.
           </p>
-          <div class="hero-cta reveal">
+          <div class="hero-cta reveal in-view">
             <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
               <span>Скачать</span><span>kit</span>
             </a>
@@ -75,7 +85,7 @@
               <span>Как</span><span>подключить</span>
             </a>
           </div>
-          <div class="status-bar reveal" aria-label="Статус kit">
+          <div class="status-bar reveal in-view" aria-label="Статус kit">
             <div class="status-grid">
               <span>INPUT VERIFIED</span>
               <span>LOC:ROOT</span>
@@ -598,6 +608,33 @@ Open: story в Storybook 13.3.0</code></pre>
     </a>
 
     <script src="./lenis.min.js"></script>
+    <script>
+      (function () {
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var targets = document.querySelectorAll(".reveal, .stagger-parent");
+        if (!targets.length) return;
+
+        if (reduceMotion) {
+          targets.forEach(function (el) {
+            el.classList.add("in-view");
+          });
+          return;
+        }
+
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) entry.target.classList.add("in-view");
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+        );
+
+        targets.forEach(function (el) {
+          observer.observe(el);
+        });
+      })();
+    </script>
     <script type="module" src="./split-button.js"></script>
     <script type="module" src="./spiral-scene.js"></script>
     <script type="module" src="./glyph-field.js"></script>

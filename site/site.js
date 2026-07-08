@@ -7,7 +7,6 @@ const FILE_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden="
 const CHEVRON = `<svg viewBox="0 0 16 16" class="repo-tree-chevron" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 safeInit("lenis", initLenis);
-safeInit("reveals", initReveals);
 safeInit("nav", initNav);
 safeInit("mobile-menu", initMobileMenu);
 safeInit("scroll-cue", initScrollCue);
@@ -58,33 +57,6 @@ function initLenis() {
   });
 
   window.__lenis = lenis;
-}
-
-function initReveals() {
-  const targets = document.querySelectorAll(".reveal, .stagger-parent");
-  if (!targets.length) return;
-
-  if (reduceMotion) {
-    targets.forEach((el) => el.classList.add("in-view"));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("in-view");
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
-  );
-
-  targets.forEach((el) => observer.observe(el));
-
-  window.setTimeout(() => {
-    targets.forEach((el) => {
-      if (!el.classList.contains("in-view")) el.classList.add("in-view");
-    });
-  }, 2500);
 }
 
 function initNav() {

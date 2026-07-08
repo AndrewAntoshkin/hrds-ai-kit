@@ -289,6 +289,11 @@ export const REPO_DATA = {
         },
         {
           "type": "file",
+          "name": "ogl.esm.js",
+          "key": "site-ogl_esm_js"
+        },
+        {
+          "type": "file",
           "name": "repo-data.js",
           "key": "site-repo-data_js"
         },
@@ -1331,21 +1336,21 @@ export const REPO_DATA = {
         "      name=\"description\"",
         "      content=\"HRDS AI Kit — agent-native context layer для дизайн-системы HR Tech. Решения приняты один раз: Figma → Storybook → Code. Агент не выдумывает props.\"",
         "    />",
+        "    <script>document.documentElement.classList.add(\"js\");</script>",
+        "    <noscript>",
+        "      <style>",
+        "        .reveal,",
+        "        .feature-item,",
+        "        .problems-line {",
+        "          opacity: 1 !important;",
+        "          transform: none !important;",
+        "        }",
+        "      </style>",
+        "    </noscript>",
         "    <link rel=\"stylesheet\" href=\"./fonts.css\" />",
         "    <link rel=\"stylesheet\" href=\"./styles.css\" />",
         "  </head>",
-        "  <body>",
-        "    <a class=\"skip-link\" href=\"#main\">К содержимому</a>",
-        "",
-        "    <header class=\"nav-pill\" data-nav-pill>",
-        "      <a class=\"nav-logo\" href=\"#top\" aria-label=\"HRDS AI Kit\">",
-        "        <span class=\"nav-logo-mark\" aria-hidden=\"true\"></span>",
-        "      </a>",
-        "      <nav class=\"nav-links\" aria-label=\"Разделы\">",
-        "        <a href=\"#problems\" data-nav-link>Проблемы</a>",
-        "        <a href=\"#features\" data-nav-link>Решения</a>",
-        "        <a href=\"#the-repo\" data-nav-link>Структура</a>",
-        "        <a href=\"#guide\" data-nav-link>Гайд</a>"
+        "  <body>"
       ]
     },
     "site-site_js": {
@@ -1359,18 +1364,18 @@ export const REPO_DATA = {
         "const FILE_ICON = `<svg viewBox=\"0 0 16 16\" class=\"repo-tree-icon\" aria-hidden=\"true\"><path d=\"M4.3 2.6h4.8L12 5.5V13a.6.6 0 0 1-.6.6H4.3a.6.6 0 0 1-.6-.6V3.2a.6.6 0 0 1 .6-.6Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.1\"/><path d=\"M9 2.8v2.8h2.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.1\"/><path d=\"M5.7 8.6h4.1M5.7 10.6h4.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.95\"/></svg>`;",
         "const CHEVRON = `<svg viewBox=\"0 0 16 16\" class=\"repo-tree-chevron\" aria-hidden=\"true\"><path d=\"M6 4l4 4-4 4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>`;",
         "",
-        "initLenis();",
-        "initReveals();",
-        "initNav();",
-        "initMobileMenu();",
-        "initScrollCue();",
-        "initProblemsPanel();",
-        "initRepo();",
-        "initCarousels();",
-        "initFloatingCta();",
+        "safeInit(\"lenis\", initLenis);",
+        "safeInit(\"nav\", initNav);",
+        "safeInit(\"mobile-menu\", initMobileMenu);",
+        "safeInit(\"scroll-cue\", initScrollCue);",
+        "safeInit(\"problems\", initProblemsPanel);",
+        "safeInit(\"repo\", initRepo);",
+        "safeInit(\"carousels\", initCarousels);",
+        "safeInit(\"floating-cta\", initFloatingCta);",
+        "safeInit(\"faq\", initFaq);",
         "",
-        "function initLenis() {",
-        "  if (reduceMotion || typeof Lenis === \"undefined\") return;"
+        "function safeInit(name, fn) {",
+        "  try {"
       ]
     },
     "site-styles_css": {
