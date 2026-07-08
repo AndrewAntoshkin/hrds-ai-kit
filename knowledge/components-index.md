@@ -1,226 +1,69 @@
 # Components Index
 
-Status: Starter  
-Purpose: быстрый индекс компонентов для AI-агентов.
+Status: mixed — часть Confirmed, часть Starter  
+Purpose: индекс компонентов HRDS для AI-агента. Confirmed — можно опираться, Starter — только гипотеза, требует проверки.
 
 ---
 
 # Как использовать
 
-Если нужно понять, какой компонент применить, агент должен:
-
-1. Найти задачу в этом индексе.
+1. Найти компонент под задачу.
 2. Проверить `rules/components.md`.
-3. Если нужен пример описания — открыть `examples/button.md`.
-4. Если данных недостаточно — запросить Figma/Storybook/Code reference.
-
----
-
-# Источники
+3. Нужен пример формата описания — `examples/button.md`.
+4. Нет данных или компонент `Starter` — запросить Figma / Storybook / code reference, не выдумывать.
 
 Canonical links: `knowledge/sources.md`.
 
 ---
 
-# Component Status
+# Статусы
 
-| Status | Meaning |
-|--------|---------|
-| Confirmed | Найден в источниках HRDS |
-| Starter | Добавлен как стартовая модель, требует проверки |
-| Deprecated | Не использовать в новых решениях |
+| Статус | Значение |
+|--------|----------|
+| Confirmed | Имя найдено в источниках HRDS (Figma metadata) |
+| Starter | Гипотеза, источник не проверен — не выдавать за факт |
+| Deprecated | Не использовать, причина и замена в `decision-log.md` |
 | Unknown | Нужен human review |
+
+> Confirmed относится только к **имени** компонента. Variants, props и states не подтверждены, пока не проверены в Storybook/коде.
 
 ---
 
 # Confirmed Components
 
-Эти сущности обнаружены в metadata основного Figma-файла компонентов.
+Имена найдены в metadata основного Figma-файла компонентов.
 
-## Button
+| Компонент | Назначение | Figma |
+|-----------|------------|-------|
+| Button | Запуск действия (primary / secondary / destructive, submit-flow) | [HRDS · Компоненты](https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto) |
+| Card | Группировка связанного контента, preview сущности, блок dashboard | Needs node URL |
+| List Item | Строка списка, navigation / selectable row, компактный preview | Needs node URL |
+| Content Header | Заголовок контентного блока (title, description, actions). Figma: `Content · Header` | Needs node URL |
+| H2 | Заголовок второго уровня, section title | Needs node URL |
 
-Status: Confirmed  
-Figma source: [HRDS · Компоненты](https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto)
-
-Use for:
-
-- primary actions;
-- secondary actions;
-- destructive actions, если есть соответствующий variant;
-- submit / save / continue flows.
-
-Do not use for:
-
-- navigation links внутри текста;
-- non-action labels;
-- purely decorative elements.
-
-Related:
-
-- Link
-- Button Group
-- Icon Button
-
-## Card
-
-Status: Confirmed
-
-Use for:
-
-- группировка связанного контента;
-- preview сущности;
-- блоки dashboard;
-- краткие summary sections.
-
-Related:
-
-- List Item
-- Page Section
-- Data Table
-
-## List Item
-
-Status: Confirmed
-
-Use for:
-
-- элементы списков;
-- navigation rows;
-- selectable rows;
-- compact entity preview.
-
-Related:
-
-- Card
-- Table Row
-- Menu Item
-
-## Content Header
-
-Status: Confirmed  
-Figma name: `Content · Header`
-
-Use for:
-
-- заголовок контентного блока;
-- section header;
-- header с title, description и actions.
-
-Related:
-
-- Page Header
-- Button
-- Breadcrumbs
-
-## H2
-
-Status: Confirmed
-
-Use for:
-
-- заголовок второго уровня;
-- section title;
-- логическая структура страницы.
-
-Related:
-
-- Typography tokens
-- Page Header
+Не использовать как навигационную ссылку в тексте (Button → см. Link) и для нефункциональных меток.
 
 ---
 
 # Starter Components
 
-Эти компоненты добавлены как стартовые references для структуры knowledge base. Их нужно проверить по Figma/Storybook перед использованием как source of truth.
+Гипотезы для структуры базы. Проверить по Figma/Storybook перед использованием как source of truth.
 
-## Dialog
-
-Status: Starter
-
-Use for:
-
-- blocking decisions;
-- confirmations;
-- destructive action confirmation;
-- flows that require user attention before continuing.
-
-Related:
-
-- Popover
-- Drawer
-- Button
-
-## Popover
-
-Status: Starter
-
-Use for:
-
-- non-blocking overlays;
-- contextual information;
-- compact contextual actions.
-
-Related:
-
-- Tooltip
-- Dialog
-- Dropdown
-
-## Tooltip
-
-Status: Starter
-
-Use for:
-
-- short helper text;
-- clarification of icon-only controls;
-- non-critical information.
-
-Related:
-
-- Popover
-- Icon Button
-
-## Table
-
-Status: Starter
-
-Use for:
-
-- structured data;
-- sorting and filtering;
-- row actions;
-- comparison across columns.
-
-Related:
-
-- Pagination
-- Filter
-- Empty State
-
-## Page Header
-
-Status: Starter
-
-Use for:
-
-- page title;
-- page-level actions;
-- breadcrumbs;
-- summary metadata.
-
-Related:
-
-- Content Header
-- Breadcrumbs
-- Button
+| Компонент | Предполагаемое назначение |
+|-----------|---------------------------|
+| Dialog | Блокирующее решение, подтверждение необратимого действия |
+| Popover | Неблокирующий overlay, контекстная информация/действия |
+| Tooltip | Короткая подсказка, пояснение icon-only контрола |
+| Table | Структурированные данные: sort, filter, row actions |
+| Page Header | Заголовок страницы, page-level actions, breadcrumbs |
 
 ---
 
 # Agent Rules
 
-- Не считать Starter components подтвержденными без источника.
-- Если компонент найден в Figma, добавить точное имя и ссылку.
-- Если компонент найден в Storybook, добавить story id.
-- Если компонент найден в code, добавить import path.
-- Если компонент deprecated, зафиксировать причину и замену в `knowledge/decision-log.md`.
+- Не считать `Starter` подтверждённым без источника.
+- Компонент найден в Figma → добавить точное имя и node URL.
+- Компонент найден в Storybook → добавить story id.
+- Компонент найден в коде → добавить import path.
+- Компонент deprecated → зафиксировать причину и замену в `knowledge/decision-log.md`.
+- «Related» и точный API появляются в карточке компонента (`examples/` или отдельный файл) только после проверки — в индексе не выдумывать.

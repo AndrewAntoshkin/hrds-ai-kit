@@ -1,151 +1,44 @@
 # Patterns Index
 
-Status: Starter  
-Purpose: быстрый индекс UX-паттернов HRDS.
+Status: Starter — паттерны не подтверждены по Figma  
+Purpose: индекс UX-паттернов HRDS. Паттерн — переиспользуемая композиция под задачу, не отдельный компонент.
 
 ---
 
-# Источники
-
-Canonical links: `knowledge/sources.md`.
-
-Project-ссылка не является node-specific source. Для точного анализа агент должен запросить ссылку на конкретный frame или component.
+> Все записи ниже — `Starter`. Композиция компонентов правдоподобна, но не проверена по Figma Patterns.
+> Для точного анализа нужен node-specific URL конкретного frame. Project-ссылка источником не является.
 
 ---
 
 # Как использовать
 
-1. Определить пользовательскую задачу.
-2. Найти подходящий pattern.
+1. Определить задачу пользователя.
+2. Найти подходящий паттерн ниже.
 3. Проверить `rules/patterns.md`.
-4. Проверить компоненты в `knowledge/components-index.md`.
-5. Использовать `templates/page-template.md` или relevant example.
+4. Сверить компоненты с `knowledge/components-index.md`.
+5. Для формата вывода — `templates/page-template.md` или пример.
+
+Canonical links: `knowledge/sources.md`.
 
 ---
 
 # Starter Patterns
 
-## Page Header
+| Паттерн | Задача пользователя | Ключевые компоненты | Пример |
+|---------|---------------------|---------------------|--------|
+| Page Header | Начало страницы: title, description, page-level actions, breadcrumbs | Content Header, Button, Breadcrumbs | `examples/page-header.md` |
+| Data Table | Просмотр таблицы: sort, filter, bulk / row actions | Table, Button, Filter, Pagination, Empty State | Needs source |
+| Empty State | Пустой список, первый запуск, нет результатов фильтра | Illustration, Text, Button | Needs source |
+| Confirmation Flow | Подтверждение необратимого / критичного действия | Dialog, Button, Alert | Needs source |
+| Form Flow | Создание / редактирование сущности с валидацией и submit | Input, Select, Checkbox, Button, Inline Message | Needs source |
 
-Status: Starter  
-Example: `examples/page-header.md`
-
-Use for:
-
-- начало страницы;
-- title + description;
-- page-level actions;
-- breadcrumbs.
-
-Components:
-
-- Content Header
-- Button
-- Breadcrumbs
-
-Related:
-
-- Content Header
-- Navigation
-
-## Data Table
-
-Status: Starter  
-Example: `Unknown / Needs source`
-
-Use for:
-
-- просмотр табличных данных;
-- сортировка;
-- фильтрация;
-- bulk actions;
-- row actions.
-
-Components:
-
-- Table
-- Button
-- Filter
-- Pagination
-- Empty State
-
-Related:
-
-- Empty State
-- Toolbar
-
-## Empty State
-
-Status: Starter
-
-Use for:
-
-- пустой список;
-- первый запуск;
-- нет результатов после фильтрации;
-- нет прав доступа, если это не error state.
-
-Components:
-
-- Illustration
-- Text
-- Button
-
-Related:
-
-- Data Table
-- Search
-
-## Confirmation Flow
-
-Status: Starter
-
-Use for:
-
-- destructive action;
-- irreversible decision;
-- critical confirmation.
-
-Components:
-
-- Dialog
-- Button
-- Alert / Message
-
-Related:
-
-- Dialog
-- Notification
-
-## Form Flow
-
-Status: Starter
-
-Use for:
-
-- создание или редактирование сущности;
-- сбор данных;
-- validation;
-- submit/cancel flow.
-
-Components:
-
-- Input
-- Select
-- Checkbox
-- Button
-- Inline Message
-
-Related:
-
-- Dialog
-- Page Header
+Компоненты `Table`, `Filter`, `Pagination`, `Empty State`, `Illustration`, `Input`, `Select`, `Checkbox`, `Alert`, `Inline Message` пока не в `components-index.md` как Confirmed — проверять отдельно.
 
 ---
 
 # Agent Rules
 
-- Pattern не должен подменять компонент. Pattern описывает композицию.
-- Если задача решается одним компонентом, не создавать pattern.
-- Если pattern повторяется в нескольких продуктах, добавить его в индекс.
-- Если pattern зависит только от одного продукта, пометить это в notes и не выдавать за общий HRDS pattern.
+- Паттерн не подменяет компонент: он описывает композицию.
+- Задача решается одним компонентом → не создавать паттерн.
+- Паттерн повторяется в нескольких продуктах → добавить в индекс.
+- Паттерн зависит от одного продукта → пометить в notes, не выдавать за общий HRDS pattern.

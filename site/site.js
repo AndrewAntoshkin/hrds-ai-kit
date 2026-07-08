@@ -33,7 +33,17 @@
     });
   });
 
+  /** Актуальные счётчики из knowledge/*-index.md (v0.2) */
+  const ENGINE_STATS = {
+    confirmed: 5,  // Button, Card, List Item, Content Header, H2 — имена в Figma
+    starter: 10,   // 5 starter components + 5 starter patterns
+    gaps: 5,       // props/stories не подтверждены у 5 Confirmed components
+  };
+
+  const GAP_LABELS = ["PROPS?", "STORY?", "NODE?", "CODE?", "TOKEN?"];
+
   initPipeline();
+  initContextFlow();
   initEngineChart();
   initSkillDrawer();
 
@@ -46,7 +56,7 @@
 
     const statConfirmed = document.querySelector('[data-engine-stat="confirmed"]');
     const statStarter = document.querySelector('[data-engine-stat="starter"]');
-    const statUnknown = document.querySelector('[data-engine-stat="unknown"]');
+    const statGaps = document.querySelector('[data-engine-stat="gaps"]');
     const statsPanel = document.querySelector("[data-engine-stats]");
     const statRows = statsPanel
       ? Array.from(statsPanel.querySelectorAll(".stat-row"))
@@ -56,6 +66,10 @@
       ? Array.from(labelsPanel.querySelectorAll(".engine-label"))
       : [];
     const labelKeys = ["prompt", "component", "rules"];
+
+    if (statConfirmed) statConfirmed.textContent = String(ENGINE_STATS.confirmed);
+    if (statStarter) statStarter.textContent = String(ENGINE_STATS.starter);
+    if (statGaps) statGaps.textContent = String(ENGINE_STATS.gaps);
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const waves = [
@@ -72,8 +86,7 @@
       running: false,
       spotlight: 0,
       labelSpot: 0,
-      lastShuffle: 0,
-      lastLabelShuffle: 0,
+      gapLabelIdx: 0,
     };
 
     function setLabelSpotlight(key) {
@@ -84,49 +97,6 @@
       });
     }
 
-    function shuffleLabels() {
-      if (!labelsPanel || labelRows.length < 2 || reduceMotion) return;
-
-      const slots = ["12%", "22%", "85%"];
-      const shuffled = slots.slice().sort(() => Math.random() - 0.5);
-      const positions = new Map(
-        labelRows.map((label) => [label, label.getBoundingClientRect()])
-      );
-
-      labelRows.forEach((label, i) => {
-        label.style.top = shuffled[i];
-      });
-
-      labelRows.forEach((label) => {
-        const prev = positions.get(label);
-        const next = label.getBoundingClientRect();
-        const dy = prev.top - next.top;
-        if (Math.abs(dy) < 1) return;
-
-        label.style.transition = "none";
-        label.style.transform = `translateY(${dy}px)`;
-        requestAnimationFrame(() => {
-          label.style.transition =
-            "color 0.35s ease, opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)";
-          label.style.transform = "";
-        });
-      });
-    }
-
-    function tickStat(el, value) {
-      if (!el || el.textContent === value) return;
-      el.textContent = value;
-      el.classList.add("is-tick");
-      window.setTimeout(() => el.classList.remove("is-tick"), 180);
-    }
-
-    function pickHotKey() {
-      const roll = Math.random();
-      if (roll < 0.55) return "unknown";
-      if (roll < 0.8) return "starter";
-      return "confirmed";
-    }
-
     function setSpotlight(key) {
       statRows.forEach((row) => {
         const isHot = row.dataset.statKey === key;
@@ -135,43 +105,6 @@
       });
     }
 
-    function shuffleStatRows() {
-      if (!statsPanel || statRows.length < 2 || reduceMotion) return;
-
-      const positions = new Map(
-        statRows.map((row) => [row, row.getBoundingClientRect()])
-      );
-
-      const shuffled = statRows.slice();
-      for (let i = shuffled.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-      }
-
-      shuffled.forEach((row) => statsPanel.appendChild(row));
-
-      shuffled.forEach((row) => {
-        const prev = positions.get(row);
-        const next = row.getBoundingClientRect();
-        const dy = prev.top - next.top;
-        if (Math.abs(dy) < 1) return;
-
-        row.style.transition = "none";
-        row.style.transform = `translateY(${dy}px)`;
-        requestAnimationFrame(() => {
-          row.style.transition = "transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)";
-          row.style.transform = "";
-        });
-      });
-    }
-
-    function bumpStats(hotKey) {
-      tickStat(statConfirmed, String(3 + Math.floor(Math.random() * 5)));
-      tickStat(statStarter, String(8 + Math.floor(Math.random() * 18)));
-      tickStat(statUnknown, String(1 + Math.floor(Math.random() * 12)));
-      setSpotlight(hotKey || pickHotKey());
-      shuffleStatRows();
-    }
     let accent = "#ff4d00";
     let accentGlow = "rgba(255, 77, 0, 0.15)";
 
@@ -232,31 +165,22 @@
       ctx.lineTo(w, midY);
       ctx.stroke();
 
-      if (!reduceMotion && Math.random() < 0.01) {
-        const gapNum = 10 + Math.floor(Math.random() * 90);
-        state.pulses.push({ x: midX, label: `GAP_${gapNum}` });
-        bumpStats("unknown");
+      if (!reduceMotion && Math.random() < 0.008) {
+        const label = GAP_LABELS[state.gapLabelIdx % GAP_LABELS.length];
+        state.gapLabelIdx += 1;
+        state.pulses.push({ x: midX, label });
+        setSpotlight("gaps");
       }
 
-      if (!reduceMotion && state.time % 120 === 0) {
-        const keys = ["confirmed", "starter", "unknown"];
+      if (!reduceMotion && state.time % 150 === 0) {
+        const keys = ["confirmed", "starter", "gaps"];
         state.spotlight = (state.spotlight + 1) % keys.length;
         setSpotlight(keys[state.spotlight]);
       }
 
-      if (!reduceMotion && state.time % 90 === 0 && !state.pulses.length) {
+      if (!reduceMotion && state.time % 100 === 0 && !state.pulses.length) {
         state.labelSpot = (state.labelSpot + 1) % labelKeys.length;
         setLabelSpotlight(labelKeys[state.labelSpot]);
-      }
-
-      if (!reduceMotion && state.time - state.lastShuffle > 420) {
-        state.lastShuffle = state.time;
-        shuffleStatRows();
-      }
-
-      if (!reduceMotion && state.time - state.lastLabelShuffle > 520) {
-        state.lastLabelShuffle = state.time;
-        shuffleLabels();
       }
 
       state.pulses = state.pulses.filter((pulse) => {
@@ -337,13 +261,9 @@
             state.running = false;
             statRows.forEach((row) => {
               row.classList.remove("is-hot", "is-dim");
-              row.style.transform = "";
-              row.style.transition = "";
             });
             labelRows.forEach((label) => {
               label.classList.remove("is-active", "is-dim");
-              label.style.transform = "";
-              label.style.transition = "";
             });
           }
         });
@@ -466,6 +386,114 @@
     );
   }
 
+  function initContextFlow() {
+    const flow = document.querySelector("[data-context-flow]");
+    if (!flow) return;
+
+    const steps = Array.from(flow.querySelectorAll(".ctx-step"));
+    const kitBar = flow.querySelector(".ctx-kit-bar");
+    const rail = flow.querySelector(".ctx-scan-rail");
+    const progress = flow.querySelector(".ctx-scan-progress");
+    const dot = flow.querySelector(".ctx-scan-dot");
+    if (!steps.length || !kitBar || !rail || !progress || !dot) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      steps.forEach((step) => step.classList.add("is-done"));
+      kitBar.classList.add("is-active");
+      progress.style.width = "100%";
+      return;
+    }
+
+    const STEP_MS = 1000;
+    let active = -1;
+    let timer = null;
+
+    function moveTo(index) {
+      const railRect = rail.getBoundingClientRect();
+      let targetRect;
+
+      if (index < steps.length) {
+        targetRect = steps[index].getBoundingClientRect();
+      } else {
+        targetRect = kitBar.getBoundingClientRect();
+      }
+
+      const center = targetRect.left + targetRect.width / 2 - railRect.left;
+      const clamped = Math.max(0, Math.min(center, railRect.width));
+
+      dot.style.left = clamped + "px";
+      progress.style.width = clamped + "px";
+    }
+
+    function activate(index) {
+      steps.forEach((step, i) => {
+        step.classList.toggle("is-active", i === index);
+        step.classList.toggle("is-done", i < index);
+      });
+      kitBar.classList.toggle("is-active", index >= steps.length);
+      if (index < steps.length) {
+        kitBar.classList.remove("is-active");
+      }
+      moveTo(index);
+    }
+
+    function tick() {
+      active = (active + 1) % (steps.length + 2);
+
+      if (active === steps.length) {
+        steps.forEach((step) => {
+          step.classList.remove("is-active");
+          step.classList.add("is-done");
+        });
+        kitBar.classList.add("is-active");
+        moveTo(steps.length);
+      } else if (active === steps.length + 1) {
+        const railWidth = rail.getBoundingClientRect().width;
+        dot.style.left = railWidth + "px";
+        progress.style.width = railWidth + "px";
+        steps.forEach((step) => step.classList.add("is-done"));
+        kitBar.classList.add("is-active");
+      } else {
+        activate(active);
+      }
+    }
+
+    function start() {
+      if (timer) return;
+      flow.classList.add("is-running");
+      active = -1;
+      tick();
+      timer = setInterval(tick, STEP_MS);
+    }
+
+    function stop() {
+      if (!timer) return;
+      clearInterval(timer);
+      timer = null;
+      flow.classList.remove("is-running");
+    }
+
+    const runObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) start();
+          else stop();
+        });
+      },
+      { threshold: 0.35 }
+    );
+    runObserver.observe(flow);
+
+    window.addEventListener(
+      "resize",
+      () => {
+        if (active >= 0) moveTo(Math.min(active, steps.length));
+      },
+      { passive: true }
+    );
+  }
+
   function initSkillDrawer() {
     const drawer = document.querySelector("[data-skill-drawer]");
     const body = document.querySelector("[data-skill-drawer-body]");
@@ -494,7 +522,21 @@
           "rules/storybook.md",
         ],
         tags: ["inventory", "version drift", "detached", "deprecated", "variant", "Figma node"],
-        output: "## Component Inventory\n\n| Элемент | Компонент | Variant | Version issue |\n|---------|-----------|---------|---------------|\n| ...     | Button    | primary | detached      |",
+        output: `## Component Inventory
+
+| Элемент на экране | Компонент HRDS | Variant | Проблема |
+|-------------------|----------------|---------|----------|
+| «Сохранить» | Button | primary | OK |
+| «Отмена» | Button | secondary | OK |
+| Заголовок блока | Content Header | — | detached copy, не instance |
+| Строка списка | List Item | default | deprecated library v2.1 |
+
+## Version issues
+- Content Header: detached — заменить на instance из библиотеки
+- List Item: library v2.1 → актуальная v3.0
+
+## Needs review
+- Props Button (size, loading) — Storybook story не приложен`,
         pair: { skill: "pattern-checker", label: "Pattern Checker", note: "проверяет UX-паттерны, не версии компонентов" },
       },
       "pattern-checker": {
@@ -517,7 +559,18 @@
           "examples/",
         ],
         tags: ["page header", "empty state", "data table", "flow", "wrong pattern", "when to use"],
-        output: "## Pattern Fit\n\n**Используется:** Content Header\n**Нужно:** Page Header\n**Почему:** контекст уровня страницы + primary action",
+        output: `## Pattern Fit
+
+**Задача:** страница со списком сотрудников + действие «Добавить»
+
+**Используется:** Content Header внутри card
+**Нужно:** Page Header (Starter, см. examples/page-header.md)
+
+**Почему:** title и primary action относятся ко всей странице, не к секции внутри card. Нужны Breadcrumbs и h1 на уровне page.
+
+**Что заменить:**
+1. Вынести title + «Добавить» в Page Header
+2. Content Header оставить только для секций ниже (фильтры, таблица)`,
         pair: { skill: "component-checker", label: "Component Checker", note: "проверяет инстансы, не паттерны" },
       },
       "technical-analyst": {
@@ -541,7 +594,25 @@
           "templates/page-template.md",
         ],
         tags: ["handoff", "frame spec", "props", "states", "tokens", "gaps", "design-to-code"],
-        output: "## Frame Spec\n\n### Структура\n...\n\n### Компоненты\n| Компонент | Props | States |\n|-----------|-------|--------|\n| Button    | primary | default, loading |",
+        output: `## Frame Spec — «Список сотрудников»
+
+### Структура
+Page Header → Toolbar (фильтр) → Data Table → Pagination
+
+### Компоненты
+| Компонент | Props (proposed) | States | Source |
+|-----------|------------------|--------|--------|
+| Button | variant=primary | default | Figma Confirmed |
+| Content Header | title, description | — | Figma Confirmed |
+| Table | — | empty, loading | Starter, needs Storybook |
+
+### Tokens
+- background: semantic (не raw #fff)
+- spacing между секциями: Needs verification
+
+### Gaps
+- Table: нет story id в Storybook
+- Filter, Pagination: не в components-index как Confirmed`,
         pair: { skill: "design-review", label: "Design Review", note: "аудит и findings, не handoff-спека" },
       },
       "design-review": {
@@ -565,7 +636,21 @@
           "rules/accessibility.md",
         ],
         tags: ["audit", "critical", "major", "minor", "a11y", "consistency", "DS review"],
-        output: "## Findings\n\n### Critical\n- detached Button в primary action\n\n### Major\n- wrong pattern: Content Header\n\n## Questions\n- ...",
+        output: `## Findings
+
+### Critical
+- Primary action «Удалить» — detached Button, не из библиотеки HRDS
+
+### Major
+- Pattern: Content Header вместо Page Header на уровне страницы
+- Raw color #E5E5E5 вместо semantic token для border
+
+### Minor
+- Icon-only кнопка без aria-label
+
+## Questions
+- Подтвердить variant danger для «Удалить» в Storybook
+- Нужен ли Empty State для пустого списка?`,
         pair: { skill: "technical-analyst", label: "Technical Analyst", note: "спека для разработки, не чек-лист ревью" },
       },
       "prototype-builder": {
@@ -589,7 +674,25 @@
           "rules/accessibility.md",
         ],
         tags: ["prototype plan", "composition", "low-fi", "states", "implementation plan", "no prod code"],
-        output: "## Prototype Plan\n\n### Цель\n...\n\n### Композиция\nPage Header + Data Table + Empty State\n\n### Нужна проверка\n- props Button из Storybook",
+        output: `## Prototype Plan
+
+### Цель
+HR-менеджер просматривает список сотрудников и добавляет нового через форму.
+
+### Композиция
+Page Header (title + «Добавить») → Data Table → Empty State (если список пуст)
+
+### States
+- Table: loading, empty, default с данными
+- Button «Добавить»: default, disabled (нет прав)
+
+### Шаги (не production-код)
+1. Собрать Page Header по examples/page-header.md
+2. Table — Starter, сверить с Figma Patterns project
+3. Dialog + Form Flow для создания сотрудника
+
+### Needs review
+- Props Button loading — proposed, не из Storybook`,
         pair: { skill: "technical-analyst", label: "Technical Analyst", note: "детальная спека frame, не план прототипа" },
       },
     };

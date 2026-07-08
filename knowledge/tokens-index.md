@@ -1,175 +1,85 @@
 # Tokens Index
 
-Status: Starter  
-Purpose: быстрый индекс design tokens для AI-агентов.
+Status: Starter — реальные токены не подтверждены  
+Purpose: карта категорий токенов и правило именования. Список конкретных токенов заполняется по мере проверки в Figma Variables / коде.
+
+---
+
+> ВНИМАНИЕ
+> В этом файле НЕТ подтверждённых токенов HRDS.
+> Ни одно имя ниже нельзя выдавать в код как существующий токен.
+> Пока категория пуста — агент запрашивает Figma Variables или code reference и помечает значение `Unknown / Needs source`.
 
 ---
 
 # Источники
 
-Canonical links: `knowledge/sources.md`.
-
-Точный список Figma variables пока не подтвержден. Этот файл задает starter taxonomy.
+Canonical links: `knowledge/sources.md`. Точный список Figma Variables пока не извлечён.
 
 ---
 
-# Token Categories
+# Категории токенов
 
-## Color
+Это ожидаемые категории. Реальные имена и значения — только после проверки в источнике.
 
-Use for:
-
-- background;
-- text;
-- border;
-- icon;
-- status;
-- interactive states.
-
-Starter examples:
-
-```text
-color.background.primary
-color.background.secondary
-color.text.primary
-color.text.secondary
-color.border.default
-color.icon.primary
-color.action.primary
-color.status.error
-color.status.warning
-color.status.success
-```
-
-## Typography
-
-Use for:
-
-- headings;
-- body text;
-- captions;
-- labels;
-- button text.
-
-Starter examples:
-
-```text
-font.heading.lg
-font.heading.md
-font.body.md
-font.body.sm
-font.label.md
-font.caption.md
-```
-
-## Spacing
-
-Use for:
-
-- layout gaps;
-- component padding;
-- stack spacing;
-- section spacing.
-
-Starter examples:
-
-```text
-spacing.0
-spacing.1
-spacing.2
-spacing.3
-spacing.4
-spacing.6
-spacing.8
-spacing.12
-```
-
-## Radius
-
-Use for:
-
-- buttons;
-- inputs;
-- cards;
-- overlays.
-
-Starter examples:
-
-```text
-radius.none
-radius.sm
-radius.md
-radius.lg
-radius.full
-```
-
-## Elevation
-
-Use for:
-
-- popovers;
-- dialogs;
-- dropdowns;
-- floating panels.
-
-Starter examples:
-
-```text
-elevation.none
-elevation.sm
-elevation.md
-elevation.lg
-```
-
-## Motion
-
-Use for:
-
-- transitions;
-- overlays;
-- loading;
-- feedback.
-
-Starter examples:
-
-```text
-motion.duration.fast
-motion.duration.base
-motion.easing.standard
-```
+| Категория | Для чего | Статус |
+|-----------|----------|--------|
+| Color | background, text, border, icon, status, interactive states | Needs source |
+| Typography | headings, body, caption, label, button text | Needs source |
+| Spacing | layout gaps, padding, stack, section spacing | Needs source |
+| Radius | buttons, inputs, cards, overlays | Needs source |
+| Elevation | popovers, dialogs, dropdowns, floating panels | Needs source |
+| Motion | transitions, overlays, loading, feedback | Needs source |
 
 ---
 
-# Token Decision Rules
+# Confirmed Tokens
 
-- Не использовать raw hex, px, shadow values как финальное решение.
-- Raw value можно использовать только для поиска ближайшего токена.
-- Если токен не найден, агент должен предложить candidate token и отметить его как `proposed`.
-- Semantic token предпочтительнее primitive token.
-- Component-specific token допустим только если semantic token недостаточен.
+Пусто. Подтверждённые токены добавляются сюда по одному через `Mapping Template`.
+
+---
+
+# Правило именования
+
+Формат имени — по назначению, а не по значению. Точный синтаксис (dot / slash) выбирается по коду HRDS после проверки.
+
+```text
+<категория>.<назначение>.<модификатор>
+```
+
+Иллюстрация формата (НЕ реальные токены HRDS):
+
+```text
+color.text.<...>        # не #111827
+spacing.<step>          # не 16px
+radius.<size>           # не 8px
+```
+
+Правила именования и запреты: `rules/tokens.md`.
 
 ---
 
 # Mapping Template
 
+Заполнять только по подтверждённому источнику:
+
 ```yaml
-token: color.text.primary
+name: ""              # напр. color.text.primary — из Figma/кода, не выдумывать
 figma:
-  variable: ""
+  variable: ""        # имя Figma Variable
 code:
-  cssVariable: "--color-text-primary"
+  cssVariable: ""     # напр. --color-text-primary
   package: ""
 usage:
-  - body text
-  - default labels
-status: proposed
+  - ""
+status: proposed      # proposed → confirmed после проверки
 ```
 
 ---
 
 # Agent Rules
 
-- При генерации UI использовать токены, а не raw values.
-- При описании компонента перечислять ключевые tokens.
-- При изменении token taxonomy фиксировать решение в `knowledge/decision-log.md`.
-- После подтверждения реальных Figma variables заменить starter examples на confirmed tokens.
+- При генерации UI использовать токены, а не raw values (`rules/tokens.md`).
+- Если реального токена нет — предложить `proposed` и объяснить gap, но не выдавать за существующий.
+- Semantic token предпочтительнее primitive.
+- После подтверждения Figma Variables добавлять токен в `Confirmed Tokens` и фиксировать изменение taxonomy в `knowledge/decision-log.md`.
