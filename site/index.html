@@ -31,7 +31,8 @@
       </a>
       <nav class="nav-links" aria-label="Разделы">
         <a href="#problems" data-nav-link>Проблемы</a>
-        <a href="#features" data-nav-link>Решения</a>
+        <a href="#about" data-nav-link>Что это</a>
+        <a href="#scenarios" data-nav-link>Сценарии</a>
         <a href="#the-repo" data-nav-link>Структура</a>
         <a href="#guide" data-nav-link>Гайд</a>
         <a href="#first-run" data-nav-link>Запуск</a>
@@ -49,7 +50,8 @@
         <button class="mobile-menu-close" type="button" data-menu-close aria-label="Закрыть">×</button>
         <nav class="mobile-menu-links">
           <a href="#problems" data-menu-close>Проблемы</a>
-          <a href="#features" data-menu-close>Решения</a>
+          <a href="#about" data-menu-close>Что это</a>
+          <a href="#scenarios" data-menu-close>Сценарии</a>
           <a href="#the-repo" data-menu-close>Структура</a>
           <a href="#guide" data-menu-close>Гайд</a>
           <a href="#first-run" data-menu-close>Запуск</a>
@@ -141,6 +143,40 @@
         </div>
       </section>
 
+      <!-- ABOUT -->
+      <section id="about" class="section-pad bg-black about-section" data-section>
+        <div class="container">
+          <h2 class="headline-sm text-white reveal">Что это и зачем</h2>
+          <p class="body-lg text-ghost reveal">
+            HRDS AI Kit — не Figma, не Storybook и не npm-пакет. Это <strong class="text-white">контекстный слой</strong>
+            для AI: ссылки, индексы, правила и skills, которые направляют агента к проверяемым источникам.
+            Storybook отвечает «какой API у Button». Kit — «как агенту дойти до API и что пометить, если данных нет».
+          </p>
+        </div>
+        <div class="container about-grid stagger-parent">
+          <article class="about-card reveal">
+            <p class="about-num">01</p>
+            <h3>Что внутри</h3>
+            <p><code>knowledge/</code> — sources, indexes, decision-log. <code>rules/</code> — запреты для агента. <code>skills/</code> — готовые маршруты. <code>examples/</code> — формат описаний.</p>
+          </article>
+          <article class="about-card reveal">
+            <p class="about-num">02</p>
+            <h3>Зачем командам</h3>
+            <p>Без kit агент каждый раз выдумывает props, путает паттерны, не видит detached-инстансы. Kit снижает догадки — human review остаётся.</p>
+          </article>
+          <article class="about-card reveal">
+            <p class="about-num">03</p>
+            <h3>Кому</h3>
+            <p>Дизайнеры — review и drift. Разработчики — handoff spec. DS — пополнение индексов Starter → Confirmed.</p>
+          </article>
+          <article class="about-card reveal">
+            <p class="about-num">04</p>
+            <h3>Как за 30 секунд</h3>
+            <p>Kit в workspace → <code>/skill-name</code> → Figma URL с <code>?node-id=</code> → проверить <code>Needs review</code> в ответе.</p>
+          </article>
+        </div>
+      </section>
+
       <!-- FEATURES -->
       <section id="features" class="features-section" data-section>
         <div class="features-bg" aria-hidden="true">
@@ -221,6 +257,111 @@
               </li>
             </ol>
           </div>
+        </div>
+      </section>
+
+      <!-- SCENARIOS -->
+      <section id="scenarios" class="section-pad bg-off-white scenarios-section" data-section>
+        <div class="container">
+          <h2 class="headline-sm reveal">Сценарии применения</h2>
+          <p class="body-lg reveal">
+            Пять типовых задач — copy-paste промпт, ожидаемый вывод, следующий шаг.
+            Замени <code>…</code> на реальный Figma node URL. Подробнее в <code>examples/scenarios.md</code>.
+          </p>
+        </div>
+
+        <div class="container fr-section reveal">
+          <article class="scenario-card">
+            <div class="scenario-head">
+              <p class="scenario-label">Сценарий 01</p>
+              <h3>Review макета</h3>
+              <p class="scenario-who">Дизайнер · перед handoff · <code>/design-review</code></p>
+            </div>
+            <pre class="fr-code"><code>/design-review
+
+Аудит frame:
+https://figma.com/design/…?node-id=12-345
+
+Components + patterns + tokens + a11y.
+Findings: Critical / Major / Minor.</code></pre>
+            <p class="fr-note">→ findings + Questions → правки в Figma → technical-analyst</p>
+          </article>
+
+          <article class="scenario-card">
+            <div class="scenario-head">
+              <p class="scenario-label">Сценарий 02</p>
+              <h3>Handoff разработчику</h3>
+              <p class="scenario-who">Дизайнер / аналитик · <code>/technical-analyst</code></p>
+            </div>
+            <pre class="fr-code"><code>/technical-analyst
+
+Frame для разработки:
+https://figma.com/design/…?node-id=12-345
+
+Layout, components, props, states, tokens, gaps.</code></pre>
+            <p class="fr-note">→ spec с open questions → сверка props в Storybook 13.3.0</p>
+          </article>
+
+          <article class="scenario-card">
+            <div class="scenario-head">
+              <p class="scenario-label">Сценарий 03</p>
+              <h3>Detached и drift</h3>
+              <p class="scenario-who">Дизайнер / DS · <code>/component-checker</code></p>
+            </div>
+            <pre class="fr-code"><code>/component-checker
+
+Проверь инстансы:
+https://figma.com/design/…?node-id=12-345
+
+Detached, deprecated, wrong variant, 13.3.0 drift.</code></pre>
+            <p class="fr-note">→ inventory + что заменить → swap в Figma</p>
+          </article>
+
+          <article class="scenario-card">
+            <div class="scenario-head">
+              <p class="scenario-label">Сценарий 04</p>
+              <h3>Неправильный паттерн</h3>
+              <p class="scenario-who">Дизайнер / продукт · <code>/pattern-checker</code></p>
+            </div>
+            <pre class="fr-code"><code>/pattern-checker
+
+Экран «Список сотрудников»:
+https://figma.com/design/…?node-id=12-345
+
+Какой паттерн? Page Header vs Content Header?
+Если misfit — что из patterns-index.</code></pre>
+            <p class="fr-note">→ fit / misfit + рекомендация → prototype-builder</p>
+          </article>
+
+          <article class="scenario-card">
+            <div class="scenario-head">
+              <p class="scenario-label">Сценарий 05</p>
+              <h3>Сборка нового экрана</h3>
+              <p class="scenario-who">Дизайнер / dev · <code>/prototype-builder</code></p>
+            </div>
+            <pre class="fr-code"><code>/prototype-builder
+
+Экран «Создание заявки на отпуск».
+Поля: тип, даты, комментарий.
+Primary «Отправить», secondary «Отмена».
+
+План из HRDS components + patterns. Без prod-кода.</code></pre>
+            <p class="fr-note">→ Prototype Plan + gaps → макет → technical-analyst</p>
+          </article>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">Цепочка · от review до кода</h3>
+          <ol class="scenario-pipeline">
+            <li><code>/design-review</code> — замечания</li>
+            <li>правки в Figma</li>
+            <li><code>/component-checker</code> — инстансы актуальны</li>
+            <li><code>/pattern-checker</code> — паттерн верный</li>
+            <li><code>/technical-analyst</code> — handoff spec</li>
+            <li>human review props в Storybook</li>
+            <li>код в продуктовом репо</li>
+          </ol>
+          <p class="fr-lead">Kit покрывает шаги 1–5. Шаги 6–7 — ответственность команды.</p>
         </div>
       </section>
 
@@ -374,7 +515,8 @@
 
         <div class="container fr-section reveal">
           <h3 class="fr-title">001 / Что вставить в чат</h3>
-          <div class="fr-grid fr-prompts">
+          <p class="fr-lead">Все пять skills. В каждом промпте — node-specific Figma URL или описание экрана.</p>
+          <div class="fr-grid fr-prompts fr-prompts--5">
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/component-checker</code></h4>
               <pre class="fr-code"><code>/component-checker
@@ -384,6 +526,16 @@ https://figma.com/design/…?node-id=12-345
 
 Сверь инстансы с components-index и 13.3.0.</code></pre>
               <p class="fr-note">→ inventory, detached, deprecated, drift</p>
+            </article>
+            <article class="fr-card">
+              <h4 class="fr-card-title"><code>/pattern-checker</code></h4>
+              <pre class="fr-code"><code>/pattern-checker
+
+Экран:
+https://figma.com/design/…?node-id=12-345
+
+Верный ли паттерн? Что из patterns-index?</code></pre>
+              <p class="fr-note">→ fit / misfit + рекомендация</p>
             </article>
             <article class="fr-card">
               <h4 class="fr-card-title"><code>/technical-analyst</code></h4>
@@ -404,6 +556,16 @@ https://figma.com/design/…?node-id=12-345
 
 Components + patterns + tokens + a11y.</code></pre>
               <p class="fr-note">→ Critical / Major / Minor</p>
+            </article>
+            <article class="fr-card">
+              <h4 class="fr-card-title"><code>/prototype-builder</code></h4>
+              <pre class="fr-code"><code>/prototype-builder
+
+Экран «Создание заявки».
+Поля + primary/secondary actions.
+
+План из HRDS. Без prod-кода.</code></pre>
+              <p class="fr-note">→ Prototype Plan + gaps</p>
             </article>
           </div>
         </div>
@@ -440,6 +602,60 @@ Components + patterns + tokens + a11y.</code></pre>
             <li><span>04</span><span><strong>Examples</strong> — формат вывода, не source of truth</span></li>
             <li><span>05</span><span><strong>Decision log</strong> — принятые исключения</span></li>
           </ol>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">005 / Что куда писать</h3>
+          <p class="fr-lead">Куда добавлять новые знания. <code>examples/</code> — формат, не source of truth.</p>
+          <div class="map-table-wrap">
+            <table class="map-table">
+              <thead>
+                <tr>
+                  <th scope="col">Добавляешь</th>
+                  <th scope="col">Файл</th>
+                  <th scope="col">Когда</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Canonical URL</td>
+                  <td><code>knowledge/sources.md</code></td>
+                  <td>Новый источник Figma / Storybook / npm</td>
+                </tr>
+                <tr>
+                  <td>Имя компонента</td>
+                  <td><code>knowledge/components-index.md</code></td>
+                  <td>Компонент в scope kit</td>
+                </tr>
+                <tr>
+                  <td>Имя паттерна</td>
+                  <td><code>knowledge/patterns-index.md</code></td>
+                  <td>Паттерн в scope kit</td>
+                </tr>
+                <tr>
+                  <td>Архитектурное решение</td>
+                  <td><code>knowledge/decision-log.md</code></td>
+                  <td>Принятое исключение или правило</td>
+                </tr>
+                <tr>
+                  <td>Запрет для агента</td>
+                  <td><code>rules/&lt;topic&gt;.md</code></td>
+                  <td>Новое ограничение поведения</td>
+                </tr>
+                <tr>
+                  <td>Новый workflow</td>
+                  <td><code>skills/&lt;name&gt;/SKILL.md</code></td>
+                  <td>Типовая задача с маршрутом</td>
+                </tr>
+                <tr>
+                  <td>Развёрнутое описание</td>
+                  <td><code>examples/&lt;name&gt;.md</code></td>
+                  <td>По <code>templates/</code>, после верификации</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="fr-note">Starter → Confirmed: Figma node + Storybook/code → обновить индекс → заполнить example → явные gaps.</p>
         </div>
 
         <div class="container fr-section reveal">
@@ -513,11 +729,13 @@ Open: story в Storybook 13.3.0</code></pre>
               <li><span>001</span> <code>knowledge/</code> — sources, indexes, decision-log</li>
               <li><span>002</span> <code>rules/</code> — ограничения для агента</li>
               <li><span>003</span> <code>skills/</code> — component-checker, pattern-checker, technical-analyst, design-review, prototype-builder</li>
-              <li><span>004</span> <code>examples/</code> — эталонные разборы</li>
-              <li><span>005</span> Storybook 13.3.0 — canonical API</li>
-              <li><span>006</span> Figma library HRDS — инстансы</li>
-              <li><span>007</span> Starter помечен — требует проверки</li>
-              <li><span>008</span> Не замена Figma / Storybook / кода</li>
+              <li><span>004</span> <code>examples/</code> — сценарии и эталоны формата</li>
+              <li><span>005</span> <code>templates/</code> — шаблоны для новых examples</li>
+              <li><span>006</span> <code>getting-started.md</code> — гайд для людей</li>
+              <li><span>007</span> Storybook 13.3.0 — canonical API</li>
+              <li><span>008</span> Figma library HRDS — инстансы</li>
+              <li><span>009</span> Starter помечен — требует проверки</li>
+              <li><span>010</span> Не замена Figma / Storybook / кода</li>
             </ul>
             <p class="start-note">MCP Figma и Storybook — плюс, не обязательны для rules и индексов.</p>
           </aside>
@@ -557,6 +775,18 @@ Open: story в Storybook 13.3.0</code></pre>
               <summary><span class="faq-q">Q.007 /</span> Что kit не делает?</summary>
               <p>Не полный каталог HRDS. Не автопилот. Не замена human DS review. Не доказательство существования prop без источника.</p>
             </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.008 /</span> Куда писать новые данные?</summary>
+              <p>URL → <code>sources.md</code>. Имя компонента/паттерна → индекс. Решение → <code>decision-log.md</code>. Запрет → <code>rules/</code>. Развёрнутое описание → <code>examples/</code> по шаблону. Не копировать examples в код — это формат.</p>
+            </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.009 /</span> С чего начать на реальном экране?</summary>
+              <p>Открой frame в Figma → скопируй URL с <code>node-id</code> → <code>/design-review</code> или <code>/component-checker</code> → исправь findings → <code>/technical-analyst</code> для handoff. Сценарии в <code>examples/scenarios.md</code>.</p>
+            </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.010 /</span> Кто поддерживает kit?</summary>
+              <p>DS / платформа — индексы и Starter → Confirmed. Продуктовые команды — используют skills и закрывают Needs review по Storybook. Kit v0.2 — pilot: 5 Confirmed components, 5 Starter patterns.</p>
+            </details>
           </div>
           <div class="faq-cta reveal">
             <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
@@ -589,6 +819,8 @@ Open: story в Storybook 13.3.0</code></pre>
         <nav class="footer-nav" aria-label="Footer">
           <a href="https://hrds.yandex-team.ru" target="_blank" rel="noopener noreferrer">Storybook</a>
           <a href="https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto" target="_blank" rel="noopener noreferrer">Figma</a>
+          <a href="#about">Что это</a>
+          <a href="#scenarios">Сценарии</a>
           <a href="#first-run">Запуск</a>
           <a href="#guide">Гайд</a>
           <a href="#start">Старт</a>

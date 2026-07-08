@@ -14,6 +14,10 @@ Skills подключены через `.cursor/skills/`. В чате:
 
 Или в тексте: «Проверь паттерн по `skills/pattern-checker/SKILL.md`».
 
+Подробные сценарии с промптами: [examples/scenarios.md](../examples/scenarios.md).
+
+Полный гайд: [knowledge/getting-started.md](../knowledge/getting-started.md).
+
 ## Список
 
 | Skill | Назначение |

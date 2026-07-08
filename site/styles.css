@@ -1567,6 +1567,220 @@ html.js .feature-item.in-view {
   color: var(--color-ghost-grey);
 }
 
+/* ---- about ---- */
+.about-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.about-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .about-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1100px) {
+  .about-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.about-card {
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  background: var(--color-black-deep);
+}
+
+.about-num {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption-10);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.about-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: var(--text-body-20);
+  font-weight: 500;
+  color: var(--color-white);
+}
+
+.about-card p {
+  margin: 0;
+  font-size: var(--text-body-10);
+  line-height: 1.5;
+  color: var(--color-ghost-grey);
+}
+
+.about-card code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-white);
+}
+
+/* ---- scenarios ---- */
+.scenarios-section {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.scenarios-section .fr-section:first-of-type {
+  margin-top: 2.5rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+.scenarios-section .fr-section {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .scenarios-section .fr-section:first-of-type {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .scenarios-section .fr-section:first-of-type {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.scenario-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: var(--color-white);
+}
+
+.scenario-head {
+  margin-bottom: 1rem;
+}
+
+.scenario-label {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption-10);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-dark-grey);
+}
+
+.scenario-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: var(--text-body-20);
+  font-weight: 500;
+  color: var(--color-black-deep);
+}
+
+.scenario-who {
+  margin: 0;
+  font-size: var(--text-body-10);
+  color: var(--color-dark-grey);
+}
+
+.scenario-who code {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+}
+
+.scenario-pipeline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  counter-reset: pipe;
+}
+
+.scenario-pipeline li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: var(--color-white);
+  font-size: var(--text-body-10);
+  color: var(--color-black);
+  counter-increment: pipe;
+}
+
+.scenario-pipeline li::before {
+  content: counter(pipe, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption-10);
+  color: var(--color-dark-grey);
+  flex-shrink: 0;
+}
+
+.scenario-pipeline code {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+}
+
+.map-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  background: var(--color-white);
+}
+
+.map-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-body-10);
+}
+
+.map-table th,
+.map-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.map-table th {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption-10);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-dark-grey);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.map-table tr:last-child td {
+  border-bottom: none;
+}
+
+.map-table code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--color-black-deep);
+}
+
+.fr-prompts--5 {
+  margin-top: 0;
+}
+
+@media (min-width: 900px) {
+  .fr-prompts--5 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .fr-prompts--5 { grid-template-columns: repeat(5, 1fr); }
+}
+
+@media (max-width: 1199px) {
+  .fr-prompts--5 .fr-code {
+    font-size: 0.72rem;
+  }
+}
+
 /* ---- first run (light) ---- */
 .first-run-section {
   border-top: 1px solid rgba(0, 0, 0, 0.08);
