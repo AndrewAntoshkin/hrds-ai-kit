@@ -1,517 +1,605 @@
 <!doctype html>
-<html lang="ru" data-theme="braun">
+<html lang="ru" data-theme="tca">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HRDS AI Kit — контекст дизайн-системы для AI</title>
+    <title>HRDS AI Kit — контекст дизайн-системы, решённый один раз</title>
     <meta
       name="description"
-      content="HRDS AI Kit — набор файлов, дающий AI-агенту контекст дизайн-системы HRDS: источники, индексы, правила, примеры и skills. Документация: что это, как работает и как использовать."
+      content="HRDS AI Kit — agent-native context layer для дизайн-системы HR Tech. Решения приняты один раз: Figma → Storybook → Code. Агент не выдумывает props."
     />
+    <link rel="stylesheet" href="./fonts.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <nav class="site-nav" aria-label="Навигация">
-      <div class="page-shell nav-shell">
-        <a class="brand" href="#top">
-          <span class="brand-icon" aria-hidden="true"></span>
-          <span class="brand-name">hrds-ai-kit</span>
+    <a class="skip-link" href="#main">К содержимому</a>
+
+    <header class="nav-pill" data-nav-pill>
+      <a class="nav-logo" href="#top" aria-label="HRDS AI Kit">
+        <span class="nav-logo-mark" aria-hidden="true"></span>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="#problems" data-nav-link>Проблемы</a>
+        <a href="#features" data-nav-link>Решения</a>
+        <a href="#the-repo" data-nav-link>Структура</a>
+        <a href="#guide" data-nav-link>Гайд</a>
+        <a href="#first-run" data-nav-link>Запуск</a>
+        <a href="#start" data-nav-link>Старт</a>
+        <a href="#faq" data-nav-link>FAQ</a>
+      </nav>
+      <button class="nav-menu-btn" type="button" aria-expanded="false" aria-label="Открыть меню" data-menu-toggle>
+        <span>Menu</span>
+      </button>
+    </header>
+
+    <div class="mobile-menu" data-mobile-menu hidden>
+      <div class="mobile-menu-backdrop" data-menu-close></div>
+      <div class="mobile-menu-panel">
+        <button class="mobile-menu-close" type="button" data-menu-close aria-label="Закрыть">×</button>
+        <nav class="mobile-menu-links">
+          <a href="#problems" data-menu-close>Проблемы</a>
+          <a href="#features" data-menu-close>Решения</a>
+          <a href="#the-repo" data-menu-close>Структура</a>
+          <a href="#guide" data-menu-close>Гайд</a>
+          <a href="#first-run" data-menu-close>Запуск</a>
+          <a href="#start" data-menu-close>Старт</a>
+          <a href="#faq" data-menu-close>FAQ</a>
+        </nav>
+        <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|архив">
+          <span>Скачать</span><span>архив</span>
         </a>
-        <div class="nav-links">
-          <a href="#flow">Как работает</a>
-          <a href="#examples">Примеры</a>
-          <a href="#skills">Skills</a>
-          <a href="#core">Ядро</a>
-          <a href="#faq">FAQ</a>
-        </div>
-        <div class="nav-actions">
-          <a class="btn-secondary btn-nav" href="#use">Гайд</a>
-          <a class="btn-primary btn-nav" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip">Скачать</a>
-        </div>
       </div>
-    </nav>
+    </div>
 
-    <main id="top">
-      <section class="hero">
-        <div class="hero-bg" aria-hidden="true"></div>
-        <div class="page-shell hero-centered ex-hero-load">
-          <span class="hero-badge"><span class="badge-dot"></span>v0.2 · Compact Pilot · документация</span>
-          <h1>Контекст HRDS для <span class="h1-accent">AI-агентов</span></h1>
-          <p class="hero-lead">
-            HRDS AI Kit — это набор файлов, который даёт AI-агенту контекст дизайн-системы HRDS:
-            где брать компоненты, паттерны и токены и по каким правилам работать. Если подтверждённых
-            данных нет, агент пишет <code>Needs review</code>, а не придумывает props.
+    <main id="main">
+      <!-- HERO -->
+      <section id="top" class="hero-split" data-section>
+        <div class="hero-left">
+          <p class="eyebrow reveal">Решено один раз. Зафиксировано.</p>
+          <h1 class="headline reveal">HRDS-контекст, который не приходится собирать заново.</h1>
+          <p class="body-lg reveal">
+            Источники, индексы, правила и skills. Каждый сложный выбор — Figma node, Storybook story,
+            mapping props — принят один раз и зафиксирован. Без kit агент каждый раз выдаёт другой API.
+            Здесь маршрут уже решён.
           </p>
-          <p class="hero-lead" style="--reveal-delay: 40ms">
-            Ниже — как это устроено и как этим пользоваться. Kit не заменяет Figma, Storybook или код;
-            он направляет агента к проверяемым источникам.
+          <p class="audience reveal">
+            Для команд, работающих с Figma, Storybook и <code>@yandex-int/hr-components</code>.
+            Не замена Storybook.
           </p>
-          <div class="hero-actions">
-            <a class="btn-primary btn-large" href="#use">Как использовать</a>
-            <a class="btn-secondary btn-large" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip">Скачать архив</a>
+          <div class="hero-cta reveal">
+            <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
+              <span>Скачать</span><span>kit</span>
+            </a>
+            <a class="btn-tca btn-tca--ghost" href="#start" data-split-button data-parts="Как|подключить">
+              <span>Как</span><span>подключить</span>
+            </a>
           </div>
-          <div class="hero-pills">
-            <span>Cursor</span>
-            <span>Claude Code</span>
-            <span>Copilot</span>
-            <span>MCP</span>
-          </div>
-        </div>
-
-        <div class="page-shell hero-visual ex-hero-load" style="animation-delay: 0.12s">
-          <div class="device-shell">
-            <div class="context-flow" data-context-flow aria-hidden="true">
-              <div class="ctx-steps">
-                <article class="ctx-step" data-ctx-step="0">
-                  <div class="ctx-step-card">
-                    <strong>Figma</strong>
-                    <em>node URL</em>
-                  </div>
-                </article>
-                <article class="ctx-step" data-ctx-step="1">
-                  <div class="ctx-step-card">
-                    <strong>Storybook</strong>
-                    <em>story · props</em>
-                  </div>
-                </article>
-                <article class="ctx-step" data-ctx-step="2">
-                  <div class="ctx-step-card">
-                    <strong>Production</strong>
-                    <em>code · deploy</em>
-                  </div>
-                </article>
-              </div>
-              <div class="ctx-scan-rail">
-                <span class="ctx-scan-progress"></span>
-                <span class="ctx-scan-dot"></span>
-              </div>
-              <div class="ctx-kit-rail">
-                <div class="ctx-kit-bar">
-                  <span class="ctx-kit-label">HRDS AI KIT</span>
-                  <span class="ctx-kit-sub">rules · indexes · examples · skills</span>
-                </div>
-              </div>
+          <div class="status-bar reveal" aria-label="Статус kit">
+            <div class="status-grid">
+              <span>INPUT VERIFIED</span>
+              <span>LOC:ROOT</span>
+              <span>SN: HRDS-AI-2026</span>
+              <span class="status-active">STATUS: ACTIVE<span class="status-ping" aria-hidden="true"></span></span>
+              <span>v0.2</span>
+              <span>STORYBOOK 13.3.0</span>
+              <span>PKG: HR-COMPONENTS</span>
+              <span class="status-cursor">TS: STRICT<span class="cursor-blink" aria-hidden="true"></span></span>
             </div>
+            <p class="status-hint">CLICK &amp; HOLD</p>
           </div>
         </div>
+        <div class="hero-right">
+          <div class="spiral-scene" data-spiral-scene aria-hidden="true">
+            <span class="cursor-label" data-cursor-label>Click &amp; hold</span>
+          </div>
+        </div>
+        <button class="scroll-cue" type="button" aria-label="К следующему разделу" data-scroll-cue>
+          <span class="scroll-cue-bar" aria-hidden="true"></span>
+        </button>
       </section>
 
-      <section id="flow" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Как работает</span>
-          <h2 class="section-title reveal">Маршрут одной задачи</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            На каждой задаче агент проходит один и тот же путь: source → индекс → правила → skill → вывод
-            с честными gaps. Шаги не пропускаются, поэтому ответ опирается на источник, а не на догадку.
-          </p>
-
-          <div class="pipeline reveal" data-pipeline style="--reveal-delay: 120ms">
-            <div class="pipeline-line">
-              <span class="pipeline-progress"></span>
-              <span class="pipeline-dot"></span>
-            </div>
-            <div class="pipeline-steps stagger-parent">
-              <article class="pipe-step">
-                <span class="pipe-num"><span class="pipe-digit">01</span><span class="pipe-check" aria-hidden="true"></span></span>
-                <span class="pipe-node">Figma node</span>
-                <p>node-specific URL как источник структуры и variants</p>
-              </article>
-              <article class="pipe-step">
-                <span class="pipe-num"><span class="pipe-digit">02</span><span class="pipe-check" aria-hidden="true"></span></span>
-                <span class="pipe-node">Storybook</span>
-                <p>story id, props, controls и реальные examples</p>
-              </article>
-              <article class="pipe-step">
-                <span class="pipe-num"><span class="pipe-digit">03</span><span class="pipe-check" aria-hidden="true"></span></span>
-                <span class="pipe-node">Code import</span>
-                <p>точный import и API из <code>@hrds/react</code></p>
-              </article>
-              <article class="pipe-step">
-                <span class="pipe-num"><span class="pipe-digit">04</span><span class="pipe-check" aria-hidden="true"></span></span>
-                <span class="pipe-node">Props</span>
-                <p>сверка Figma property → prop → control</p>
-              </article>
-              <article class="pipe-step">
-                <span class="pipe-num"><span class="pipe-digit">05</span><span class="pipe-check" aria-hidden="true"></span></span>
-                <span class="pipe-node">Example</span>
-                <p>эталонный формат вывода + review notes</p>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="value" class="section split-section">
-        <div class="page-shell split-grid">
-          <div class="engine-panel reveal" style="--reveal-delay: 0ms">
-            <div class="engine-box">
-              <div class="engine-header">
-                <span>CONTEXT ROUTE <span class="engine-tag">V0.2</span></span>
-                <span class="engine-status">Figma → Storybook → Code</span>
-              </div>
-              <div class="engine-body">
-                <span class="engine-corner engine-corner-tl" aria-hidden="true"></span>
-                <span class="engine-corner engine-corner-tr" aria-hidden="true"></span>
-                <span class="engine-corner engine-corner-bl" aria-hidden="true"></span>
-                <span class="engine-corner engine-corner-br" aria-hidden="true"></span>
-                <div class="engine-labels" data-engine-labels>
-                  <span class="engine-label" data-label-key="prompt" style="top: 12%">SOURCE</span>
-                  <span class="engine-label" data-label-key="component" style="top: 22%">INDEX</span>
-                  <span class="engine-label" data-label-key="rules" style="top: 85%">RULES</span>
-                </div>
-                <div class="engine-stats" data-engine-stats>
-                  <div class="stat-row" data-stat-key="confirmed"><span>CONFIRMED</span><strong data-engine-stat="confirmed">5</strong></div>
-                  <div class="stat-row" data-stat-key="starter"><span>STARTER</span><strong data-engine-stat="starter">10</strong></div>
-                  <div class="stat-row" data-stat-key="gaps"><span>GAPS</span><strong data-engine-stat="gaps">5</strong></div>
-                </div>
-                <canvas class="engine-canvas" data-engine-canvas aria-hidden="true"></canvas>
-              </div>
-            </div>
-          </div>
-
-          <div class="split-copy">
-            <span class="label reveal">Принцип</span>
-            <h2 class="section-title reveal">Без догадок</h2>
-            <p class="section-lead reveal" style="--reveal-delay: 180ms">
-              Агент обязан проверить source, индекс и rules. Неподтверждённое помечается
-              <code>Unknown</code> или <code>Needs review</code> — не выдаётся за факт.
+      <!-- PROBLEMS -->
+      <section id="problems" class="section-pad bg-off-white problems-split" data-section aria-label="Типичные проблемы">
+        <div class="container problems-split-grid">
+          <aside class="problems-panel reveal" data-problems-panel>
+            <p class="problems-panel-label">Common problems</p>
+            <ol class="problems-list" data-problems-list>
+              <li class="problems-line"><span class="problems-num">001</span><span class="problems-text">Агент придумывает props без Storybook</span><span class="problems-time">~каждый запрос</span></li>
+              <li class="problems-line"><span class="problems-num">002</span><span class="problems-text">Content Header вместо Page Header</span><span class="problems-time">~review</span></li>
+              <li class="problems-line"><span class="problems-num">003</span><span class="problems-text">Detached / deprecated инстансы в Figma</span><span class="problems-time">~drift</span></li>
+              <li class="problems-line"><span class="problems-num">004</span><span class="problems-text">Figma ↔ Storybook ↔ Code расходятся</span><span class="problems-time">~конфликт</span></li>
+              <li class="problems-line"><span class="problems-num">005</span><span class="problems-text">Raw hex вместо semantic tokens</span><span class="problems-time">~2 hrs</span></li>
+              <li class="problems-line"><span class="problems-num">006</span><span class="problems-text">Design-to-code без node-specific URL</span><span class="problems-time">~gaps</span></li>
+              <li class="problems-line"><span class="problems-num">007</span><span class="problems-text">Button вместо Link в тексте</span><span class="problems-time">~wrong</span></li>
+              <li class="problems-line"><span class="problems-num">008</span><span class="problems-text">Handoff без states и open questions</span><span class="problems-time">~1 hr</span></li>
+              <li class="problems-line problems-total"><span class="problems-num">∑</span><span class="problems-text">Estimated time lost</span><span class="problems-time">~2–4 hrs / frame<span class="problems-cursor" aria-hidden="true"></span></span></li>
+            </ol>
+          </aside>
+          <div class="problems-copy reveal">
+            <h2 class="headline-sm">Каждый frame без контекста стоит часов. Каждый раз.</h2>
+            <p class="body-lg">
+              Лёгкое вроде бы: «опиши экран по HRDS». А дальше — агент выдумывает variants, путает паттерны,
+              не видит detached-инстансы и не сверяет props со Storybook. Разработчик получает spec с догадками.
+              Дизайнер — review с теми же замечаниями снова.
             </p>
-            <div class="feature-stack stagger-parent">
-              <article class="feature-card">
-                <h3>Source first</h3>
-                <p>Canonical links в <code>knowledge/sources.md</code>. Figma node URL для design-to-code.</p>
-              </article>
-              <article class="feature-card">
-                <h3>Rules before output</h3>
-                <p>AI, Figma, Storybook, components, patterns, tokens, accessibility — task-specific guardrails.</p>
-              </article>
-              <article class="feature-card">
-                <h3>Gaps, not guesses</h3>
-                <p>Если props или story не подтверждены, агент перечисляет gaps вместо выдуманного API.</p>
-              </article>
+            <p class="body-lg">
+              Это та работа, на которую никто не закладывает время — и которую все делают заново на каждом экране.
+              Часы уходят до того, как начинается реальная задача.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="features-section" data-section>
+        <div class="features-bg" aria-hidden="true">
+          <div class="features-bg-sticky">
+            <div class="features-glyphs" data-glyphs-field>
+              <span class="cursor-label" data-cursor-label>Click</span>
+            </div>
+          </div>
+        </div>
+        <div class="features-grid">
+          <div class="features-col">
+            <header class="features-intro">
+              <h2 class="features-title reveal">
+                Каждое решение уже принято.<br />Можно переходить к работе.
+              </h2>
+              <p class="features-lead reveal">
+                HRDS AI Kit — семантический слой над дизайн-системой HR Tech. Сотни выборов — источники,
+                mapping, статусы, skills — зафиксированы в v0.2 pilot. Не каталог на замену Storybook.
+                Положи рядом с репо, добавь в workspace — маршрут готов.
+              </p>
+            </header>
+            <ol class="features-list stagger-parent">
+              <li class="feature-item reveal">
+                <p class="feature-heading">001 / Source-first routing</p>
+                <p class="feature-copy">
+                  Canonical links в <code>knowledge/sources.md</code>. Figma node URL обязателен для design-to-code.
+                  Storybook 13.3.0 и <code>@yandex-int/hr-components</code> — для API.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">002 / Component mapping</p>
+                <p class="feature-copy">
+                  Явная цепочка: Figma property → Storybook control → code import → example. Без источника —
+                  <code>Needs review</code>, не догадка.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">003 / Agent-native</p>
+                <p class="feature-copy">
+                  Попроси агента описать HRDS с нуля — получишь другой API каждый раз. Здесь решения приняты:
+                  <code>rules/</code> + <code>skills/</code> + <code>.cursor/skills/</code>. Без drift.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">004 / Version drift detection</p>
+                <p class="feature-copy">
+                  <code>component-checker</code> ловит detached, deprecated и foreign instances. Сверка с библиотекой
+                  13.3.0 и decision-log.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">005 / Pattern fit</p>
+                <p class="feature-copy">
+                  <code>pattern-checker</code> отделяет Page Header от Content Header, Empty State от Error — и подсказывает
+                  замену.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">006 / Frame spec для разработки</p>
+                <p class="feature-copy">
+                  <code>technical-analyst</code> выдаёт handoff: components, props, states, tokens, behavior, gaps — без
+                  выдуманной логики.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">007 / Gaps, not guesses</p>
+                <p class="feature-copy">
+                  Starter и Proposed явно помечены. Confirmed — только имя из Figma metadata. Props не выдаются за факт
+                  без Storybook/code.
+                </p>
+              </li>
+              <li class="feature-item reveal">
+                <p class="feature-heading">008 / Подключение за три шага</p>
+                <p class="feature-copy">
+                  Скачать → Add Folder to Workspace → вызвать <code>/component-checker</code> или <code>/design-review</code>
+                  с node-specific URL.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- THE REPO -->
+      <section id="the-repo" class="repo-section" data-section>
+        <div class="repo-shell">
+          <div class="repo-window">
+            <div class="repo-topbar">
+              <span class="repo-topbar-title">Это реальная структура kit.</span>
+              <div class="repo-topbar-actions">
+                <button type="button" class="repo-action is-active" data-terminal-toggle aria-pressed="true" aria-label="Скрыть терминал">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M4.6 6.6 6.6 8.2 4.6 9.8" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M7.8 10h2.8" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>
+                  <kbd>⌘ J</kbd>
+                </button>
+              </div>
+            </div>
+
+            <div class="repo-body">
+              <aside class="repo-sidebar" data-repo-sidebar style="width:240px">
+                <nav class="repo-tree" data-repo-tree data-lenis-prevent aria-label="File explorer"></nav>
+              </aside>
+
+              <div class="repo-main">
+                <div class="repo-editor" data-repo-editor>
+                  <div class="repo-tab" data-repo-filename>README.md</div>
+                  <div class="repo-editor-pane">
+                    <div class="repo-gutter" data-repo-gutter aria-hidden="true" data-lenis-prevent></div>
+                    <div class="repo-code-wrap">
+                      <pre class="repo-code" data-repo-code data-lenis-prevent tabindex="0"><code></code></pre>
+                      <button type="button" class="repo-minimap" data-repo-minimap aria-label="Minimap">
+                        <span class="minimap-thumb" data-minimap-thumb></span>
+                        <span class="minimap-counter" data-minimap-counter>01</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="button" class="repo-resize-row" data-terminal-resize aria-label="Изменить высоту терминала"></button>
+
+                <section class="repo-terminal" data-repo-terminal style="height:200px">
+                  <div class="repo-terminal-head">Terminal</div>
+                  <div class="repo-terminal-body" data-lenis-prevent>
+                    <a class="repo-terminal-link" href="#start">
+                      <span class="repo-terminal-line">
+                        <span class="repo-terminal-prompt">~/hrds-ai-kit &gt;&nbsp;</span>
+                        <span class="repo-terminal-cmd">pilot</span>
+                        <span class="repo-terminal-meta">&nbsp;&nbsp;# v0.2 · compact pilot</span>
+                      </span>
+                    </a>
+                    <form class="repo-terminal-form" data-terminal-form>
+                      <span class="repo-terminal-prompt">~/hrds-ai-kit &gt;&nbsp;</span>
+                      <input type="text" data-terminal-input spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" placeholder="try: ls, tree, cat README.md" />
+                    </form>
+                    <div class="repo-terminal-output" data-terminal-output hidden></div>
+                  </div>
+                </section>
+              </div>
+
+              <button type="button" class="repo-resize-corner" data-sidebar-resize aria-label="Изменить ширину дерева" tabindex="-1"></button>
+            </div>
+
+            <div class="repo-statusbar">
+              <div class="repo-status-left">
+                <span><span aria-hidden="true">⎇</span> main</span>
+                <span class="repo-status-sep"></span>
+                <span class="repo-status-live"><span class="repo-status-dot"></span> pilot v0.2</span>
+              </div>
+              <button type="button" class="repo-status-commits" data-repo-commits>47 files</button>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="examples" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Examples</span>
-          <h2 class="section-title reveal">Эталоны формата</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Файлы в <code>examples/</code> — образец описания, не source of truth. Значения props помечены
-            <code>proposed</code>, пока не проверены в Storybook.
+      <!-- GUIDE -->
+      <section id="guide" class="section-pad bg-black guide-section" data-section>
+        <div class="container">
+          <h2 class="headline-sm text-white reveal">Примеры skills</h2>
+          <p class="body-lg text-ghost reveal">
+            Сейчас пять — список растёт по задачам HRDS. Вызов через <code>/skill-name</code> в Cursor.
+            Агент читает <code>rules/</code>, индексы и <code>sources.md</code>.
           </p>
+        </div>
+        <div class="container guide-grid stagger-parent">
+          <article class="guide-card reveal">
+            <p class="guide-example">Пример 01</p>
+            <h3><code>/component-checker</code></h3>
+            <p class="guide-when">Инстансы и версии · перед review</p>
+            <ol class="guide-steps">
+              <li>Node-specific Figma URL (<code>?node-id=</code>)</li>
+              <li>Сверка с <code>components-index.md</code></li>
+              <li>Detached, deprecated, wrong variant, drift</li>
+            </ol>
+            <p class="guide-out">→ inventory + что заменить на 13.3.0</p>
+          </article>
+          <article class="guide-card reveal">
+            <p class="guide-example">Пример 02</p>
+            <h3><code>/pattern-checker</code></h3>
+            <p class="guide-when">Паттерн страницы · структура экрана</p>
+            <ol class="guide-steps">
+              <li>Скрин, описание или Figma URL</li>
+              <li><code>patterns-index.md</code> + decision-log</li>
+              <li>Misfit → какой паттерн подходит</li>
+            </ol>
+            <p class="guide-out">→ fit / misfit + рекомендация</p>
+          </article>
+          <article class="guide-card reveal">
+            <p class="guide-example">Пример 03</p>
+            <h3><code>/technical-analyst</code></h3>
+            <p class="guide-when">Spec для разработки · handoff</p>
+            <ol class="guide-steps">
+              <li>Figma node URL обязателен</li>
+              <li>Components, props, states, tokens, behavior</li>
+              <li>Без источника — <code>Needs review</code></li>
+            </ol>
+            <p class="guide-out">→ handoff + open questions</p>
+          </article>
+          <article class="guide-card reveal">
+            <p class="guide-example">Пример 04</p>
+            <h3><code>/design-review</code></h3>
+            <p class="guide-when">Полный аудит · перед релизом макета</p>
+            <ol class="guide-steps">
+              <li>Components + patterns + tokens + a11y</li>
+              <li>Findings: Critical / Major / Minor</li>
+              <li>Ссылки на rules и canonical sources</li>
+            </ol>
+            <p class="guide-out">→ структурированный review-лист</p>
+          </article>
+          <article class="guide-card reveal">
+            <p class="guide-example">Пример 05</p>
+            <h3><code>/prototype-builder</code></h3>
+            <p class="guide-when">План композиции · сборка экрана</p>
+            <ol class="guide-steps">
+              <li>Требования или Figma frame</li>
+              <li>Дерево components + patterns</li>
+              <li>Gaps, если нет в индексе</li>
+            </ol>
+            <p class="guide-out">→ implementation plan, не prod-код</p>
+          </article>
+        </div>
+      </section>
 
-          <div class="examples-grid stagger-parent">
-            <article class="hw-surface example-card">
-              <div class="example-head">
-                <span class="example-type">Component</span>
-                <code class="example-path">examples/button.md</code>
-              </div>
-              <h3>Button</h3>
-              <p class="example-note">Confirmed в Figma по имени. API — proposed.</p>
-              <dl class="example-facts">
-                <div><dt>Когда</dt><dd>submit, save, primary/secondary action в форме или Dialog</dd></div>
-                <div><dt>Не когда</dt><dd>навигационная ссылка в тексте → Link</dd></div>
-                <div><dt>Variants</dt><dd>primary · secondary · ghost · danger</dd></div>
-                <div><dt>States</dt><dd>default · hover · focus · disabled · loading</dd></div>
-              </dl>
-              <pre class="example-pre">| Figma Property | Code Prop | Status   |
-|----------------|-----------|----------|
-| Variant        | variant   | proposed |
-| Size           | size      | proposed |
-| State          | state     | proposed |</pre>
+      <!-- FIRST RUN -->
+      <section id="first-run" class="section-pad bg-off-white first-run-section" data-section>
+        <div class="container">
+          <h2 class="headline-sm reveal">Первый запуск</h2>
+          <p class="body-lg reveal">
+            Что вставить в чат, как читать метки, чем отличается вывод с kit.
+            Copy-paste → проверка → human review.
+          </p>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">001 / Что вставить в чат</h3>
+          <div class="fr-grid fr-prompts">
+            <article class="fr-card">
+              <h4 class="fr-card-title"><code>/component-checker</code></h4>
+              <pre class="fr-code"><code>/component-checker
+
+Проверь frame:
+https://figma.com/design/…?node-id=12-345
+
+Сверь инстансы с components-index и 13.3.0.</code></pre>
+              <p class="fr-note">→ inventory, detached, deprecated, drift</p>
             </article>
+            <article class="fr-card">
+              <h4 class="fr-card-title"><code>/technical-analyst</code></h4>
+              <pre class="fr-code"><code>/technical-analyst
 
-            <article class="hw-surface example-card">
-              <div class="example-head">
-                <span class="example-type">Pattern</span>
-                <code class="example-path">examples/page-header.md</code>
-              </div>
-              <h3>Page Header</h3>
-              <p class="example-note">Starter. Композиция для страницы «Список сотрудников».</p>
-              <dl class="example-facts">
-                <div><dt>Задача</dt><dd>контекст страницы + primary action «Добавить»</dd></div>
-                <div><dt>Компоненты</dt><dd>Content Header, Breadcrumbs, Button (primary)</dd></div>
-                <div><dt>Не путать</dt><dd>Content Header внутри card — не Page Header</dd></div>
-              </dl>
-              <pre class="example-pre">Page Header
-├── Breadcrumbs: Главная / Команда / Сотрудники
-├── Title (h1): Сотрудники
-├── Description: Управление составом команды
-└── Actions: Button primary «Добавить сотрудника»</pre>
+Frame для handoff:
+https://figma.com/design/…?node-id=12-345
+
+Components, props, states, tokens, gaps.</code></pre>
+              <p class="fr-note">→ spec с метками, open questions</p>
+            </article>
+            <article class="fr-card">
+              <h4 class="fr-card-title"><code>/design-review</code></h4>
+              <pre class="fr-code"><code>/design-review
+
+Аудит frame:
+https://figma.com/design/…?node-id=12-345
+
+Components + patterns + tokens + a11y.</code></pre>
+              <p class="fr-note">→ Critical / Major / Minor</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">002 / Метки в выводе</h3>
+          <div class="fr-grid fr-statuses">
+            <article class="fr-card">
+              <p class="fr-label">Confirmed</p>
+              <p class="fr-copy">Есть источник: Figma metadata, Storybook story или code. Опирайся, но сверь перед prod.</p>
+            </article>
+            <article class="fr-card">
+              <p class="fr-label">Starter</p>
+              <p class="fr-copy">Данные из kit, не проверены. Агент не выдаёт за факт — помечает и просит верификацию.</p>
+            </article>
+            <article class="fr-card">
+              <p class="fr-label">Needs review</p>
+              <p class="fr-copy">Prop без подтверждённого источника. Найди story или код — не додумывай.</p>
+            </article>
+            <article class="fr-card">
+              <p class="fr-label">Proposed</p>
+              <p class="fr-copy">Гипотеза по формату examples. Явно не факт. Рядом — «сверить в Storybook».</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">003 / Приоритет источников</h3>
+          <p class="fr-lead">При расхождении — в таком порядке. Агент фиксирует конфликт, не разрешает молча.</p>
+          <ol class="fr-priority">
+            <li><span>01</span><span><strong>Code / Storybook</strong> — props, controls, behavior</span></li>
+            <li><span>02</span><span><strong>Figma component</strong> — структура, variants, properties</span></li>
+            <li><span>03</span><span><strong>Rules</strong> — accessibility, naming, review</span></li>
+            <li><span>04</span><span><strong>Examples</strong> — формат вывода, не source of truth</span></li>
+            <li><span>05</span><span><strong>Decision log</strong> — принятые исключения</span></li>
+          </ol>
+        </div>
+
+        <div class="container fr-section reveal">
+          <h3 class="fr-title">004 / До и после · Button</h3>
+          <p class="fr-lead">Один компонент. Слева — типичный ответ без kit. Справа — с метками и gaps.</p>
+          <div class="fr-diff">
+            <article class="fr-card">
+              <p class="fr-label">без kit</p>
+              <pre class="fr-code"><code>Button на экране:
+- variant: primary | secondary | tertiary | outline
+- size: sm | md | lg | xl
+- loading: boolean
+
+Props: Type=Primary, Size=Medium
+→ &lt;Button variant="primary" size="md" /&gt;</code></pre>
+            </article>
+            <article class="fr-card fr-card--accent">
+              <p class="fr-label">с kit</p>
+              <pre class="fr-code"><code>Button · Confirmed (имя из Figma)
+
+variant: primary | secondary | ghost | danger
+  [Proposed — Needs review]
+size: md  [Proposed]
+states: default, hover, focus, disabled, loading
+
+Gaps: API loading — Needs review
+Open: story в Storybook 13.3.0</code></pre>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="skills" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Skills</span>
-          <h2 class="section-title reveal">Маршруты для агента</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Готовые сценарии. В Cursor — через <code>/component-checker</code> и другие.
+      <!-- START -->
+      <section id="start" class="section-pad bg-off-white start-section" data-section>
+        <div class="container">
+          <h2 class="headline-sm reveal">Подключение за три шага</h2>
+          <p class="body-lg reveal">
+            Pilot v0.2 для HR Tech. Положи в workspace, вызови skill. Часть данных — starter: перед production сверяй со Storybook.
           </p>
-
-          <div class="skills-grid stagger-parent">
-            <article class="hw-surface skill-card" data-skill="component-checker" tabindex="0" role="button" aria-label="Component Checker — подробнее">
-              <div class="skill-head">
-                <span class="skill-dot"></span>
-                <span class="skill-file">component-checker</span>
+        </div>
+        <div class="container start-layout">
+          <div class="start-steps reveal">
+            <article class="start-step">
+              <span class="start-num">01</span>
+              <div>
+                <h3>Получи kit</h3>
+                <p>Клонируй или скачай архив. Отдельный каталог — не внутрь продуктового репо.</p>
+                <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|архив">
+                  <span>Скачать</span><span>архив</span>
+                </a>
               </div>
-              <h3>Component Checker</h3>
-              <p>Какие компоненты ДС на экране и актуальны ли инстансы: detached, deprecated, wrong variant.</p>
-              <code class="skill-out">→ inventory · version issues · wrong variant</code>
-              <span class="skill-more">Подробнее →</span>
             </article>
-            <article class="hw-surface skill-card" data-skill="pattern-checker" tabindex="0" role="button" aria-label="Pattern Checker — подробнее">
-              <div class="skill-head">
-                <span class="skill-dot"></span>
-                <span class="skill-file">pattern-checker</span>
+            <article class="start-step">
+              <span class="start-num">02</span>
+              <div>
+                <h3>Add to Workspace</h3>
+                <p><kbd>File → Add Folder to Workspace</kbd> — kit и продуктовый репо в одном workspace.</p>
               </div>
-              <h3>Pattern Checker</h3>
-              <p>Используется ли верный паттерн HRDS — и какой подставить вместо неправильного.</p>
-              <code class="skill-out">→ wrong pattern · recommended · what to change</code>
-              <span class="skill-more">Подробнее →</span>
             </article>
-            <article class="hw-surface skill-card" data-skill="technical-analyst" tabindex="0" role="button" aria-label="Technical Analyst — подробнее">
-              <div class="skill-head">
-                <span class="skill-dot"></span>
-                <span class="skill-file">technical-analyst</span>
+            <article class="start-step">
+              <span class="start-num">03</span>
+              <div>
+                <h3>Вызови skill</h3>
+                <p><code>/component-checker</code> + Figma node URL. Проверь строки <code>Needs review</code> в выводе.</p>
               </div>
-              <h3>Technical Analyst</h3>
-              <p>Описание frame для разработки: components, props, states, behavior, gaps.</p>
-              <code class="skill-out">→ frame spec · Figma → Storybook → Code</code>
-              <span class="skill-more">Подробнее →</span>
-            </article>
-            <article class="hw-surface skill-card" data-skill="design-review" tabindex="0" role="button" aria-label="Design Review — подробнее">
-              <div class="skill-head">
-                <span class="skill-dot"></span>
-                <span class="skill-file">design-review</span>
-              </div>
-              <h3>Design Review</h3>
-              <p>Полная проверка Figma: component + pattern + tokens + accessibility.</p>
-              <code class="skill-out">→ critical · major · minor · questions</code>
-              <span class="skill-more">Подробнее →</span>
-            </article>
-            <article class="hw-surface skill-card" data-skill="prototype-builder" tabindex="0" role="button" aria-label="Prototype Builder — подробнее">
-              <div class="skill-head">
-                <span class="skill-dot"></span>
-                <span class="skill-file">prototype-builder</span>
-              </div>
-              <h3>Prototype Builder</h3>
-              <p>План прототипа из компонентов и паттернов, а не production-код.</p>
-              <code class="skill-out">→ goal · composition · states</code>
-              <span class="skill-more">Подробнее →</span>
             </article>
           </div>
+          <aside class="start-aside reveal">
+            <p class="start-aside-label">Что внутри v0.2</p>
+            <ul class="start-checklist">
+              <li><span>001</span> <code>knowledge/</code> — sources, indexes, decision-log</li>
+              <li><span>002</span> <code>rules/</code> — ограничения для агента</li>
+              <li><span>003</span> <code>skills/</code> — component-checker, pattern-checker, technical-analyst, design-review, prototype-builder</li>
+              <li><span>004</span> <code>examples/</code> — эталонные разборы</li>
+              <li><span>005</span> Storybook 13.3.0 — canonical API</li>
+              <li><span>006</span> Figma library HRDS — инстансы</li>
+              <li><span>007</span> Starter помечен — требует проверки</li>
+              <li><span>008</span> Не замена Figma / Storybook / кода</li>
+            </ul>
+            <p class="start-note">MCP Figma и Storybook — плюс, не обязательны для rules и индексов.</p>
+          </aside>
         </div>
       </section>
 
-      <section id="core" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Что внутри</span>
-          <h2 class="section-title reveal">Состав репозитория</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Пять слоёв: knowledge, rules, examples, templates и skills. В таблице — что это и когда агент открывает файл.
-          </p>
-
-          <div class="catalog-table reveal" style="--reveal-delay: 180ms">
-            <div class="catalog-row catalog-header">
-              <span>Слой</span>
-              <span>Когда открывать</span>
-              <span>Тип</span>
-            </div>
-            <div class="catalog-row"><span class="row-name">knowledge/sources.md</span><span class="row-desc">Canonical Figma и Storybook links</span><span class="row-badge">Source</span></div>
-            <div class="catalog-row"><span class="row-name">knowledge/architecture.md</span><span class="row-desc">Приоритет источников: Figma ↔ Storybook ↔ Code</span><span class="row-badge">Route</span></div>
-            <div class="catalog-row"><span class="row-name">knowledge/*-index.md</span><span class="row-desc">Components, patterns, tokens, decision log</span><span class="row-badge">Index</span></div>
-            <div class="catalog-row"><span class="row-name">rules/</span><span class="row-desc">AI, Figma, Storybook, components, patterns, tokens, accessibility</span><span class="row-badge">Rules</span></div>
-            <div class="catalog-row"><span class="row-name">examples/</span><span class="row-desc">Эталонные записи: button, page-header</span><span class="row-badge">Example</span></div>
-            <div class="catalog-row"><span class="row-name">templates/</span><span class="row-desc">Заготовки component-template и page-template</span><span class="row-badge">Template</span></div>
-            <div class="catalog-row"><span class="row-name">skills/</span><span class="row-desc">component-checker, pattern-checker, technical-analyst, design-review, prototype-builder</span><span class="row-badge accent">Skill</span></div>
-            <div class="catalog-row"><span class="row-name">.cursor/skills/</span><span class="row-desc">Обёртки для вызова skills через / в Cursor</span><span class="row-badge">Cursor</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section id="compare" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Поведение агента</span>
-          <h2 class="section-title reveal">Что меняется в ответах</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Разница между агентом без контекста и агентом, который читает kit перед ответом.
-          </p>
-
-          <div class="compare-grid reveal" style="--reveal-delay: 120ms">
-            <div class="compare-col compare-before">
-              <div class="compare-head"><span class="compare-badge bad">Без контекста</span></div>
-              <ul>
-                <li>придумывает props и variants</li>
-                <li>рисует generic layout вместо HRDS</li>
-                <li>расходится со Storybook</li>
-                <li>отвечает без проверки source</li>
-              </ul>
-            </div>
-            <div class="compare-arrow" aria-hidden="true">→</div>
-            <div class="compare-col compare-after">
-              <div class="compare-head"><span class="compare-badge good">С контекстом HRDS</span></div>
-              <ul>
-                <li>берёт props только из Storybook/кода</li>
-                <li>использует компоненты библиотеки HRDS</li>
-                <li>сверяет Figma ↔ Storybook ↔ код</li>
-                <li>перечисляет gaps вместо догадок</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="sources" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Sources</span>
-          <h2 class="section-title reveal">Источники HRDS</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Canonical links, с которыми работает база знаний.
-          </p>
-
-          <div class="source-grid stagger-parent">
-            <a class="hw-surface source-card" href="https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto" target="_blank" rel="noopener noreferrer">
-              <span class="source-kind">Figma</span>
-              <strong>Components</strong>
-              <span class="source-arrow">↗</span>
-            </a>
-            <a class="hw-surface source-card" href="https://www.figma.com/files/920787649869095992/project/542725198" target="_blank" rel="noopener noreferrer">
-              <span class="source-kind">Figma</span>
-              <strong>Patterns</strong>
-              <span class="source-arrow">↗</span>
-            </a>
-            <a class="hw-surface source-card" href="https://www.figma.com/files/920787649869095992/project/94308883" target="_blank" rel="noopener noreferrer">
-              <span class="source-kind">Figma</span>
-              <strong>Icons + Illustrations</strong>
-              <span class="source-arrow">↗</span>
-            </a>
-            <a class="hw-surface source-card" href="https://hrds.yandex-team.ru" target="_blank" rel="noopener noreferrer">
-              <span class="source-kind">Storybook</span>
-              <strong>HRDS Storybook</strong>
-              <span class="source-arrow">↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section id="use" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Как использовать</span>
-          <h2 class="section-title reveal">Три шага, чтобы начать</h2>
-          <p class="section-lead reveal" style="--reveal-delay: 80ms">
-            Kit — это папка с файлами. Её кладут рядом с проектом, чтобы агент видел и код, и контекст HRDS.
-          </p>
-
-          <div class="setup-grid stagger-parent">
-            <article class="hw-surface setup-card"><span>01</span><h3>Скачать и распаковать</h3><p>Положите папку <code>hrds-ai-kit</code> рядом с продуктовым репозиторием.</p></article>
-            <article class="hw-surface setup-card"><span>02</span><h3>Добавить в workspace</h3><p>File → Add Folder to Workspace. Теперь агент видит и продукт, и контекст HRDS в одном окне.</p></article>
-            <article class="hw-surface setup-card"><span>03</span><h3>Вызвать skill</h3><p>В чате наберите <code>/component-checker</code>, <code>/pattern-checker</code> или <code>/technical-analyst</code>. Для Figma передайте node-specific URL.</p></article>
-          </div>
-
-          <p class="section-lead reveal" style="--reveal-delay: 100ms">
-            Ниже — пример запроса. Скопируйте, подставьте свою ссылку на Figma-node и отправьте агенту.
-          </p>
-
-          <div class="terminal-box reveal" style="--reveal-delay: 120ms">
-            <div class="terminal-header"><span>Пример запроса</span><span>[ PROMPT ]</span></div>
-            <code>Проверь Figma frame по HRDS: components, patterns, tokens, accessibility.
-Node: https://www.figma.com/design/...?node-id=123-456
-Если props не подтверждены — перечисли gaps, не выдумывай API.</code>
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" class="section">
-        <div class="page-shell">
-          <span class="label reveal">FAQ</span>
-          <h2 class="section-title reveal">Частые вопросы</h2>
-
-          <div class="faq-list reveal" style="--reveal-delay: 100ms">
+      <!-- FAQ -->
+      <section id="faq" class="section-pad bg-black faq-section" data-section>
+        <div class="container narrow">
+          <h2 class="headline-sm text-white reveal">Перед подключением</h2>
+          <div class="faq-list reveal" data-faq-list>
             <details class="faq-item">
-              <summary>Это замена Figma или Storybook?<span class="faq-mark"></span></summary>
-              <p>Нет. Kit — это context layer для AI. Он не хранит дизайн-систему, а указывает агенту на источники и правила работы с ней.</p>
+              <summary><span class="faq-q">Q.001 /</span> Это замена Figma или Storybook?</summary>
+              <p>Нет. Kit — context layer для AI. Он указывает агенту на источники и правила. Дизайн и API остаются в Figma и Storybook.</p>
             </details>
             <details class="faq-item">
-              <summary>Что значит статус Starter?<span class="faq-mark"></span></summary>
-              <p>Это неподтвержденные данные: их нужно проверить по Figma, Storybook и коду. Агент не выдаёт их за source of truth.</p>
+              <summary><span class="faq-q">Q.002 /</span> Чем отличается от «просто скинуть ссылку на Storybook»?</summary>
+              <p>Storybook — source of truth для API, но не маршрут для агента. Kit фиксирует приоритеты, статусы Starter/Confirmed, skills для review и handoff, и запрещает выдавать гипотезы за факты.</p>
             </details>
             <details class="faq-item">
-              <summary>С какими инструментами работает?<span class="faq-mark"></span></summary>
-              <p>Cursor, Claude Code, Copilot, Codex и любые MCP-агенты. Достаточно положить папку в workspace.</p>
+              <summary><span class="faq-q">Q.003 /</span> Работает ли с Cursor?</summary>
+              <p>Да. Skills подключены через <code>.cursor/skills/</code>. Вызов: <code>/component-checker</code>, <code>/pattern-checker</code>, <code>/technical-analyst</code>, <code>/design-review</code>, <code>/prototype-builder</code>.</p>
             </details>
             <details class="faq-item">
-              <summary>Можно ли генерировать production-код?<span class="faq-mark"></span></summary>
-              <p>Только с human review. Design-to-code и изменения API требуют подтверждения по source.</p>
+              <summary><span class="faq-q">Q.004 /</span> Можно ли генерировать production-код?</summary>
+              <p>Только с human review. Design-to-code требует подтверждения props по Storybook или коду. Kit снижает догадки, не снимает ответственность.</p>
+            </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.005 /</span> Что значит Starter?</summary>
+              <p>Неподтверждённые данные. Агент не выдаёт их за source of truth. После проверки по Figma/Storybook/code статус обновляется на Confirmed.</p>
+            </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.006 /</span> Какая версия библиотеки?</summary>
+              <p>Актуальный Storybook: <strong>13.3.0</strong>. Пакет: <code>@yandex-int/hr-components</code>. Version drift проверяет <code>component-checker</code>.</p>
+            </details>
+            <details class="faq-item">
+              <summary><span class="faq-q">Q.007 /</span> Что kit не делает?</summary>
+              <p>Не полный каталог HRDS. Не автопилот. Не замена human DS review. Не доказательство существования prop без источника.</p>
             </details>
           </div>
-        </div>
-      </section>
-
-      <section id="limits" class="section">
-        <div class="page-shell">
-          <span class="label reveal">Limits</span>
-          <h2 class="section-title reveal">Ограничения</h2>
-          <div class="limit-grid stagger-parent">
-            <article class="feature-card"><h3>Не production-каталог</h3><p>Многие entries всё ещё <code>Starter</code>. Props и Storybook stories нужно подтверждать.</p></article>
-            <article class="feature-card"><h3>Не автопилот</h3><p>Design-to-code требует human review, если нет прямого source.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section cta-section">
-        <div class="page-shell">
-          <div class="cta-box reveal">
-            <div class="cta-grid" aria-hidden="true"></div>
-            <div class="cta-content">
-              <h2>С чего начать</h2>
-              <p>Скачайте архив, положите папку рядом с репозиторием и добавьте в workspace. Дальше вызывайте skills через <code>/</code> и передавайте агенту node-specific ссылки на Figma. Всё остальное описано выше.</p>
-              <div class="hero-actions">
-                <a class="btn-primary btn-large" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip">Скачать архив</a>
-                <a class="btn-secondary btn-large" href="#use">К инструкции</a>
-              </div>
-            </div>
+          <div class="faq-cta reveal">
+            <a class="btn-tca btn-tca--primary" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
+              <span>Скачать</span><span>kit</span>
+            </a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="page-shell footer-shell">
-        <div>
-          <strong>hrds-ai-kit</strong>
-          <p>Контекст HRDS для AI-агентов. v0.2 pilot — часть данных всё ещё Starter и требует проверки.</p>
+      <div class="container footer-inner">
+        <div class="footer-logo-wrap reveal">
+          <pre class="footer-logo-glyphs" role="img" aria-label="HRDS AI KIT">  $$          $$  $$$$$$$$$$$$    $$$$$$$$$$$$      $$$$$$$$$$                $$        $$$$$$        $$        $$  $$$$$$  $$$$$$$$$$$$$$  
+  $$          $$  $$$$$$$$$$$$    $$$$$$$$$$$$      $$$$$$$$$$                $$        $$$$$$        $$        $$  $$$$$$  $$$$$$$$$$$$$$  
+  $$          $$  $$          $$  $$          $$  $$          $$            $$  $$        $$          $$      $$      $$          $$        
+  $$          $$  $$          $$  $$          $$  $$          $$            $$  $$        $$          $$      $$      $$          $$        
+  $$          $$  $$          $$  $$          $$  $$                      $$      $$      $$          $$    $$        $$          $$        
+  $$          $$  $$          $$  $$          $$  $$                      $$      $$      $$          $$    $$        $$          $$        
+  $$$$$$$$$$$$$$  $$$$$$$$$$$$    $$          $$    $$$$$$$$$$          $$          $$    $$          $$$$$$          $$          $$        
+  $$$$$$$$$$$$$$  $$$$$$$$$$$$    $$          $$    $$$$$$$$$$          $$          $$    $$          $$$$$$          $$          $$        
+  $$          $$  $$      $$      $$          $$              $$        $$$$$$$$$$$$$$    $$          $$    $$        $$          $$        
+  $$          $$  $$      $$      $$          $$              $$        $$$$$$$$$$$$$$    $$          $$    $$        $$          $$        
+  $$          $$  $$        $$    $$          $$  $$          $$        $$          $$    $$          $$      $$      $$          $$        
+  $$          $$  $$        $$    $$          $$  $$          $$        $$          $$    $$          $$      $$      $$          $$        
+  $$          $$  $$          $$  $$$$$$$$$$$$      $$$$$$$$$$          $$          $$  $$$$$$        $$        $$  $$$$$$        $$        
+  $$          $$  $$          $$  $$$$$$$$$$$$      $$$$$$$$$$          $$          $$  $$$$$$        $$        $$  $$$$$$        $$        </pre>
         </div>
-        <div class="footer-meta">
-          <span>Run <code>npm run dev</code></span>
-          <span>Status <code>v0.2</code></span>
+        <p class="footer-tagline">Контекст дизайн-системы для AI-агентов · pilot v0.2</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="https://hrds.yandex-team.ru" target="_blank" rel="noopener noreferrer">Storybook</a>
+          <a href="https://www.figma.com/design/BodHDPKvwUYhWM5XDahMja/%F0%9F%A6%84-HRDS-%C2%B7-%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B?m=auto" target="_blank" rel="noopener noreferrer">Figma</a>
+          <a href="#first-run">Запуск</a>
+          <a href="#guide">Гайд</a>
+          <a href="#start">Старт</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <div class="footer-bottom">
+          <p class="footer-copy">© 2026 HRDS · @yandex-int/hr-components 13.3.0</p>
+          <a class="btn-tca btn-tca--ghost footer-cta" href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip" data-split-button data-parts="Скачать|kit">
+            <span>Скачать</span><span>kit</span>
+          </a>
         </div>
       </div>
     </footer>
 
-    <div class="skill-drawer" data-skill-drawer hidden>
-      <div class="skill-drawer-backdrop" data-skill-drawer-close tabindex="-1"></div>
-      <aside
-        class="skill-drawer-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="skill-drawer-title"
-        tabindex="-1"
-      >
-        <div class="skill-drawer-top">
-          <button class="skill-drawer-close" type="button" data-skill-drawer-close aria-label="Закрыть">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="skill-drawer-body" data-skill-drawer-body></div>
-      </aside>
-    </div>
+    <a class="btn-tca btn-tca--ghost floating-cta" href="#start" data-split-button data-parts="Как|подключить" data-floating-cta>
+      <span>Как</span><span>подключить</span>
+    </a>
 
-    <script src="./site.js"></script>
+    <script src="./lenis.min.js"></script>
+    <script type="module" src="./split-button.js"></script>
+    <script type="module" src="./spiral-scene.js"></script>
+    <script type="module" src="./glyph-field.js"></script>
+    <script type="module" src="./site.js"></script>
   </body>
 </html>

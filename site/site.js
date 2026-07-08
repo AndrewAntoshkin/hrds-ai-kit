@@ -1,798 +1,595 @@
-(function () {
-  const nav = document.querySelector(".site-nav");
-  const reveals = document.querySelectorAll(".reveal, .text-reveal, .stagger-parent");
-  const textReveals = document.querySelectorAll(".text-reveal");
+import { REPO_DATA } from "./repo-data.js";
 
-  function onScroll() {
-    if (!nav) return;
-    const scrolled = window.scrollY > 24;
-    nav.classList.toggle("is-scrolled", scrolled);
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const FOLDER_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden="true"><path d="M2.2 5.3c0-.77.53-1.4 1.3-1.4h2.7c.4 0 .77.18 1.02.5l.5.65c.25.32.62.5 1.02.5h3.5c.77 0 1.3.63 1.3 1.4v4.5c0 .77-.53 1.4-1.3 1.4H3.5c-.77 0-1.3-.63-1.3-1.4V5.3Z" fill="none" stroke="currentColor" stroke-width="1.1"/></svg>`;
+const FILE_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden="true"><path d="M4.3 2.6h4.8L12 5.5V13a.6.6 0 0 1-.6.6H4.3a.6.6 0 0 1-.6-.6V3.2a.6.6 0 0 1 .6-.6Z" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M9 2.8v2.8h2.8" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M5.7 8.6h4.1M5.7 10.6h4.1" fill="none" stroke="currentColor" stroke-width="0.95"/></svg>`;
+const CHEVRON = `<svg viewBox="0 0 16 16" class="repo-tree-chevron" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+initLenis();
+initReveals();
+initNav();
+initMobileMenu();
+initScrollCue();
+initProblemsPanel();
+initRepo();
+initCarousels();
+initFloatingCta();
+
+function initLenis() {
+  if (reduceMotion || typeof Lenis === "undefined") return;
+
+  const lenis = new Lenis({
+    duration: 1.1,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    autoRaf: false,
+  });
+
+  window.__lenisVelocity = 0;
+  lenis.on("scroll", ({ velocity }) => {
+    window.__lenisVelocity = velocity;
+  });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", (e) => {
+      const id = anchor.getAttribute("href");
+      if (!id || id === "#") return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+    });
+  });
+
+  window.__lenis = lenis;
+}
+
+function initReveals() {
+  const targets = document.querySelectorAll(".reveal, .stagger-parent");
+  if (!targets.length) return;
+
+  if (reduceMotion) {
+    targets.forEach((el) => el.classList.add("in-view"));
+    return;
   }
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in-view");
-        }
+        if (entry.isIntersecting) entry.target.classList.add("in-view");
       });
     },
-    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
   );
 
-  reveals.forEach((el) => observer.observe(el));
-  textReveals.forEach((el) => observer.observe(el));
+  targets.forEach((el) => observer.observe(el));
+}
 
-  const faqItems = document.querySelectorAll(".faq-item");
-  faqItems.forEach((item) => {
+function initNav() {
+  const links = document.querySelectorAll("[data-nav-link]");
+  const sections = document.querySelectorAll("[data-section]");
+  if (!links.length || !sections.length) return;
+
+  const map = new Map();
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href?.startsWith("#")) map.set(href.slice(1), link);
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((l) => l.classList.remove("is-active"));
+        const active = map.get(entry.target.id);
+        if (active) active.classList.add("is-active");
+      });
+    },
+    { threshold: 0.35, rootMargin: "-20% 0px -55% 0px" }
+  );
+
+  sections.forEach((section) => {
+    if (section.id) observer.observe(section);
+  });
+}
+
+function initMobileMenu() {
+  const menu = document.querySelector("[data-mobile-menu]");
+  const toggle = document.querySelector("[data-menu-toggle]");
+  const closeEls = document.querySelectorAll("[data-menu-close]");
+  if (!menu || !toggle) return;
+
+  function open() {
+    menu.hidden = false;
+    requestAnimationFrame(() => menu.classList.add("is-open"));
+    toggle.setAttribute("aria-expanded", "true");
+    document.body.classList.add("is-menu-open");
+  }
+
+  function close() {
+    menu.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("is-menu-open");
+    window.setTimeout(() => {
+      if (!menu.classList.contains("is-open")) menu.hidden = true;
+    }, 350);
+  }
+
+  toggle.addEventListener("click", open);
+  closeEls.forEach((el) => el.addEventListener("click", close));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menu.classList.contains("is-open")) close();
+  });
+}
+
+function initScrollCue() {
+  const cue = document.querySelector("[data-scroll-cue]");
+  const target = document.querySelector("#problems");
+  if (!cue || !target) return;
+
+  cue.addEventListener("click", () => {
+    if (window.__lenis) window.__lenis.scrollTo(target, { offset: -40 });
+    else target.scrollIntoView({ behavior: "smooth" });
+  });
+
+  const observer = new IntersectionObserver(
+    ([entry]) => cue.classList.toggle("is-hidden", !entry.isIntersecting),
+    { threshold: 0.1 }
+  );
+  observer.observe(document.querySelector(".hero-split"));
+}
+
+function initProblemsPanel() {
+  const panel = document.querySelector("[data-problems-panel]");
+  const lines = [...document.querySelectorAll("[data-problems-list] .problems-line")];
+  if (!panel || !lines.length) return;
+
+  if (reduceMotion) {
+    panel.classList.add("is-active");
+    lines.forEach((line) => line.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        panel.classList.add("is-active");
+        lines.forEach((line, i) => {
+          window.setTimeout(() => line.classList.add("is-visible"), i * 90);
+        });
+        observer.disconnect();
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  observer.observe(panel);
+}
+
+function initRepo() {
+  const treeEl = document.querySelector("[data-repo-tree]");
+  const codeEl = document.querySelector("[data-repo-code] code");
+  const codePanel = document.querySelector("[data-repo-code]");
+  const gutterEl = document.querySelector("[data-repo-gutter]");
+  const filenameEl = document.querySelector("[data-repo-filename]");
+  const counter = document.querySelector("[data-minimap-counter]");
+  const thumb = document.querySelector("[data-minimap-thumb]");
+  const minimap = document.querySelector("[data-repo-minimap]");
+  const sidebar = document.querySelector("[data-repo-sidebar]");
+  const terminal = document.querySelector("[data-repo-terminal]");
+  const terminalToggle = document.querySelector("[data-terminal-toggle]");
+  const terminalForm = document.querySelector("[data-terminal-form]");
+  const terminalInput = document.querySelector("[data-terminal-input]");
+  const terminalOutput = document.querySelector("[data-terminal-output]");
+  const resizeRow = document.querySelector("[data-terminal-resize]");
+  const resizeCorner = document.querySelector("[data-sidebar-resize]");
+  const commitsBtn = document.querySelector("[data-repo-commits]");
+
+  if (!treeEl || !codeEl) return;
+
+  const { tree, files, defaultFile } = REPO_DATA;
+  const fileList = Object.values(files);
+  let activeKey = defaultFile;
+
+  function flattenTree(nodes, prefix = "") {
+    const out = [];
+    for (const node of nodes) {
+      if (node.type === "file") {
+        const path = prefix ? `${prefix}/${node.name}` : node.name;
+        out.push({ key: node.key, path, name: node.name });
+      } else {
+        const next = prefix ? `${prefix}/${node.name}` : node.name;
+        out.push(...flattenTree(node.children || [], next));
+      }
+    }
+    return out;
+  }
+
+  const allPaths = flattenTree(tree);
+  if (commitsBtn) commitsBtn.textContent = `${allPaths.length} files`;
+  commitsBtn?.addEventListener("click", () => openFile(defaultFile));
+
+  function renderTree(nodes, depth = 0) {
+    const ul = document.createElement("ul");
+    for (const node of nodes) {
+      const li = document.createElement("li");
+      const pad = 10 + depth * 14;
+
+      if (node.type === "folder") {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `repo-tree-btn is-folder${node.open ? " is-open" : ""}`;
+        btn.style.setProperty("--tree-pad", `${pad}px`);
+        btn.innerHTML = `${CHEVRON}${FOLDER_ICON}<span>${node.name}</span>`;
+        btn.addEventListener("click", () => {
+          node.open = !node.open;
+          btn.classList.toggle("is-open", node.open);
+          wrap.classList.toggle("is-open", node.open);
+        });
+
+        const wrap = document.createElement("div");
+        wrap.className = `repo-tree-children${node.open ? " is-open" : ""}`;
+        const inner = document.createElement("div");
+        inner.appendChild(renderTree(node.children || [], depth + 1));
+        wrap.appendChild(inner);
+        li.append(btn, wrap);
+      } else {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "repo-tree-btn";
+        btn.dataset.fileKey = node.key;
+        btn.style.setProperty("--tree-pad", `${pad}px`);
+        btn.innerHTML = `<span class="repo-tree-spacer"></span>${FILE_ICON}<span>${node.name}</span>`;
+        btn.addEventListener("click", () => openFile(node.key));
+        li.appendChild(btn);
+      }
+
+      ul.appendChild(li);
+    }
+    return ul;
+  }
+
+  treeEl.appendChild(renderTree(tree));
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function highlightMarkdown(line) {
+    const esc = escapeHtml(line);
+    if (/^#{1,3}\s/.test(line)) return `<span class="tok-h2">${esc}</span>`;
+    if (/^\s*-\s/.test(line)) {
+      const m = esc.match(/^(\s*-\s)(.*)$/);
+      return `<span class="tok-bullet">${m[1]}</span>${highlightInline(m[2])}`;
+    }
+    if (/^\s*\|/.test(line) || /^\s*```/.test(line)) return `<span class="tok-muted">${esc}</span>`;
+    return highlightInline(esc);
+  }
+
+  function highlightInline(text) {
+    return text
+      .replace(/\*\*([^*]+)\*\*/g, '<span class="tok-bold">$1</span>')
+      .replace(/`([^`]+)`/g, '<span class="tok-code">$1</span>')
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<span class="tok-link">[$1]($2)</span>');
+  }
+
+  function highlightJson(line) {
+    const esc = escapeHtml(line);
+    if (/^\s*"/.test(line)) {
+      return esc
+        .replace(/^(\s*)"([^"]+)"(\s*:\s*)/, '$1<span class="tok-h2">"$2"</span>$3')
+        .replace(/:\s*"([^"]*)"/, ': <span class="tok-code">"$1"</span>')
+        .replace(/:\s*(\d+|true|false|null)/, ': <span class="tok-code">$1</span>');
+    }
+    return esc;
+  }
+
+  function highlightYaml(line) {
+    const esc = escapeHtml(line);
+    if (/^\s*-\s/.test(line)) return `<span class="tok-bullet">- </span>${highlightInline(esc.replace(/^\s*-\s/, ""))}`;
+    if (/^[\w-]+:/.test(line)) return esc.replace(/^([\w-]+)(:)(.*)/, '<span class="tok-h2">$1</span>$2<span class="tok-code">$3</span>');
+    return highlightInline(esc);
+  }
+
+  function highlightHtml(line) {
+    const esc = escapeHtml(line);
+    return esc
+      .replace(/(&lt;\/?)([\w-]+)/g, '$1<span class="tok-h2">$2</span>')
+      .replace(/([\w-]+)=/g, '<span class="tok-code">$1</span>=');
+  }
+
+  function highlightLine(line, path) {
+    if (path.endsWith(".json")) return highlightJson(line);
+    if (path.endsWith(".yml") || path.endsWith(".yaml")) return highlightYaml(line);
+    if (path.endsWith(".html")) return highlightHtml(line);
+    if (path.endsWith(".sh") || path.endsWith(".js") || path.endsWith(".css")) return highlightInline(escapeHtml(line));
+    return highlightMarkdown(line);
+  }
+
+  function openFile(key) {
+    activeKey = key;
+    const file = files[key];
+    const path = file?.path || allPaths.find((f) => f.key === key)?.path || key;
+    const lines = file?.lines || [
+      "# File preview unavailable",
+      "",
+      `${path}`,
+      "",
+      "Preview not bundled for this file type.",
+      "Open the repository locally to view full contents.",
+    ];
+
+    if (filenameEl) filenameEl.textContent = path;
+    const gutter = lines.map((_, i) => String(i + 1)).join("\n");
+    const body = lines.map((line) => highlightLine(line, path)).join("\n");
+
+    if (gutterEl) gutterEl.textContent = gutter;
+    codeEl.innerHTML = body;
+    if (codePanel) codePanel.scrollTop = 0;
+    if (gutterEl) gutterEl.scrollTop = 0;
+    updateMinimap();
+
+    treeEl.querySelectorAll("[data-file-key]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.fileKey === key);
+    });
+  }
+
+  function updateMinimap() {
+    if (!codePanel || !counter || !thumb) return;
+    const max = codePanel.scrollHeight - codePanel.clientHeight || 1;
+    const pct = codePanel.scrollTop / max;
+    const total = files[activeKey]?.lines?.length || 1;
+    const line = Math.min(total, Math.max(1, Math.round(pct * total) + 1));
+    counter.textContent = String(line).padStart(2, "0");
+    const travel = Math.max(0, 100 - 28);
+    thumb.style.transform = `translateY(${pct * travel}%)`;
+  }
+
+  openFile(defaultFile);
+
+  [codePanel, gutterEl, treeEl, document.querySelector(".repo-terminal-body")]
+    .filter(Boolean)
+    .forEach((el) => lockNestedScroll(el));
+
+  if (codePanel) {
+    codePanel.addEventListener("scroll", () => {
+      if (gutterEl) gutterEl.scrollTop = codePanel.scrollTop;
+      updateMinimap();
+    });
+  }
+
+  if (gutterEl && codePanel) {
+    gutterEl.addEventListener("scroll", () => {
+      codePanel.scrollTop = gutterEl.scrollTop;
+      updateMinimap();
+    });
+  }
+
+  if (minimap && codePanel) {
+    minimap.addEventListener("click", (e) => {
+      const rect = minimap.getBoundingClientRect();
+      const pct = (e.clientY - rect.top) / rect.height;
+      const max = codePanel.scrollHeight - codePanel.clientHeight;
+      codePanel.scrollTop = pct * max;
+    });
+  }
+
+  if (terminalToggle && terminal) {
+    terminalToggle.addEventListener("click", () => {
+      const hidden = terminal.classList.toggle("is-hidden");
+      terminalToggle.classList.toggle("is-active", !hidden);
+      terminalToggle.setAttribute("aria-pressed", String(!hidden));
+    });
+  }
+
+  function printTerminal(text) {
+    if (!terminalOutput) return;
+    terminalOutput.hidden = false;
+    terminalOutput.textContent += `${terminalOutput.textContent ? "\n" : ""}${text}`;
+  }
+
+  function runTerminal(cmdRaw) {
+    const cmd = cmdRaw.trim();
+    if (!cmd) return;
+    if (cmd === "clear") {
+      if (terminalOutput) {
+        terminalOutput.textContent = "";
+        terminalOutput.hidden = true;
+      }
+      return;
+    }
+    if (cmd === "help") {
+      printTerminal("try: ls, tree, cat README.md, skills, clear");
+      return;
+    }
+    if (cmd === "ls") {
+      printTerminal(tree.map((n) => n.name).join("  "));
+      return;
+    }
+    if (cmd === "tree") {
+      const walk = (nodes, indent = "") => nodes.map((n) => {
+        if (n.type === "folder") return `${indent}${n.name}/\n${walk(n.children || [], `${indent}  `)}`;
+        return `${indent}${n.name}`;
+      }).join("\n");
+      printTerminal(walk(tree));
+      return;
+    }
+    if (cmd === "skills") {
+      printTerminal([
+        "component-checker",
+        "pattern-checker",
+        "technical-analyst",
+        "design-review",
+        "prototype-builder",
+      ].map((s) => `skills/${s}/SKILL.md`).join("\n"));
+      return;
+    }
+    if (cmd.startsWith("cat ")) {
+      const wanted = cmd.slice(4).trim().toLowerCase();
+      const match = allPaths.find((f) => f.path.toLowerCase() === wanted || f.path.toLowerCase().endsWith(`/${wanted}`));
+      if (!match) {
+        printTerminal(`cat: ${wanted}: No such file`);
+        return;
+      }
+      openFile(match.key);
+      printTerminal((files[match.key]?.lines || []).join("\n"));
+      return;
+    }
+    printTerminal(`command not found: ${cmd}`);
+  }
+
+  terminalForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!terminalInput) return;
+    const value = terminalInput.value;
+    terminalInput.value = "";
+    runTerminal(value);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    const mod = e.metaKey || e.ctrlKey;
+    if (!mod || e.key.toLowerCase() !== "j") return;
+    e.preventDefault();
+    terminalToggle?.click();
+  });
+
+  function dragResize(target, onMove, axis) {
+    if (!target) return;
+    let start = 0;
+    let startSize = 0;
+
+    const onPointerDown = (e) => {
+      e.preventDefault();
+      start = axis === "x" ? e.clientX : e.clientY;
+      const rect = axis === "x" ? sidebar?.getBoundingClientRect() : terminal?.getBoundingClientRect();
+      startSize = axis === "x" ? rect?.width || 240 : rect?.height || 200;
+      document.addEventListener("pointermove", onPointerMove);
+      document.addEventListener("pointerup", onPointerUp, { once: true });
+    };
+
+    const onPointerMove = (e) => {
+      const delta = (axis === "x" ? e.clientX : e.clientY) - start;
+      onMove(startSize + delta);
+    };
+
+    const onPointerUp = () => {
+      document.removeEventListener("pointermove", onPointerMove);
+    };
+
+    target.addEventListener("pointerdown", onPointerDown);
+  }
+
+  dragResize(resizeRow, (h) => {
+    if (!terminal) return;
+    terminal.style.height = `${Math.min(Math.max(h, 96), window.innerHeight * 0.7)}px`;
+    positionCorner();
+  }, "y");
+
+  dragResize(resizeCorner, (w) => {
+    if (!sidebar) return;
+    sidebar.style.width = `${Math.min(Math.max(w, 160), window.innerWidth * 0.6)}px`;
+    positionCorner();
+  }, "x");
+
+  function positionCorner() {
+    if (!resizeCorner || !sidebar || !terminal) return;
+    const sideW = sidebar.offsetWidth;
+    const termH = terminal.offsetHeight;
+    resizeCorner.style.left = `${sideW}px`;
+    resizeCorner.style.bottom = `${termH}px`;
+  }
+
+  positionCorner();
+  window.addEventListener("resize", positionCorner);
+}
+
+function lockNestedScroll(el) {
+  el.addEventListener(
+    "wheel",
+    (event) => {
+      const max = el.scrollHeight - el.clientHeight;
+      if (max <= 0) return;
+      const goingUp = event.deltaY < 0;
+      const goingDown = event.deltaY > 0;
+      const atTop = el.scrollTop <= 0;
+      const atBottom = el.scrollTop >= max - 1;
+      if ((goingUp && !atTop) || (goingDown && !atBottom)) {
+        event.stopPropagation();
+      }
+    },
+    { passive: true }
+  );
+}
+
+function initCarousels() {
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector("[data-carousel-track]");
+    const prev = root.querySelector("[data-carousel-prev]");
+    const next = root.querySelector("[data-carousel-next]");
+    const counter = root.querySelector("[data-carousel-counter]");
+    if (!track) return;
+
+    const cards = [...track.children];
+    let index = 0;
+
+    function update() {
+      cards.forEach((card, i) => card.classList.toggle("is-active", i === index));
+      const card = cards[index];
+      if (card) {
+        track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: reduceMotion ? "auto" : "smooth" });
+      }
+      if (counter) {
+        counter.textContent = `${String(index + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+      }
+    }
+
+    prev?.addEventListener("click", () => {
+      index = (index - 1 + cards.length) % cards.length;
+      update();
+    });
+
+    next?.addEventListener("click", () => {
+      index = (index + 1) % cards.length;
+      update();
+    });
+
+    update();
+  });
+}
+
+function initFloatingCta() {
+  const cta = document.querySelector("[data-floating-cta]");
+  const footer = document.querySelector(".site-footer");
+  if (!cta || !footer) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => cta.classList.toggle("is-hidden", entry.isIntersecting),
+    { threshold: 0.08 }
+  );
+
+  observer.observe(footer);
+}
+
+function initFaq() {
+  const items = document.querySelectorAll(".faq-item");
+  items.forEach((item) => {
     item.addEventListener("toggle", () => {
       if (!item.open) return;
-      faqItems.forEach((other) => {
+      items.forEach((other) => {
         if (other !== item) other.open = false;
       });
     });
   });
-
-  /** Актуальные счётчики из knowledge/*-index.md (v0.2) */
-  const ENGINE_STATS = {
-    confirmed: 5,  // Button, Card, List Item, Content Header, H2 — имена в Figma
-    starter: 10,   // 5 starter components + 5 starter patterns
-    gaps: 5,       // props/stories не подтверждены у 5 Confirmed components
-  };
-
-  const GAP_LABELS = ["PROPS?", "STORY?", "NODE?", "CODE?", "TOKEN?"];
-
-  initPipeline();
-  initContextFlow();
-  initEngineChart();
-  initSkillDrawer();
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-
-  function initEngineChart() {
-    const canvas = document.querySelector("[data-engine-canvas]");
-    if (!canvas) return;
-
-    const statConfirmed = document.querySelector('[data-engine-stat="confirmed"]');
-    const statStarter = document.querySelector('[data-engine-stat="starter"]');
-    const statGaps = document.querySelector('[data-engine-stat="gaps"]');
-    const statsPanel = document.querySelector("[data-engine-stats]");
-    const statRows = statsPanel
-      ? Array.from(statsPanel.querySelectorAll(".stat-row"))
-      : [];
-    const labelsPanel = document.querySelector("[data-engine-labels]");
-    const labelRows = labelsPanel
-      ? Array.from(labelsPanel.querySelectorAll(".engine-label"))
-      : [];
-    const labelKeys = ["prompt", "component", "rules"];
-
-    if (statConfirmed) statConfirmed.textContent = String(ENGINE_STATS.confirmed);
-    if (statStarter) statStarter.textContent = String(ENGINE_STATS.starter);
-    if (statGaps) statGaps.textContent = String(ENGINE_STATS.gaps);
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const waves = [
-      { speed: 0.02, amp: 40, offset: 0 },
-      { speed: 0.03, amp: 30, offset: 100 },
-      { speed: 0.015, amp: 50, offset: 200 },
-      { speed: 0.04, amp: 20, offset: 50 },
-      { speed: 0.025, amp: 35, offset: 150 },
-    ];
-
-    const state = {
-      time: 0,
-      pulses: [],
-      running: false,
-      spotlight: 0,
-      labelSpot: 0,
-      gapLabelIdx: 0,
-    };
-
-    function setLabelSpotlight(key) {
-      labelRows.forEach((label) => {
-        const isActive = label.dataset.labelKey === key;
-        label.classList.toggle("is-active", isActive);
-        label.classList.toggle("is-dim", !isActive);
-      });
-    }
-
-    function setSpotlight(key) {
-      statRows.forEach((row) => {
-        const isHot = row.dataset.statKey === key;
-        row.classList.toggle("is-hot", isHot);
-        row.classList.toggle("is-dim", !isHot);
-      });
-    }
-
-    let accent = "#ff4d00";
-    let accentGlow = "rgba(255, 77, 0, 0.15)";
-
-    function readColors() {
-      const root = getComputedStyle(document.documentElement);
-      accent = root.getPropertyValue("--accent").trim() || "#ff4d00";
-      accentGlow = root.getPropertyValue("--accent-glow").trim() || "rgba(255, 77, 0, 0.15)";
-    }
-
-    function draw() {
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      readColors();
-
-      const dpr = window.devicePixelRatio || 1;
-      const rect = canvas.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
-      if (w === 0 || h === 0) return;
-
-      const cw = Math.round(w * dpr);
-      const ch = Math.round(h * dpr);
-      if (canvas.width !== cw || canvas.height !== ch) {
-        canvas.width = cw;
-        canvas.height = ch;
-      }
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-
-      const midY = h / 2;
-      const midX = w / 2;
-      state.time += 1;
-
-      waves.forEach((wave, i) => {
-        ctx.beginPath();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = `rgba(0, 0, 0, ${0.2 + 0.1 * Math.sin(0.05 * state.time + i)})`;
-        for (let x = 0; x < midX; x += 5) {
-          const fade = 1 - Math.pow(x / midX, 3);
-          const y =
-            midY +
-            (Math.sin(x * wave.speed + state.time * wave.speed + wave.offset) * wave.amp +
-              (Math.random() - 0.5) * 30 * fade) *
-              fade +
-            (i - 2) * 40 * fade;
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      });
-
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = accent;
-      ctx.moveTo(midX, midY);
-      ctx.lineTo(w, midY);
-      ctx.stroke();
-
-      if (!reduceMotion && Math.random() < 0.008) {
-        const label = GAP_LABELS[state.gapLabelIdx % GAP_LABELS.length];
-        state.gapLabelIdx += 1;
-        state.pulses.push({ x: midX, label });
-        setSpotlight("gaps");
-      }
-
-      if (!reduceMotion && state.time % 150 === 0) {
-        const keys = ["confirmed", "starter", "gaps"];
-        state.spotlight = (state.spotlight + 1) % keys.length;
-        setSpotlight(keys[state.spotlight]);
-      }
-
-      if (!reduceMotion && state.time % 100 === 0 && !state.pulses.length) {
-        state.labelSpot = (state.labelSpot + 1) % labelKeys.length;
-        setLabelSpotlight(labelKeys[state.labelSpot]);
-      }
-
-      state.pulses = state.pulses.filter((pulse) => {
-        pulse.x += 3;
-        if (pulse.x > w + 40) return false;
-
-        ctx.beginPath();
-        ctx.strokeStyle = accent;
-        ctx.lineWidth = 2;
-        for (let x = pulse.x - 40; x < pulse.x + 40; x += 2) {
-          if (x < midX || x > w) continue;
-          const t = (x - pulse.x) / (40 / 3);
-          const spike = -40 * Math.exp(-(t * t));
-          if (x === pulse.x - 40) ctx.moveTo(x, midY);
-          ctx.lineTo(x, midY + spike);
-        }
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.strokeStyle = accentGlow;
-        ctx.moveTo(pulse.x, midY);
-        ctx.lineTo(pulse.x, midY + 40);
-        ctx.stroke();
-
-        ctx.fillStyle = accent;
-        ctx.font = "10px 'Fragment Mono', Courier New, monospace";
-        ctx.fillText(pulse.label, pulse.x - 24, midY - 50);
-        return true;
-      });
-
-      if (!reduceMotion && state.pulses.length) {
-        const lead = state.pulses[state.pulses.length - 1];
-        const progress = (lead.x - midX) / Math.max(w - midX, 1);
-        if (progress < 0.35) setLabelSpotlight("prompt");
-        else if (progress < 0.72) setLabelSpotlight("component");
-        else setLabelSpotlight("rules");
-      }
-
-      ctx.beginPath();
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = "#b0b0b0";
-      ctx.lineWidth = 1;
-      ctx.moveTo(midX, 0);
-      ctx.lineTo(midX, h);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      ctx.beginPath();
-      ctx.strokeStyle = accent;
-      ctx.lineWidth = 1;
-      ctx.arc(midX, midY, 6, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.03)";
-      ctx.arc(midX, midY, 100, 0, Math.PI * 2);
-      ctx.arc(midX, midY, 200, 0, Math.PI * 2);
-      if (midX > 150) ctx.arc(midX, midY, 300, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-
-    function loop() {
-      if (!state.running) return;
-      draw();
-      requestAnimationFrame(loop);
-    }
-
-    const host = canvas.closest(".engine-body") || canvas;
-    const runObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !reduceMotion) {
-            state.running = true;
-            setSpotlight("confirmed");
-            setLabelSpotlight("prompt");
-            requestAnimationFrame(loop);
-          } else {
-            state.running = false;
-            statRows.forEach((row) => {
-              row.classList.remove("is-hot", "is-dim");
-            });
-            labelRows.forEach((label) => {
-              label.classList.remove("is-active", "is-dim");
-            });
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    runObserver.observe(host);
-
-    if (reduceMotion) draw();
-
-    window.addEventListener(
-      "resize",
-      () => {
-        if (state.running || reduceMotion) draw();
-      },
-      { passive: true }
-    );
-  }
-
-  function initPipeline() {
-    const pipeline = document.querySelector("[data-pipeline]");
-    if (!pipeline) return;
-
-    const steps = Array.from(pipeline.querySelectorAll(".pipe-step"));
-    const line = pipeline.querySelector(".pipeline-line");
-    const progress = pipeline.querySelector(".pipeline-progress");
-    const dot = pipeline.querySelector(".pipeline-dot");
-    if (!steps.length) return;
-
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reduceMotion) {
-      steps.forEach((step) => step.classList.add("is-done"));
-      return;
-    }
-
-    const STEP_MS = 1100;
-    let active = -1;
-    let timer = null;
-
-    // Position the dot + progress fill at the center of a given step marker.
-    function moveTo(index) {
-      if (!line || !progress || !dot) return;
-      // Skip on stacked mobile layout where the line is hidden.
-      if (getComputedStyle(line).display === "none") return;
-
-      const marker = steps[index].querySelector(".pipe-num");
-      if (!marker) return;
-
-      const lineRect = line.getBoundingClientRect();
-      const markerRect = marker.getBoundingClientRect();
-      const center = markerRect.left + markerRect.width / 2 - lineRect.left;
-      const clamped = Math.max(0, Math.min(center, lineRect.width));
-
-      dot.style.left = clamped + "px";
-      progress.style.width = clamped + "px";
-    }
-
-    function activate(index) {
-      steps.forEach((step, i) => {
-        step.classList.toggle("is-active", i === index);
-        step.classList.toggle("is-done", i < index);
-      });
-      moveTo(index);
-    }
-
-    function tick() {
-      active = (active + 1) % (steps.length + 1);
-      if (active === steps.length) {
-        // Brief "all complete" beat: keep the last step checked.
-        steps.forEach((step, i) => {
-          step.classList.toggle("is-done", true);
-          step.classList.toggle("is-active", false);
-        });
-        if (progress && line) {
-          progress.style.width = line.getBoundingClientRect().width + "px";
-        }
-        if (dot && line) {
-          dot.style.left = line.getBoundingClientRect().width + "px";
-        }
-      } else {
-        activate(active);
-      }
-    }
-
-    function start() {
-      if (timer) return;
-      pipeline.classList.add("is-running");
-      tick();
-      timer = setInterval(tick, STEP_MS);
-    }
-
-    function stop() {
-      if (!timer) return;
-      clearInterval(timer);
-      timer = null;
-    }
-
-    // Run only while the pipeline is on screen.
-    const runObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) start();
-          else stop();
-        });
-      },
-      { threshold: 0.35 }
-    );
-    runObserver.observe(pipeline);
-
-    // Keep dot/progress aligned when the layout changes.
-    window.addEventListener(
-      "resize",
-      () => {
-        if (active >= 0 && active < steps.length) moveTo(active);
-      },
-      { passive: true }
-    );
-  }
-
-  function initContextFlow() {
-    const flow = document.querySelector("[data-context-flow]");
-    if (!flow) return;
-
-    const steps = Array.from(flow.querySelectorAll(".ctx-step"));
-    const kitBar = flow.querySelector(".ctx-kit-bar");
-    const rail = flow.querySelector(".ctx-scan-rail");
-    const progress = flow.querySelector(".ctx-scan-progress");
-    const dot = flow.querySelector(".ctx-scan-dot");
-    if (!steps.length || !kitBar || !rail || !progress || !dot) return;
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      steps.forEach((step) => step.classList.add("is-done"));
-      kitBar.classList.add("is-active");
-      progress.style.width = "100%";
-      return;
-    }
-
-    const STEP_MS = 1000;
-    let active = -1;
-    let timer = null;
-
-    function moveTo(index) {
-      const railRect = rail.getBoundingClientRect();
-      let targetRect;
-
-      if (index < steps.length) {
-        targetRect = steps[index].getBoundingClientRect();
-      } else {
-        targetRect = kitBar.getBoundingClientRect();
-      }
-
-      const center = targetRect.left + targetRect.width / 2 - railRect.left;
-      const clamped = Math.max(0, Math.min(center, railRect.width));
-
-      dot.style.left = clamped + "px";
-      progress.style.width = clamped + "px";
-    }
-
-    function activate(index) {
-      steps.forEach((step, i) => {
-        step.classList.toggle("is-active", i === index);
-        step.classList.toggle("is-done", i < index);
-      });
-      kitBar.classList.toggle("is-active", index >= steps.length);
-      if (index < steps.length) {
-        kitBar.classList.remove("is-active");
-      }
-      moveTo(index);
-    }
-
-    function tick() {
-      active = (active + 1) % (steps.length + 2);
-
-      if (active === steps.length) {
-        steps.forEach((step) => {
-          step.classList.remove("is-active");
-          step.classList.add("is-done");
-        });
-        kitBar.classList.add("is-active");
-        moveTo(steps.length);
-      } else if (active === steps.length + 1) {
-        const railWidth = rail.getBoundingClientRect().width;
-        dot.style.left = railWidth + "px";
-        progress.style.width = railWidth + "px";
-        steps.forEach((step) => step.classList.add("is-done"));
-        kitBar.classList.add("is-active");
-      } else {
-        activate(active);
-      }
-    }
-
-    function start() {
-      if (timer) return;
-      flow.classList.add("is-running");
-      active = -1;
-      tick();
-      timer = setInterval(tick, STEP_MS);
-    }
-
-    function stop() {
-      if (!timer) return;
-      clearInterval(timer);
-      timer = null;
-      flow.classList.remove("is-running");
-    }
-
-    const runObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) start();
-          else stop();
-        });
-      },
-      { threshold: 0.35 }
-    );
-    runObserver.observe(flow);
-
-    window.addEventListener(
-      "resize",
-      () => {
-        if (active >= 0) moveTo(Math.min(active, steps.length));
-      },
-      { passive: true }
-    );
-  }
-
-  function initSkillDrawer() {
-    const drawer = document.querySelector("[data-skill-drawer]");
-    const body = document.querySelector("[data-skill-drawer-body]");
-    const panel = drawer?.querySelector(".skill-drawer-panel");
-    const cards = document.querySelectorAll("[data-skill]");
-    if (!drawer || !body || !panel || !cards.length) return;
-
-    const SKILLS = {
-      "component-checker": {
-        title: "Component Checker",
-        file: "skills/component-checker/SKILL.md",
-        invoke: "/component-checker",
-        lead: "Находит компоненты HRDS на экране и проверяет каждый инстанс: тот ли компонент, variant, state и актуальна ли версия библиотеки.",
-        does: [
-          "Составляет inventory компонентов на frame",
-          "Ловит detached, deprecated и foreign instances",
-          "Сверяет variant и state с задачей экрана",
-          "Отмечает version drift и needs review",
-          "Связывает Figma instance → Storybook → code import",
-        ],
-        stack: [
-          "rules/ai.md",
-          "knowledge/components-index.md",
-          "rules/components.md",
-          "rules/figma.md",
-          "rules/storybook.md",
-        ],
-        tags: ["inventory", "version drift", "detached", "deprecated", "variant", "Figma node"],
-        output: `## Component Inventory
-
-| Элемент на экране | Компонент HRDS | Variant | Проблема |
-|-------------------|----------------|---------|----------|
-| «Сохранить» | Button | primary | OK |
-| «Отмена» | Button | secondary | OK |
-| Заголовок блока | Content Header | — | detached copy, не instance |
-| Строка списка | List Item | default | deprecated library v2.1 |
-
-## Version issues
-- Content Header: detached — заменить на instance из библиотеки
-- List Item: library v2.1 → актуальная v3.0
-
-## Needs review
-- Props Button (size, loading) — Storybook story не приложен`,
-        pair: { skill: "pattern-checker", label: "Pattern Checker", note: "проверяет UX-паттерны, не версии компонентов" },
-      },
-      "pattern-checker": {
-        title: "Pattern Checker",
-        file: "skills/pattern-checker/SKILL.md",
-        invoke: "/pattern-checker",
-        lead: "Определяет, верный ли UX-паттерн HRDS на экране, и подсказывает правильный — Page Header vs Content Header, Empty State vs Error и т.д.",
-        does: [
-          "Определяет пользовательскую задачу экрана",
-          "Находит используемый и нужный паттерн из patterns-index",
-          "Сравнивает: correct / wrong / custom / needs review",
-          "Подсказывает, что заменить и почему",
-          "Отделяет pattern от одиночного component",
-        ],
-        stack: [
-          "rules/ai.md",
-          "knowledge/patterns-index.md",
-          "rules/patterns.md",
-          "knowledge/components-index.md",
-          "examples/",
-        ],
-        tags: ["page header", "empty state", "data table", "flow", "wrong pattern", "when to use"],
-        output: `## Pattern Fit
-
-**Задача:** страница со списком сотрудников + действие «Добавить»
-
-**Используется:** Content Header внутри card
-**Нужно:** Page Header (Starter, см. examples/page-header.md)
-
-**Почему:** title и primary action относятся ко всей странице, не к секции внутри card. Нужны Breadcrumbs и h1 на уровне page.
-
-**Что заменить:**
-1. Вынести title + «Добавить» в Page Header
-2. Content Header оставить только для секций ниже (фильтры, таблица)`,
-        pair: { skill: "component-checker", label: "Component Checker", note: "проверяет инстансы, не паттерны" },
-      },
-      "technical-analyst": {
-        title: "Technical Analyst",
-        file: "skills/technical-analyst/SKILL.md",
-        invoke: "/technical-analyst",
-        lead: "Готовит handoff-спеку Figma frame для разработки: структура, компоненты, props, states, tokens, поведение и gaps.",
-        does: [
-          "Описывает экран сверху вниз: layout, patterns, sections",
-          "Для каждого инстанса — props, states, роль на экране",
-          "Фиксирует токены и сырые значения",
-          "Документирует поведение и a11y без выдуманной логики",
-          "Собирает open questions и needs source",
-        ],
-        stack: [
-          "rules/figma.md",
-          "rules/documentation.md",
-          "knowledge/components-index.md",
-          "knowledge/patterns-index.md",
-          "knowledge/tokens-index.md",
-          "templates/page-template.md",
-        ],
-        tags: ["handoff", "frame spec", "props", "states", "tokens", "gaps", "design-to-code"],
-        output: `## Frame Spec — «Список сотрудников»
-
-### Структура
-Page Header → Toolbar (фильтр) → Data Table → Pagination
-
-### Компоненты
-| Компонент | Props (proposed) | States | Source |
-|-----------|------------------|--------|--------|
-| Button | variant=primary | default | Figma Confirmed |
-| Content Header | title, description | — | Figma Confirmed |
-| Table | — | empty, loading | Starter, needs Storybook |
-
-### Tokens
-- background: semantic (не raw #fff)
-- spacing между секциями: Needs verification
-
-### Gaps
-- Table: нет story id в Storybook
-- Filter, Pagination: не в components-index как Confirmed`,
-        pair: { skill: "design-review", label: "Design Review", note: "аудит и findings, не handoff-спека" },
-      },
-      "design-review": {
-        title: "Design Review",
-        file: "skills/design-review/SKILL.md",
-        invoke: "/design-review",
-        lead: "Полный аудит Figma или UI-спеки: components, patterns, tokens, layout, naming, states, accessibility и mapping gaps.",
-        does: [
-          "Запускает component-checker и pattern-checker внутри",
-          "Проверяет токены и консистентность layout",
-          "Оценивает accessibility по rules/accessibility.md",
-          "Классифицирует findings: Critical / Major / Minor",
-          "Собирает questions и summary для команды",
-        ],
-        stack: [
-          "rules/ai.md",
-          "rules/figma.md",
-          "component-checker",
-          "pattern-checker",
-          "knowledge/tokens-index.md",
-          "rules/accessibility.md",
-        ],
-        tags: ["audit", "critical", "major", "minor", "a11y", "consistency", "DS review"],
-        output: `## Findings
-
-### Critical
-- Primary action «Удалить» — detached Button, не из библиотеки HRDS
-
-### Major
-- Pattern: Content Header вместо Page Header на уровне страницы
-- Raw color #E5E5E5 вместо semantic token для border
-
-### Minor
-- Icon-only кнопка без aria-label
-
-## Questions
-- Подтвердить variant danger для «Удалить» в Storybook
-- Нужен ли Empty State для пустого списка?`,
-        pair: { skill: "technical-analyst", label: "Technical Analyst", note: "спека для разработки, не чек-лист ревью" },
-      },
-      "prototype-builder": {
-        title: "Prototype Builder",
-        file: "skills/prototype-builder/SKILL.md",
-        invoke: "/prototype-builder",
-        lead: "Собирает план прототипа из компонентов и паттернов HRDS — цель, композиция, states и шаги, без production-кода.",
-        does: [
-          "Формулирует цель пользователя и сценарий",
-          "Выбирает pattern и список components",
-          "Описывает states и нужные токены",
-          "Фиксирует missing sources",
-          "Даёт шаги реализации, не финальный код",
-        ],
-        stack: [
-          "knowledge/architecture.md",
-          "knowledge/components-index.md",
-          "knowledge/patterns-index.md",
-          "rules/components.md",
-          "rules/patterns.md",
-          "rules/accessibility.md",
-        ],
-        tags: ["prototype plan", "composition", "low-fi", "states", "implementation plan", "no prod code"],
-        output: `## Prototype Plan
-
-### Цель
-HR-менеджер просматривает список сотрудников и добавляет нового через форму.
-
-### Композиция
-Page Header (title + «Добавить») → Data Table → Empty State (если список пуст)
-
-### States
-- Table: loading, empty, default с данными
-- Button «Добавить»: default, disabled (нет прав)
-
-### Шаги (не production-код)
-1. Собрать Page Header по examples/page-header.md
-2. Table — Starter, сверить с Figma Patterns project
-3. Dialog + Form Flow для создания сотрудника
-
-### Needs review
-- Props Button loading — proposed, не из Storybook`,
-        pair: { skill: "technical-analyst", label: "Technical Analyst", note: "детальная спека frame, не план прототипа" },
-      },
-    };
-
-    let lastFocus = null;
-
-    function renderSkill(id) {
-      const skill = SKILLS[id];
-      if (!skill) return;
-
-      body.innerHTML = `
-        <div class="drawer-kicker">
-          <span class="skill-dot" aria-hidden="true"></span>
-          <span class="drawer-file">${skill.file}</span>
-        </div>
-        <h2 class="drawer-title" id="skill-drawer-title">${skill.title}</h2>
-        <p class="drawer-lead">${skill.lead}</p>
-        <div class="drawer-invoke">Вызов в Cursor: <strong>${skill.invoke}</strong></div>
-
-        <div class="drawer-section">
-          <h4>Что умеет</h4>
-          <ul class="drawer-list">${skill.does.map((item) => `<li>${item}</li>`).join("")}</ul>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Состав маршрута</h4>
-          <div class="drawer-stack">${skill.stack.map((item) => `<span class="drawer-stack-item">${item}</span>`).join("")}</div>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Теги</h4>
-          <div class="drawer-tags">${skill.tags.map((tag) => `<span class="drawer-tag">${tag}</span>`).join("")}</div>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Формат вывода</h4>
-          <pre class="drawer-output">${skill.output}</pre>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Связанный skill</h4>
-          <button type="button" class="drawer-pair" data-skill-pair="${skill.pair.skill}">
-            <strong>${skill.pair.label}</strong> — ${skill.pair.note}
-          </button>
-        </div>
-      `;
-    }
-
-    function openDrawer(id) {
-      const skill = SKILLS[id];
-      if (!skill) return;
-
-      lastFocus = document.activeElement;
-      renderSkill(id);
-      drawer.hidden = false;
-      requestAnimationFrame(() => {
-        drawer.classList.add("is-open");
-        document.body.classList.add("is-drawer-open");
-        panel.focus();
-      });
-    }
-
-    function closeDrawer() {
-      drawer.classList.remove("is-open");
-      document.body.classList.remove("is-drawer-open");
-      window.setTimeout(() => {
-        if (!drawer.classList.contains("is-open")) {
-          drawer.hidden = true;
-          body.innerHTML = "";
-        }
-      }, 380);
-      if (lastFocus && typeof lastFocus.focus === "function") {
-        lastFocus.focus();
-      }
-    }
-
-    cards.forEach((card) => {
-      card.addEventListener("click", () => openDrawer(card.dataset.skill));
-      card.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openDrawer(card.dataset.skill);
-        }
-      });
-    });
-
-    drawer.querySelectorAll("[data-skill-drawer-close]").forEach((el) => {
-      el.addEventListener("click", closeDrawer);
-    });
-
-    body.addEventListener("click", (event) => {
-      const pair = event.target.closest("[data-skill-pair]");
-      if (!pair) return;
-      openDrawer(pair.dataset.skillPair);
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && drawer.classList.contains("is-open")) {
-        closeDrawer();
-      }
-    });
-  }
-})();
+}

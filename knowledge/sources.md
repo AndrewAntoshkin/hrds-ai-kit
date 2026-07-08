@@ -14,6 +14,7 @@ Purpose: canonical list of external sources for HRDS AI Kit.
 | Figma Icons + Illustrations | https://www.figma.com/files/920787649869095992/project/94308883 | icons, illustrations, graphic assets |
 | Figma Patterns | https://www.figma.com/files/920787649869095992/project/542725198 | UX patterns and page compositions |
 | Storybook | https://hrds.yandex-team.ru | component API, examples, controls, developer docs |
+| npm package | `@yandex-int/hr-components` **13.3.0** | code imports, package version, version drift checks |
 
 ---
 
