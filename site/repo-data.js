@@ -246,6 +246,11 @@ export const REPO_DATA = {
       "name": "site",
       "children": [
         {
+          "type": "file",
+          "name": "ai-preview.html",
+          "key": "site-ai-preview_html"
+        },
+        {
           "type": "folder",
           "name": "fonts",
           "children": [
@@ -301,6 +306,26 @@ export const REPO_DATA = {
           "type": "file",
           "name": "ogl.esm.js",
           "key": "site-ogl_esm_js"
+        },
+        {
+          "type": "file",
+          "name": "prototype-engine.js",
+          "key": "site-prototype-engine_js"
+        },
+        {
+          "type": "file",
+          "name": "prototype.css",
+          "key": "site-prototype_css"
+        },
+        {
+          "type": "file",
+          "name": "prototype.html",
+          "key": "site-prototype_html"
+        },
+        {
+          "type": "file",
+          "name": "prototype.js",
+          "key": "site-prototype_js"
         },
         {
           "type": "file",
@@ -406,6 +431,436 @@ export const REPO_DATA = {
         }
       ],
       "open": true
+    },
+    {
+      "type": "folder",
+      "name": "studio",
+      "children": [
+        {
+          "type": "file",
+          "name": ".env.example",
+          "key": "studio-_env_example"
+        },
+        {
+          "type": "file",
+          "name": ".gitignore",
+          "key": "studio-_gitignore"
+        },
+        {
+          "type": "file",
+          "name": ".oxlintrc.json",
+          "key": "studio-_oxlintrc_json"
+        },
+        {
+          "type": "file",
+          "name": "README.md",
+          "key": "studio-readme_md"
+        },
+        {
+          "type": "file",
+          "name": "components.json",
+          "key": "studio-components_json"
+        },
+        {
+          "type": "file",
+          "name": "index.html",
+          "key": "studio-index_html"
+        },
+        {
+          "type": "file",
+          "name": "package-lock.json",
+          "key": "studio-package-lock_json"
+        },
+        {
+          "type": "file",
+          "name": "package.json",
+          "key": "studio-package_json"
+        },
+        {
+          "type": "folder",
+          "name": "public",
+          "children": [
+            {
+              "type": "file",
+              "name": "favicon.svg",
+              "key": "studio-public-favicon_svg"
+            },
+            {
+              "type": "file",
+              "name": "icons.svg",
+              "key": "studio-public-icons_svg"
+            }
+          ],
+          "open": false
+        },
+        {
+          "type": "folder",
+          "name": "references",
+          "children": [
+            {
+              "type": "file",
+              "name": "assistant-layout.md",
+              "key": "studio-references-assistant-layout_md"
+            },
+            {
+              "type": "file",
+              "name": "cursor-assembly.md",
+              "key": "studio-references-cursor-assembly_md"
+            }
+          ],
+          "open": false
+        },
+        {
+          "type": "folder",
+          "name": "src",
+          "children": [
+            {
+              "type": "file",
+              "name": "App.css",
+              "key": "studio-src-app_css"
+            },
+            {
+              "type": "file",
+              "name": "App.tsx",
+              "key": "studio-src-app_tsx"
+            },
+            {
+              "type": "file",
+              "name": "AssemblyBar.tsx",
+              "key": "studio-src-assemblybar_tsx"
+            },
+            {
+              "type": "file",
+              "name": "CursorSpecPanel.tsx",
+              "key": "studio-src-cursorspecpanel_tsx"
+            },
+            {
+              "type": "file",
+              "name": "PreviewPanel.tsx",
+              "key": "studio-src-previewpanel_tsx"
+            },
+            {
+              "type": "file",
+              "name": "RuntimeProvider.tsx",
+              "key": "studio-src-runtimeprovider_tsx"
+            },
+            {
+              "type": "file",
+              "name": "StudioChat.tsx",
+              "key": "studio-src-studiochat_tsx"
+            },
+            {
+              "type": "file",
+              "name": "StudioResizer.tsx",
+              "key": "studio-src-studioresizer_tsx"
+            },
+            {
+              "type": "file",
+              "name": "StudioWelcome.tsx",
+              "key": "studio-src-studiowelcome_tsx"
+            },
+            {
+              "type": "folder",
+              "name": "assets",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "hero.png",
+                  "key": "studio-src-assets-hero_png"
+                },
+                {
+                  "type": "file",
+                  "name": "react.svg",
+                  "key": "studio-src-assets-react_svg"
+                },
+                {
+                  "type": "file",
+                  "name": "vite.svg",
+                  "key": "studio-src-assets-vite_svg"
+                }
+              ],
+              "open": false
+            },
+            {
+              "type": "folder",
+              "name": "components",
+              "children": [
+                {
+                  "type": "folder",
+                  "name": "assistant-ui",
+                  "children": [
+                    {
+                      "type": "file",
+                      "name": "attachment.tsx",
+                      "key": "studio-src-components-assistant-ui-attachment_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "follow-up-suggestions.tsx",
+                      "key": "studio-src-components-assistant-ui-follow-up-suggestions_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "markdown-text.tsx",
+                      "key": "studio-src-components-assistant-ui-markdown-text_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "reasoning.tsx",
+                      "key": "studio-src-components-assistant-ui-reasoning_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "thread-list.tsx",
+                      "key": "studio-src-components-assistant-ui-thread-list_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "thread.tsx",
+                      "key": "studio-src-components-assistant-ui-thread_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "tool-fallback.tsx",
+                      "key": "studio-src-components-assistant-ui-tool-fallback_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "tool-group.tsx",
+                      "key": "studio-src-components-assistant-ui-tool-group_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "tooltip-icon-button.tsx",
+                      "key": "studio-src-components-assistant-ui-tooltip-icon-button_tsx"
+                    }
+                  ],
+                  "open": false
+                },
+                {
+                  "type": "folder",
+                  "name": "prompt-kit",
+                  "children": [
+                    {
+                      "type": "file",
+                      "name": "chat-container.tsx",
+                      "key": "studio-src-components-prompt-kit-chat-container_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "code-block.tsx",
+                      "key": "studio-src-components-prompt-kit-code-block_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "loader.tsx",
+                      "key": "studio-src-components-prompt-kit-loader_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "markdown.tsx",
+                      "key": "studio-src-components-prompt-kit-markdown_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "message.tsx",
+                      "key": "studio-src-components-prompt-kit-message_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "prompt-input.tsx",
+                      "key": "studio-src-components-prompt-kit-prompt-input_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "prompt-suggestion.tsx",
+                      "key": "studio-src-components-prompt-kit-prompt-suggestion_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "source.tsx",
+                      "key": "studio-src-components-prompt-kit-source_tsx"
+                    }
+                  ],
+                  "open": false
+                },
+                {
+                  "type": "folder",
+                  "name": "ui",
+                  "children": [
+                    {
+                      "type": "file",
+                      "name": "avatar.tsx",
+                      "key": "studio-src-components-ui-avatar_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "button.tsx",
+                      "key": "studio-src-components-ui-button_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "collapsible.tsx",
+                      "key": "studio-src-components-ui-collapsible_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "dialog.tsx",
+                      "key": "studio-src-components-ui-dialog_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "hover-card.tsx",
+                      "key": "studio-src-components-ui-hover-card_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "input.tsx",
+                      "key": "studio-src-components-ui-input_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "skeleton.tsx",
+                      "key": "studio-src-components-ui-skeleton_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "textarea.tsx",
+                      "key": "studio-src-components-ui-textarea_tsx"
+                    },
+                    {
+                      "type": "file",
+                      "name": "tooltip.tsx",
+                      "key": "studio-src-components-ui-tooltip_tsx"
+                    }
+                  ],
+                  "open": false
+                }
+              ],
+              "open": false
+            },
+            {
+              "type": "file",
+              "name": "index.css",
+              "key": "studio-src-index_css"
+            },
+            {
+              "type": "folder",
+              "name": "lib",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "api-settings.ts",
+                  "key": "studio-src-lib-api-settings_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "assembly-plan.ts",
+                  "key": "studio-src-lib-assembly-plan_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "example-specs.ts",
+                  "key": "studio-src-lib-example-specs_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "kit-catalog.ts",
+                  "key": "studio-src-lib-kit-catalog_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "kit-context.ts",
+                  "key": "studio-src-lib-kit-context_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "llm-assembler.ts",
+                  "key": "studio-src-lib-llm-assembler_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "prototype-engine.d.ts",
+                  "key": "studio-src-lib-prototype-engine_d_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "prototype-engine.js",
+                  "key": "studio-src-lib-prototype-engine_js"
+                },
+                {
+                  "type": "file",
+                  "name": "prototype-spec.ts",
+                  "key": "studio-src-lib-prototype-spec_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "prototype-store.ts",
+                  "key": "studio-src-lib-prototype-store_ts"
+                },
+                {
+                  "type": "file",
+                  "name": "utils.ts",
+                  "key": "studio-src-lib-utils_ts"
+                }
+              ],
+              "open": false
+            },
+            {
+              "type": "file",
+              "name": "main.tsx",
+              "key": "studio-src-main_tsx"
+            },
+            {
+              "type": "file",
+              "name": "studio-chat.css",
+              "key": "studio-src-studio-chat_css"
+            },
+            {
+              "type": "file",
+              "name": "studio-shell.css",
+              "key": "studio-src-studio-shell_css"
+            },
+            {
+              "type": "file",
+              "name": "studio-thread.css",
+              "key": "studio-src-studio-thread_css"
+            },
+            {
+              "type": "file",
+              "name": "studio-welcome.css",
+              "key": "studio-src-studio-welcome_css"
+            },
+            {
+              "type": "file",
+              "name": "vite-env.d.ts",
+              "key": "studio-src-vite-env_d_ts"
+            }
+          ],
+          "open": false
+        },
+        {
+          "type": "file",
+          "name": "tsconfig.app.json",
+          "key": "studio-tsconfig_app_json"
+        },
+        {
+          "type": "file",
+          "name": "tsconfig.json",
+          "key": "studio-tsconfig_json"
+        },
+        {
+          "type": "file",
+          "name": "tsconfig.node.json",
+          "key": "studio-tsconfig_node_json"
+        },
+        {
+          "type": "file",
+          "name": "vite.config.ts",
+          "key": "studio-vite_config_ts"
+        }
+      ],
+      "open": false
     },
     {
       "type": "folder",
@@ -565,6 +1020,9 @@ export const REPO_DATA = {
         "    \"build:archive\": \"bash scripts/build-archive.sh\",",
         "    \"build:repo-data\": \"python3 scripts/build-repo-data.py\",",
         "    \"dev\": \"python3 -m http.server 5173 --bind 127.0.0.1 --directory site\",",
+        "    \"dev:site\": \"python3 -m http.server 5173 --bind 127.0.0.1 --directory site\",",
+        "    \"dev:studio\": \"npm run dev --prefix studio\",",
+        "    \"build:studio\": \"npm run build --prefix studio\",",
         "    \"predev\": \"npm run build:archive && npm run build:repo-data\"",
         "  }",
         "}"
@@ -1335,11 +1793,11 @@ export const REPO_DATA = {
         "  -x \"site/hrds-ai-kit.zip\" \\",
         "  -x \"node_modules/*\" \\",
         "  -x \"node_modules/**/*\" \\",
-        "  -x \"**/.DS_Store\" \\",
-        "  -x \"**/__pycache__/*\" \\",
-        "  > /dev/null",
-        "",
-        "echo \"Архив: $OUT ($(du -h \"$OUT\" | cut -f1))\""
+        "  -x \"studio/node_modules/*\" \\",
+        "  -x \"studio/node_modules/**/*\" \\",
+        "  -x \"site/studio/*\" \\",
+        "  -x \"site/studio/**/*\" \\",
+        "  -x \"**/.DS_Store\" \\"
       ]
     },
     "_github-workflows-pages_yml": {

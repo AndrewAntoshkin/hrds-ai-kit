@@ -9,8 +9,20 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 OUT = ROOT / "site" / "repo-data.js"
 OPEN_FOLDERS = {"skills", "knowledge", "examples"}
-SKIP_PREFIXES = (".git/", "node_modules/")
+SKIP_PREFIXES = (".git/",)
+SKIP_SEGMENTS = {"node_modules", ".vite", "dist"}
+SKIP_PATH_PREFIXES = ("site/studio/",)
 SKIP_FILES = {"site/hrds-ai-kit.zip", "site/preview-dark.png"}
+
+
+def should_skip(rel: str) -> bool:
+    if rel in SKIP_FILES:
+        return True
+    if any(rel.startswith(prefix) for prefix in SKIP_PREFIXES):
+        return True
+    if any(rel.startswith(prefix) for prefix in SKIP_PATH_PREFIXES):
+        return True
+    return any(f"/{segment}/" in f"/{rel}/" or rel.startswith(f"{segment}/") for segment in SKIP_SEGMENTS)
 
 
 def read_lines(path: pathlib.Path, max_lines: int | None = None, skip_frontmatter: bool = False) -> list[str]:
@@ -29,7 +41,7 @@ def collect_files() -> list[str]:
         if not path.is_file():
             continue
         rel = path.relative_to(ROOT).as_posix()
-        if rel in SKIP_FILES or any(rel.startswith(prefix) for prefix in SKIP_PREFIXES):
+        if should_skip(rel):
             continue
         files.append(rel)
     return files

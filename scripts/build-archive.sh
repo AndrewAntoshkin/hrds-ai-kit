@@ -13,6 +13,10 @@ zip -r "$OUT" . \
   -x "site/hrds-ai-kit.zip" \
   -x "node_modules/*" \
   -x "node_modules/**/*" \
+  -x "studio/node_modules/*" \
+  -x "studio/node_modules/**/*" \
+  -x "site/studio/*" \
+  -x "site/studio/**/*" \
   -x "**/.DS_Store" \
   -x "**/__pycache__/*" \
   > /dev/null
