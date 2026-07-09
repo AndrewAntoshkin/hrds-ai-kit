@@ -7,6 +7,7 @@ const FOLDER_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden
 const FILE_ICON = `<svg viewBox="0 0 16 16" class="repo-tree-icon" aria-hidden="true"><path d="M4.3 2.6h4.8L12 5.5V13a.6.6 0 0 1-.6.6H4.3a.6.6 0 0 1-.6-.6V3.2a.6.6 0 0 1 .6-.6Z" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M9 2.8v2.8h2.8" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M5.7 8.6h4.1M5.7 10.6h4.1" fill="none" stroke="currentColor" stroke-width="0.95"/></svg>`;
 const CHEVRON = `<svg viewBox="0 0 16 16" class="repo-tree-chevron" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+safeInit("guide-copy", initGuideCopy);
 safeInit("lenis", initLenis);
 safeInit("nav", initNav);
 safeInit("mobile-menu", initMobileMenu);
@@ -629,6 +630,34 @@ function initFloatingCta() {
   );
 
   observer.observe(footer);
+}
+
+function initGuideCopy() {
+  const COPY_SVG = `<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="8" height="9" rx="1"/><path d="M3 11V3a1 1 0 0 1 1-1h7"/></svg>`;
+  const CHECK_SVG = `<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l4 4 6-6"/></svg>`;
+
+  document.querySelectorAll(".guide-title-row").forEach((row) => {
+    const code = row.querySelector("h3 code");
+    if (!code) return;
+    const btn = document.createElement("button");
+    btn.className = "guide-copy-btn";
+    btn.type = "button";
+    btn.setAttribute("aria-label", "Копировать команду");
+    btn.innerHTML = COPY_SVG;
+    row.appendChild(btn);
+
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent.trim());
+        btn.innerHTML = CHECK_SVG;
+        btn.classList.add("is-copied");
+        setTimeout(() => {
+          btn.innerHTML = COPY_SVG;
+          btn.classList.remove("is-copied");
+        }, 1500);
+      } catch {}
+    });
+  });
 }
 
 function initFaq() {

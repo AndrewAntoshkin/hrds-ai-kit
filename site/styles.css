@@ -1529,8 +1529,16 @@ html.js .feature-item.in-view {
   color: var(--color-dark-grey);
 }
 
+.guide-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
 .guide-card h3 {
-  margin: 0 0 0.35rem;
+  margin: 0;
   font-size: var(--text-body-20);
   font-weight: 500;
   color: var(--color-white);
@@ -1539,19 +1547,48 @@ html.js .feature-item.in-view {
 .guide-card h3 code {
   font-family: var(--font-mono);
   font-size: 0.95em;
-  color: var(--color-accent);
+  color: var(--color-white);
   background: none;
   padding: 0;
 }
 
 .guide-when {
-  margin: 0 0 1rem;
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--text-caption-10);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-ghost-grey);
   opacity: 0.55;
+}
+
+.guide-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-ghost-grey);
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.guide-card:hover .guide-copy-btn {
+  opacity: 0.45;
+}
+
+.guide-copy-btn:hover {
+  opacity: 1 !important;
+  color: var(--color-white);
+}
+
+.guide-copy-btn.is-copied {
+  opacity: 1 !important;
+  color: #4ade80;
 }
 
 .guide-steps {
@@ -2030,7 +2067,7 @@ html.js .feature-item.in-view {
 .fr-card-title code {
   font-family: var(--font-mono);
   font-size: 0.95em;
-  color: var(--color-accent);
+  color: var(--color-black-deep);
 }
 
 .fr-label {
@@ -2039,7 +2076,7 @@ html.js .feature-item.in-view {
   font-size: var(--text-caption-10);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-black-deep);
 }
 
 .fr-copy,
@@ -2097,7 +2134,7 @@ html.js .feature-item.in-view {
   font-family: var(--font-mono);
   font-size: var(--text-caption-10);
   letter-spacing: 0.06em;
-  color: var(--color-accent);
+  color: var(--color-black-deep);
 }
 
 .fr-priority strong {
@@ -2153,7 +2190,7 @@ html.js .feature-item.in-view {
   font-size: var(--text-headline-10);
   font-weight: 500;
   line-height: 1;
-  color: var(--color-accent);
+  color: var(--color-black-deep);
 }
 
 .start-step h3 {
