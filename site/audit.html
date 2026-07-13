@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ru" data-theme="tca">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HRDS Audit — доработки Figma и Storybook</title>
+    <meta
+      name="description"
+      content="Рабочая таблица доработок HRDS: приоритеты по компонентам, что фиксить в Figma, Storybook и code mapping."
+    />
+    <script>document.documentElement.classList.add("js");</script>
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./audit.css" />
+  </head>
+  <body class="audit-page">
+    <a class="skip-link" href="#main">К содержимому</a>
+
+    <header class="nav-pill" data-nav-pill>
+      <a class="nav-logo" href="./index.html" aria-label="HRDS AI Kit">
+        <span class="nav-logo-mark" aria-hidden="true"></span>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="./index.html">Лендинг</a>
+        <a href="#fix-plan" class="is-active" data-nav-link>Доработки</a>
+        <a href="#sources" data-nav-link>Версии</a>
+        <a href="./hrds-ai-kit.zip" download="hrds-ai-kit.zip">Скачать</a>
+      </nav>
+      <button class="nav-menu-btn" type="button" aria-expanded="false" aria-label="Открыть меню" data-menu-toggle>
+        <span>Menu</span>
+      </button>
+    </header>
+
+    <div class="mobile-menu" data-mobile-menu hidden>
+      <div class="mobile-menu-backdrop" data-menu-close></div>
+      <div class="mobile-menu-panel">
+        <button class="mobile-menu-close" type="button" data-menu-close aria-label="Закрыть">×</button>
+        <nav class="mobile-menu-links">
+          <a href="./index.html" data-menu-close>Лендинг</a>
+          <a href="#fix-plan" data-menu-close>Доработки</a>
+          <a href="#sources" data-menu-close>Версии</a>
+        </nav>
+      </div>
+    </div>
+
+    <main id="main">
+      <section id="top" class="audit-hero" data-section>
+        <div class="container audit-hero-grid">
+          <div class="audit-hero-copy">
+            <p class="eyebrow reveal in-view">Figma ↔ Storybook ↔ Code</p>
+            <h1 class="headline reveal in-view">Таблица доработок HRDS, которую можно разбирать без расшифровки Excel.</h1>
+            <p class="body-lg reveal in-view">
+              Здесь та же выгрузка из audit, но переведённая в рабочий язык: приоритет, где чинить, почему это важно,
+              что делать дальше и какие источники открыть.
+            </p>
+            <div class="audit-hero-actions reveal in-view">
+              <a class="btn-tca btn-tca--primary" href="#fix-plan" data-split-button data-parts="Открыть|таблицу">
+                <span>Открыть</span><span>таблицу</span>
+              </a>
+              <a class="btn-tca btn-tca--ghost" href="./hrds-components-audit.xlsx" data-split-button data-parts="Скачать|xlsx">
+                <span>Скачать</span><span>xlsx</span>
+              </a>
+            </div>
+          </div>
+
+          <aside class="audit-console reveal in-view" aria-label="Сводка аудита">
+            <div class="audit-console-head">
+              <span>HRDS-AUDIT</span>
+              <span>STATUS: TRIAGE</span>
+            </div>
+            <dl class="audit-metrics" data-audit-metrics>
+              <div><dt>Всего задач</dt><dd>151</dd></div>
+              <div><dt>P0</dt><dd>14</dd></div>
+              <div><dt>P1</dt><dd>95</dd></div>
+              <div><dt>P2</dt><dd>42</dd></div>
+            </dl>
+            <div class="audit-console-lines">
+              <p><span>FIGMA</span> HRDS Components · file BodHDPKvwUYhWM5XDahMja</p>
+              <p><span>STORYBOOK</span> hrds.yandex-team.ru · 13.3.0</p>
+              <p><span>SOURCE</span> exports/hrds-components-audit.xlsx</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="audit-problems section-pad bg-black" aria-label="Главные проблемы" data-section>
+        <div class="container audit-problem-grid">
+          <div>
+            <p class="eyebrow text-ghost reveal">Что ломает синхронизацию</p>
+            <h2 class="headline-sm text-white reveal">Основной долг не в одной кнопке. Долг в связке источников.</h2>
+          </div>
+          <ol class="audit-problem-list reveal">
+            <li><span>01</span><strong>Lifecycle конфликт</strong><p>Figma уже deprecated, а Storybook/code всё ещё active. Это P0.</p></li>
+            <li><span>02</span><strong>Code-only шум</strong><p>В коде много папок без Figma-пары. Часть — реальные компоненты, часть — technical/internal.</p></li>
+            <li><span>03</span><strong>Figma-only компоненты</strong><p>В Figma есть сущности без понятного Storybook/API mapping.</p></li>
+            <li><span>04</span><strong>Props drift</strong><p>Варианты и значения называются по-разному или отсутствуют с одной стороны.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="fix-plan" class="section-pad bg-off-white audit-workspace" data-section>
+        <div class="container audit-section-head">
+          <div>
+            <p class="eyebrow reveal">Fix Plan</p>
+            <h2 class="headline-sm reveal">Доработки по компонентам</h2>
+            <p class="body-lg reveal">
+              Фильтруй по приоритету и типу проблемы. Первым проходом стоит закрыть P0, вторым — отделить real DS components
+              от code-only технических папок.
+            </p>
+          </div>
+          <div class="audit-filter-summary reveal" data-filter-summary>Показано 151 из 151</div>
+        </div>
+
+        <div class="container audit-priority-guide reveal" aria-label="Легенда приоритетов">
+          <div class="audit-priority-head">
+            <p>Priority legend</p>
+            <span>ORDER: RISK → MAPPING → VERIFY</span>
+          </div>
+          <ol class="audit-priority-lines">
+            <li>
+              <span class="audit-priority-code">P0</span>
+              <strong>Чинить первым</strong>
+              <p>Источники противоречат друг другу: Figma deprecated, а Storybook/code active.</p>
+            </li>
+            <li>
+              <span class="audit-priority-code">P1</span>
+              <strong>Важный долг</strong>
+              <p>Нет связи между источниками или статус компонента уже разошёлся.</p>
+            </li>
+            <li>
+              <span class="audit-priority-code">P2</span>
+              <strong>Нормализация</strong>
+              <p>Связь есть, но props, variants или naming требуют явного mapping.</p>
+            </li>
+            <li>
+              <span class="audit-priority-code">P3</span>
+              <strong>Проверить позже</strong>
+              <p>Низкий риск: подтвердить соответствие после P0/P1/P2.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="container audit-table-frame">
+          <div class="audit-toolbar" aria-label="Фильтры таблицы">
+            <div class="audit-filter-block">
+              <span class="audit-control-label">Приоритет</span>
+              <div class="audit-filter-group" role="group" aria-label="Приоритет">
+                <button class="audit-filter is-active" type="button" data-priority-filter="all">Все</button>
+                <button class="audit-filter" type="button" data-priority-filter="P0">P0</button>
+                <button class="audit-filter" type="button" data-priority-filter="P1">P1</button>
+                <button class="audit-filter" type="button" data-priority-filter="P2">P2</button>
+              </div>
+            </div>
+            <label class="audit-search">
+              <span>Поиск</span>
+              <input type="search" placeholder="Button, props, deprecated..." data-audit-search />
+            </label>
+            <label class="audit-select">
+              <span>Тип</span>
+              <select data-issue-filter>
+                <option value="all">Все типы</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="audit-table-shell">
+            <div class="audit-table" role="table" aria-label="Доработки HRDS" data-audit-table>
+              <p class="audit-table-loading">Загружаю таблицу доработок...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="section-pad bg-black audit-sources" data-section>
+        <div class="container audit-source-grid">
+          <div>
+            <p class="eyebrow text-ghost reveal">Версии и источники</p>
+            <h2 class="headline-sm text-white reveal">Фиксы должны закрываться в источнике, а не в комментариях к таблице.</h2>
+          </div>
+          <div class="audit-source-cards reveal">
+            <article>
+              <p>Figma</p>
+              <h3>HRDS Components</h3>
+              <dl>
+                <div><dt>File key</dt><dd>BodHDPKvwUYhWM5XDahMja</dd></div>
+                <div><dt>Версия в строках</dt><dd>active / in_progress / deprecated</dd></div>
+              </dl>
+            </article>
+            <article>
+              <p>Storybook</p>
+              <h3>hrds.yandex-team.ru</h3>
+              <dl>
+                <div><dt>Версия</dt><dd>13.3.0</dd></div>
+                <div><dt>В строках</dt><dd>story title, code status, props</dd></div>
+              </dl>
+            </article>
+            <article>
+              <p>Excel</p>
+              <h3>hrds-components-audit.xlsx</h3>
+              <dl>
+                <div><dt>Главный лист</dt><dd>Fix Plan</dd></div>
+                <div><dt>Сырые данные</dt><dd>All Components / Drift</dd></div>
+              </dl>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-logo-wrap">
+          <div class="footer-logo-glyphs" aria-hidden="true">HRDS</div>
+          <p class="footer-tagline">Audit page · Figma ↔ Storybook ↔ Code</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="./index.html">Лендинг</a>
+          <a href="./hrds-components-audit.xlsx">XLSX</a>
+          <a href="#top">Наверх</a>
+        </nav>
+      </div>
+      <div class="container footer-bottom">
+        <p class="footer-copy">Источник: exports/hrds-components-audit.xlsx</p>
+      </div>
+    </footer>
+
+    <script src="./lenis.min.js"></script>
+    <script src="./split-button.js"></script>
+    <script src="./audit-data.js"></script>
+    <script src="./audit-page.js"></script>
+  </body>
+</html>
